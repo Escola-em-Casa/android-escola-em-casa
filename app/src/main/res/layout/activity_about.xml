@@ -1,0 +1,196 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/mainLogo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginRight="35dp"
+                android:tint="@color/royalBlue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_main_logo" />
+
+            <TextView
+                android:id="@+id/about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/about"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/mainLogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/problems"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/como_acessar"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/about" />
+
+            <Button
+                android:id="@+id/como_acessar_btn"
+                style="@style/Base.TextAppearance.AppCompat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:text="@string/https_escolaemcasa_se_df_gov_br_index_php_como_acessar"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/problems"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/links_importantes"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/como_acessar_btn" />
+
+            <Button
+                android:id="@+id/escola_em_casa_btn"
+                style="@style/Base.TextAppearance.AppCompat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:text="@string/https_escolaemcasa_se_df_gov_br"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <Button
+                android:id="@+id/secretaria_site_btn"
+                style="@style/Base.TextAppearance.AppCompat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:text="@string/http_www_se_df_gov_br"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/escola_em_casa_btn"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <LinearLayout
+                android:id="@+id/otherLogos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secretaria_site_btn">
+
+                <ImageView
+                    android:layout_width="79dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:alpha="0"
+                    app:srcCompat="@drawable/ic_gdf_logo" />
+
+                <ImageView
+                    android:layout_width="69dp"
+                    android:layout_height="106dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="40dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="15dp"
+                    android:tint="@color/royalBlue"
+                    app:srcCompat="@drawable/ic_unb_logo" />
+
+                <ImageView
+                    android:layout_width="51dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:tint="@color/royalBlue"
+                    app:srcCompat="@drawable/ic_gdf_logo" />
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:alpha="0"
+                    app:srcCompat="@drawable/ic_unb_logo" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/main_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

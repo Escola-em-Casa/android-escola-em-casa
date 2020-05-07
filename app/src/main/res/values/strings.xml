@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Escola em Casa DF</string>
+    <!-- <string name="about">O aplicativo Escola em Casa DF tem como objetivo liberar o acesso de forma
+    gratuita à plataforma utilizada para o ensino público à distância no Distrito Federal, o Google
+    Classroom. Permite também, gratuitamente, o uso do site Wikipedia como forma de auxiliar o
+    ensino remoto.\n\n Os dados móveis, internet móvel, utilizados no aplicativo serão custeados
+    pelo próprio GDF, não sendo utilizados os dados do plano pessoal dos alunos e/ou professores da
+    Secretaria de Educação do Distrito Federal.</string> -->
+    <string name="about">
+    O aplicativo Escola em Casa DF tem como objetivo ser uma alternativa a mais de acesso à
+    plataforma adotada para o ensino público à distância do Governo do Distrito Federal, o Google
+    Classroom.
+    </string>
+    <string name="item_about">Sobre</string>
+    <string name="item_questions">Dúvidas Frequentes</string>
+    <string name="item_gcr">Google Classroom</string>
+    <string name="item_wikipedia">Wikipedia</string>
+    <string name="links_importantes">Links Importantes</string>
+    <string name="como_acessar"> Problemas para acessar o Google Sala de Aula? </string>
+    <string name="https_escolaemcasa_se_df_gov_br"><u>Escola em Casa DF (site)</u></string>
+    <string name="https_escolaemcasa_se_df_gov_br_index_php_como_acessar"><u>Como acessar o Google Sala de Aula</u></string>
+    <string name="http_www_se_df_gov_br"><u>Secretaria da Educação (site)</u></string>
+</resources>

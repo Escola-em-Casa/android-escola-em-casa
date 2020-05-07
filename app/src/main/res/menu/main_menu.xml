@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/classroom"
+            android:icon="@drawable/ic_classroom_logo"
+            android:title="@string/item_gcr" />
+        <item
+            android:id="@+id/wikipedia"
+            android:icon="@drawable/ic_wiki_logo"
+            android:title="@string/item_wikipedia" />
+
+        <item
+            android:id="@+id/questions"
+            android:icon="@drawable/ic_question_logo"
+            android:title="@string/item_questions" />
+
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_about_logo"
+            android:title="@string/item_about" />
+    </group>
+</menu>
