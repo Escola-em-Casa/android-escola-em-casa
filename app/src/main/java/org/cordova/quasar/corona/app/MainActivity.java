@@ -9,15 +9,23 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.datami.smi.SdState;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,29 +36,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     WebView myWebView;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
-            myWebView = new WebView(this);
+            setContentView(R.layout.activity_main);
+
+            navigationView = findViewById(R.id.nav_view);
+            drawerLayout = findViewById(R.id.drawer_layout);
+            toolbar = findViewById(R.id.toolbar);
+            myWebView = findViewById(R.id.web_view);
+
+            setSupportActionBar(toolbar);
+            navigationView.bringToFront();
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+
+            navigationView.setNavigationItemSelectedListener(this);
+            navigationView.setCheckedItem(R.id.nav_home);
+
             myWebView.setWebViewClient(new MyWebViewClient());
             WebSettings webSettings = myWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             Locale.setDefault(new Locale("pt", "BR"));
-            setContentView(myWebView);
-            myWebView.loadDataWithBaseURL(null,"<script" +
+
+            myWebView.loadDataWithBaseURL(null, "<script" +
                     "      src=\"https://code.jquery.com/jquery-3.5.0.min.js\"" +
                     "      integrity=\"sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=\"" +
                     "      crossorigin=\"anonymous\"" +
-                    "    ></script>","text/html","utf-8",null);
-            myWebView.loadUrl("https://quintuplegeneral.htmlpasta.com/");
-        }
-        catch (Exception e)
-        {
+                    "    ></script>", "text/html", "utf-8", null);
+            myWebView.loadUrl("https://classroom.google.com/h");
+        } catch (Exception e) {
 
         }
     }
@@ -65,6 +89,30 @@ public class MainActivity extends AppCompatActivity {
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen((GravityCompat.START))) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                break;
+            case R.id.nav_wiki:
+                Toast.makeText(this, "Abrir Wikipedia", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_about:
+                Toast.makeText(this, "Abrir Sobre", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -88,13 +136,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
             try {
-                if(url.startsWith("javascript"))
+                if (url.startsWith("javascript"))
                     return false;
 
-                if (url.startsWith("http") || url.startsWith("https"))
-                {
-                    if(MyApplication.sdState == SdState.SD_AVAILABLE)
-                    {
+                if (url.startsWith("http") || url.startsWith("https")) {
+                    if (MyApplication.sdState == SdState.SD_AVAILABLE) {
                         URL urlEntrada = null;
                         urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
@@ -124,9 +170,8 @@ public class MainActivity extends AppCompatActivity {
                         urlsPermitidas.add("google.com");
 
                         //TODO: fazer um filtro inteligente de URLs
-                        for (int i = 0; i <= urlsPermitidas.size() -1; i++)
-                        {
-                            if(urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
+                        for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
+                            if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
                                 return false;
                             }
                         }
@@ -135,8 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), "Acesso negado.", duration);
                         toast.show();
                         return true;
-                    }
-                    else
+                    } else
                         return false;
                 }
 
