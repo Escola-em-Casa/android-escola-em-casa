@@ -1,0 +1,38 @@
+language: android
+jdk: oraclejdk8
+android:
+  components:
+    - tools
+  licenses:
+    - android-sdk-license-.+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_cbeaef396b1f_key -iv $encrypted_cbeaef396b1f_iv -in archive.tar.gz.enc -out archive.tar.gz -d  - tar -xzvf archive.tar.gz
+  - tar -xzvf archive.tar.gz
+  - chmod +x gradlew
+before_script:
+  - echo yes | ${ANDROID_HOME}tools/bin/sdkmanager "tools"
+  - echo yes | ${ANDROID_HOME}tools/bin/sdkmanager "platform-tools"
+  - echo yes | ${ANDROID_HOME}tools/bin/sdkmanager "build-tools;28.0.3"
+  - echo yes | ${ANDROID_HOME}tools/bin/sdkmanager "platforms;android-25"
+script:
+  - "./gradlew clean build"
+  - "ls app/build/outputs/apk/debug"
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
+    - "$HOME/.android/build-cache"
+deploy:
+  provider: releases
+  api_key:
+    secure: Imy31Mwj3/xkDR+klwcov+YOVo5k+nOFs7utyh7aMJiFXPxl+JvmfWTFJukY//QMTTOV31gMV2meEJ8Kdqb0m5skfx9Vt1DbTpoUia/MwJbZ0+MtmoiKhg0Jy/qcrh4NTxImY93D7kKSOIVimv14CCSDFNJVldCele5ZqYWZ9ynubf5oEDNVprG1nblsWIGHJRzKNkefqHLAxWHa+FgdhW3Jy64iPefr+RFmfODnFJUP2EIqBLFIncywORNSTgGQA8HIRq/IgBsXD6Y6rQOb/vAaot3QIX7Z4CMGKvlXJ5ePLtD2rbhokPu4fpUboV3fcoUzwz+bcUZWE5MHPIG7PqCDMP0mPthA4q4KVT8nPn0N4YAEj8FAR5ISTgR36GxOKAziKE6wlxnezdSp8w2+9VZKYFYs5ye2pQRRiYT1Cdyk01jKLh6qGeheQjZ3mYzVHIn97Pku7m1VEFxcs3GeURYGEzjxiDBy0xCgV2fwMi3ZkL7WEMS1GXfIl0WzUFKWV1cjV5JHpb0ZG6nYjewo86t59Ag8gqDjEtvSwtW6xc3pmFfqJwOqsgNtRI+Dsu7CMhYXlxMXMMRip0e/tXIGyZsGmlx/bJT/cDaEtrmHkMyXzNWUQ2ggSb8I/Sel2eri152IEGSUreEl/OptdDSnpKWlY7T59b3qz/9g87E1K+g=
+  file: app/build/outputs/apk/debug/app-debug.apk
+  on:
+    repo: laercios/AppCoronaVPN
+    branch: master
+  skip_cleanup: true
+notifications:
+  email: false
