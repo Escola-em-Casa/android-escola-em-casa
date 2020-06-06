@@ -31,7 +31,7 @@ deploy:
     secure: Imy31Mwj3/xkDR+klwcov+YOVo5k+nOFs7utyh7aMJiFXPxl+JvmfWTFJukY//QMTTOV31gMV2meEJ8Kdqb0m5skfx9Vt1DbTpoUia/MwJbZ0+MtmoiKhg0Jy/qcrh4NTxImY93D7kKSOIVimv14CCSDFNJVldCele5ZqYWZ9ynubf5oEDNVprG1nblsWIGHJRzKNkefqHLAxWHa+FgdhW3Jy64iPefr+RFmfODnFJUP2EIqBLFIncywORNSTgGQA8HIRq/IgBsXD6Y6rQOb/vAaot3QIX7Z4CMGKvlXJ5ePLtD2rbhokPu4fpUboV3fcoUzwz+bcUZWE5MHPIG7PqCDMP0mPthA4q4KVT8nPn0N4YAEj8FAR5ISTgR36GxOKAziKE6wlxnezdSp8w2+9VZKYFYs5ye2pQRRiYT1Cdyk01jKLh6qGeheQjZ3mYzVHIn97Pku7m1VEFxcs3GeURYGEzjxiDBy0xCgV2fwMi3ZkL7WEMS1GXfIl0WzUFKWV1cjV5JHpb0ZG6nYjewo86t59Ag8gqDjEtvSwtW6xc3pmFfqJwOqsgNtRI+Dsu7CMhYXlxMXMMRip0e/tXIGyZsGmlx/bJT/cDaEtrmHkMyXzNWUQ2ggSb8I/Sel2eri152IEGSUreEl/OptdDSnpKWlY7T59b3qz/9g87E1K+g=
   file: app/build/outputs/apk/debug/app-debug.apk
   on:
-    repo: laercios/AppCoronaVPN
+    repo: joaaogui/AppCoronaVPN
     branch: master
   skip_cleanup: true
 notifications:
