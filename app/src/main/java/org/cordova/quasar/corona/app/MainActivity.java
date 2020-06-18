@@ -5,43 +5,23 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.datami.smi.SdState;
-import com.google.android.material.navigation.NavigationView;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     WebView myWebView;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            navigationView = findViewById(R.id.nav_view);
-            drawerLayout = findViewById(R.id.drawer_layout);
-            toolbar = findViewById(R.id.toolbar);
             myWebView = findViewById(R.id.web_view);
-
-            setSupportActionBar(toolbar);
-            navigationView.bringToFront();
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawerLayout.addDrawerListener(toggle);
-            toggle.syncState();
-
-            navigationView.setNavigationItemSelectedListener(this);
-            navigationView.setCheckedItem(R.id.nav_home);
 
             myWebView.setWebViewClient(new MyWebViewClient());
             WebSettings webSettings = myWebView.getSettings();
@@ -91,32 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onKeyDown(keyCode, event);
     }
 
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen((GravityCompat.START))) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_home:
-                break;
-            case R.id.nav_wiki:
-                Toast.makeText(this, "Abrir Wikipedia", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_about:
-                Toast.makeText(this, "Abrir Sobre", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     private class MyWebViewClient extends WebViewClient {
-
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
