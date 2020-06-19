@@ -97,27 +97,11 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Call the Datami API at the beginning of onCreate, before other initializations.
-        // IMPORTANT: If Datami API is not the first API called in the application then any network
-        // connection made before Datami SDK initialization will be non-sponsored and will be
-        // charged to the user.
-        String mySdkKey = ""; //Use the SDK API access key given by Datami.
-        String myUserId = "";
-        int sdIconId = R.drawable.ic_launcher_foreground;
-
-//        List<String> exclusionDomains = new ArrayList<String>(2);
-//        exclusionDomains.add("www.google.com");
-//        exclusionDomains.add("www.google.com.br");
-//        SmiSdk.initSponsoredData(mySdkKey, this, myUserId, sdIconId, false, exclusionDomains);
-
-
-        setContentView(R.layout.activity_splash_screen);
+                setContentView(R.layout.activity_splash_screen);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -126,10 +110,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
                 toggle();
             }
         });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
 
         Handler handle = new Handler();
         handle.postDelayed(new Runnable() {
@@ -160,10 +140,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
         delayedHide(100);
     }
 
@@ -201,10 +177,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
     }
 
-    /**
-     * Schedules a call to hide() in delay milliseconds, canceling any
-     * previously scheduled calls.
-     */
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);

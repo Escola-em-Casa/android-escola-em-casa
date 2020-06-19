@@ -7,56 +7,67 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.WebSettings;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import com.datami.smi.SdState;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    WebView myWebView;
+    private BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+            navigationView = (BottomNavigationView) findViewById(R.id.navigation);
 
-            myWebView = findViewById(R.id.web_view);
-
-            myWebView.setWebViewClient(new MyWebViewClient());
-            WebSettings webSettings = myWebView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            Locale.setDefault(new Locale("pt", "BR"));
-
-            myWebView.loadDataWithBaseURL(null, "<script" +
-                    "      src=\"https://code.jquery.com/jquery-3.5.0.min.js\"" +
-                    "      integrity=\"sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=\"" +
-                    "      crossorigin=\"anonymous\"" +
-                    "    ></script>", "text/html", "utf-8", null);
-            myWebView.loadUrl("https://classroom.google.com/h");
+            navigationView.setOnNavigationItemSelectedListener(this);
+            navigationView.setSelectedItemId(R.id.classroom);
         } catch (Exception e) {
 
         }
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Check if the key event was the Back button and if there's history
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
-            myWebView.goBack();
-            return true;
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.classroom: {
+                Fragment classroomFragment = ClassroomFragment.newInstance();
+                openFragment(classroomFragment);
+                break;
+            }
+            case R.id.wikipedia: {
+                Fragment classroomFragment = WikipediaFragment.newInstance();
+                openFragment(classroomFragment);
+                break;
+            }
+            case R.id.about: {
+                Fragment artistasFragment = AboutFragment.newInstance();
+                openFragment(artistasFragment);
+                break;
+            }
         }
-        // If it wasn't the Back key or there's no web page history, bubble up to the default
-        // system behavior (probably exit the activity)
-        return super.onKeyDown(keyCode, event);
+        return true;
+    }
+
+    private void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private class MyWebViewClient extends WebViewClient {
