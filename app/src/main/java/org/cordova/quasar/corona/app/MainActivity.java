@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             }
             case R.id.wikipedia: {
-                Fragment classroomFragment = WikipediaFragment.newInstance();
-                openFragment(classroomFragment);
+                Fragment wikipediaFragment = WikipediaFragment.newInstance();
+                openFragment(wikipediaFragment);
                 break;
             }
             case R.id.about: {
-                Fragment artistasFragment = AboutFragment.newInstance();
-                openFragment(artistasFragment);
+                Fragment aboutFragment = AboutFragment.newInstance();
+                openFragment(aboutFragment);
                 break;
             }
         }

@@ -96,6 +96,7 @@ public class ClassroomFragment extends Fragment {
                         urlsPermitidas.add("myaccount.google.com");
                         urlsPermitidas.add("forms.gle");
                         urlsPermitidas.add("google.com");
+                        urlsPermitidas.add("youtube.com");
 
                         //TODO: fazer um filtro inteligente de URLs
                         for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
