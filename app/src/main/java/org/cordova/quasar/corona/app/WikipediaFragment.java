@@ -77,30 +77,9 @@ public class WikipediaFragment extends Fragment {
                         URL urlEntrada = null;
                         urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
-                        urlsPermitidas.add("classroom.google.com");
-                        urlsPermitidas.add("accounts.google.com");
-                        urlsPermitidas.add("googledrive.com");
-                        urlsPermitidas.add("drive.google.com");
-                        urlsPermitidas.add("docs.google.com");
-                        urlsPermitidas.add("c.docs.google.com");
-                        urlsPermitidas.add("sheets.google.com");
-                        urlsPermitidas.add("slides.google.com");
-                        urlsPermitidas.add("takeout.google.com");
-                        urlsPermitidas.add("gg.google.com");
-                        urlsPermitidas.add("script.google.com");
-                        urlsPermitidas.add("ssl.google-analytics.com");
-                        urlsPermitidas.add("video.google.com");
-                        urlsPermitidas.add("s.ytimg.com");
-                        urlsPermitidas.add("apis.google.com");
-                        urlsPermitidas.add("googleapis.com");
-                        urlsPermitidas.add("googleusercontent.com");
-                        urlsPermitidas.add("gstatic.com");
-                        urlsPermitidas.add("gvt1.com");
-                        urlsPermitidas.add("edu.google.com");
-                        urlsPermitidas.add("accounts.youtube.com");
-                        urlsPermitidas.add("myaccount.google.com");
-                        urlsPermitidas.add("forms.gle");
-                        urlsPermitidas.add("google.com");
+                        urlsPermitidas.add("https://pt.wikipedia.org");
+                        urlsPermitidas.add("https://en.wikipedia.org");
+                        urlsPermitidas.add("https://wikipedia.org");
 
                         //TODO: fazer um filtro inteligente de URLs
                         for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
