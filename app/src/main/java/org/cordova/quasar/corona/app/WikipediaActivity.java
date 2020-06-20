@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class WikipediaActivity extends AppCompatActivity {
-
+    private WebView myWebView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,38 +56,27 @@ public class WikipediaActivity extends AppCompatActivity {
                 }
         );
 
-        WebView myWebView = (WebView) findViewById(R.id.web_view_wiki);
+        myWebView = (WebView) findViewById(R.id.web_view_wiki);
         myWebView.setWebViewClient(new MyWebViewClient());
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         Locale.setDefault(new Locale("pt", "BR"));
-
-        myWebView.loadDataWithBaseURL(null, "<script" +
-                "      src=\"https://code.jquery.com/jquery-3.5.0.min.js\"" +
-                "      integrity=\"sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=\"" +
-                "      crossorigin=\"anonymous\"" +
-                "    ></script>", "text/html", "utf-8", null);
         myWebView.loadUrl("https://pt.wikipedia.org/");
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Check if the key event was the Back button and if there's history
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
+            myWebView.goBack();
+            return true;
+        }
+        // If it wasn't the Back key or there's no web page history, bubble up to the default
+        // system behavior (probably exit the activity)
+        return super.onKeyDown(keyCode, event);
+    }
 
     private class MyWebViewClient extends WebViewClient {
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            view.loadUrl(
-                    "javascript:(function f() {" +
-                            "var email = document.getElementsByName('identifier');" +
-                            "email[0].oninput = function(value) {" +
-                            "if(!/^\\w+([\\.-]?\\w+)*(@)?((e(d(u(c(a(d(o(r)?)?)?)?)?)?)?)?|(a(l(u(n(o)?)?)?)?))?(\\.)?(e(d(u(\\.(e(s(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
-                            "email[0].value = '';" +
-                            "email.parentNode.parentNode.parentNode.insertAdjacentHTML('afterend', 'Apenas domínio edu.es.gov.br!');" +
-                            "return false;" +
-                            "}" +
-                            "}" +
-                            "})()");
-        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
