@@ -45,7 +45,7 @@ public class WikipediaFragment extends Fragment {
                 "      integrity=\"sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=\"" +
                 "      crossorigin=\"anonymous\"" +
                 "    ></script>", "text/html", "utf-8", null);
-        myWebView.loadUrl("https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:P%C3%A1gina_principal");
+        myWebView.loadUrl("https://pt.wikipedia.org/");
         return view;
     }
 
@@ -77,9 +77,9 @@ public class WikipediaFragment extends Fragment {
                         URL urlEntrada = null;
                         urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
-                        urlsPermitidas.add("https://pt.wikipedia.org");
-                        urlsPermitidas.add("https://en.wikipedia.org");
-                        urlsPermitidas.add("https://wikipedia.org");
+                        urlsPermitidas.add("pt.wikipedia.org");
+                        urlsPermitidas.add("en.wikipedia.org");
+                        urlsPermitidas.add("wikipedia.org");
 
                         //TODO: fazer um filtro inteligente de URLs
                         for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
@@ -87,7 +87,7 @@ public class WikipediaFragment extends Fragment {
                                 return false;
                             }
                         }
-                        Log.d("ControleAcesso", "Acesso negado a " + url);
+                        Log.d("ControleAcesso", "Acesso negado a AQUIUIUIU " + url);
                         int duration = Toast.LENGTH_LONG;
                         return true;
                     } else

@@ -40,7 +40,7 @@ public class ClassroomFragment extends Fragment {
                 "      integrity=\"sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=\"" +
                 "      crossorigin=\"anonymous\"" +
                 "    ></script>", "text/html", "utf-8", null);
-        myWebView.loadUrl("https://edu.google.com/intl/pt-BR/products/classroom/?modal_active=none");
+        myWebView.loadUrl("https://classroom.google.com/?emr=0");
         return view;
     }
 
