@@ -3,17 +3,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/classroom"
-            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:icon="@drawable/ic_classroom_logo"
             android:title="Google Classroom" />
 
         <item
             android:id="@+id/wikipedia"
-            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:icon="@drawable/ic_wiki_logo"
             android:title="Wikipedia" />
 
         <item
             android:id="@+id/about"
-            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:icon="@drawable/ic_about_logo"
             android:title="Sobre" />
 
     </group>
