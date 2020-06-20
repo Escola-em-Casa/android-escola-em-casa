@@ -5,19 +5,19 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.datami.smi.SdState;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -25,17 +25,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
-
-public class WikipediaFragment extends Fragment {
-    WebView myWebView;
+public class WikipediaActivity extends AppCompatActivity {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle   savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_wikipedia, container, false);
-        myWebView = (WebView) view.findViewById(R.id.web_view_wiki);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wikipedia);
 
-        myWebView.setWebViewClient(new WikipediaFragment.MyWebViewClient());
+        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        navigationView.setSelectedItemId(R.id.wikipedia);
+        navigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.classroom: {
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                overridePendingTransition(0, 0);
+                                return true;
+                            }
+                            case R.id.wikipedia:
+                            case R.id.about:{
+                                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                                overridePendingTransition(0, 0);
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }
+        );
+
+        WebView myWebView = (WebView) findViewById(R.id.web_view_wiki);
+        myWebView.setWebViewClient(new MyWebViewClient());
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         Locale.setDefault(new Locale("pt", "BR"));
@@ -46,10 +68,11 @@ public class WikipediaFragment extends Fragment {
                 "      crossorigin=\"anonymous\"" +
                 "    ></script>", "text/html", "utf-8", null);
         myWebView.loadUrl("https://pt.wikipedia.org/");
-        return view;
     }
 
+
     private class MyWebViewClient extends WebViewClient {
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -69,11 +92,13 @@ public class WikipediaFragment extends Fragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
             try {
-                if (url.startsWith("javascript"))
+                if(url.startsWith("javascript"))
                     return false;
 
-                if (url.startsWith("http") || url.startsWith("https")) {
-                    if (MyApplication.sdState == SdState.SD_AVAILABLE) {
+                if (url.startsWith("http") || url.startsWith("https"))
+                {
+                    if(MyApplication.sdState == SdState.SD_AVAILABLE)
+                    {
                         URL urlEntrada = null;
                         urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
@@ -82,15 +107,19 @@ public class WikipediaFragment extends Fragment {
                         urlsPermitidas.add("wikipedia.org");
 
                         //TODO: fazer um filtro inteligente de URLs
-                        for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
-                            if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
+                        for (int i = 0; i <= urlsPermitidas.size() -1; i++)
+                        {
+                            if(urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
                                 return false;
                             }
                         }
                         Log.d("ControleAcesso", "Acesso negado a " + url);
                         int duration = Toast.LENGTH_LONG;
+                        Toast toast = Toast.makeText(getApplicationContext(), "Acesso negado.", duration);
+                        toast.show();
                         return true;
-                    } else
+                    }
+                    else
                         return false;
                 }
 
@@ -107,6 +136,7 @@ public class WikipediaFragment extends Fragment {
                                 Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(
                                         Uri.parse("market://details?id=" + intent.getPackage()));
                                 if (marketIntent.resolveActivity(packageManager) != null) {
+                                    getApplicationContext().startActivity(marketIntent);
                                     return true;
                                 }
                             }
@@ -122,8 +152,6 @@ public class WikipediaFragment extends Fragment {
             }
             return true;
         }
-    }
-    public static WikipediaFragment newInstance() {
-        return new WikipediaFragment();
+
     }
 }

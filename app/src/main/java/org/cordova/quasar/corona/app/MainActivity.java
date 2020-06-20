@@ -8,13 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,55 +21,60 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private BottomNavigationView navigationView;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-            navigationView = (BottomNavigationView) findViewById(R.id.navigation);
-
-            navigationView.setOnNavigationItemSelectedListener(this);
+            BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
             navigationView.setSelectedItemId(R.id.classroom);
+            navigationView.setOnNavigationItemSelectedListener(
+                    new BottomNavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.classroom:
+                                    return true;
+                                case R.id.wikipedia: {
+                                    startActivity(new Intent(getApplicationContext(), WikipediaActivity.class));
+                                    overridePendingTransition(0, 0);
+                                    return true;
+                                }
+                                case R.id.about:                                {
+                                    startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                                    overridePendingTransition(0, 0);
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    }
+            );
+
+            WebView myWebView = (WebView) findViewById(R.id.web_view);
+            myWebView.setWebViewClient(new MyWebViewClient());
+            WebSettings webSettings = myWebView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            Locale.setDefault(new Locale("pt", "BR"));
+
+            myWebView.loadDataWithBaseURL(null, "<script" +
+                    "      src=\"https://code.jquery.com/jquery-3.5.0.min.js\"" +
+                    "      integrity=\"sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=\"" +
+                    "      crossorigin=\"anonymous\"" +
+                    "    ></script>", "text/html", "utf-8", null);
+            myWebView.loadUrl("https://classroom.google.com/?emr=0");
         } catch (Exception e) {
 
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.classroom: {
-                Fragment classroomFragment = ClassroomFragment.newInstance();
-                openFragment(classroomFragment);
-                break;
-            }
-            case R.id.wikipedia: {
-                Fragment wikipediaFragment = WikipediaFragment.newInstance();
-                openFragment(wikipediaFragment);
-                break;
-            }
-            case R.id.about: {
-                Fragment aboutFragment = AboutFragment.newInstance();
-                openFragment(aboutFragment);
-                break;
-            }
-        }
-        return true;
-    }
-
-    private void openFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
     private class MyWebViewClient extends WebViewClient {
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -90,11 +94,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
             try {
-                if (url.startsWith("javascript"))
+                if(url.startsWith("javascript"))
                     return false;
 
-                if (url.startsWith("http") || url.startsWith("https")) {
-                    if (MyApplication.sdState == SdState.SD_AVAILABLE) {
+                if (url.startsWith("http") || url.startsWith("https"))
+                {
+                    if(MyApplication.sdState == SdState.SD_AVAILABLE)
+                    {
                         URL urlEntrada = null;
                         urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
@@ -124,8 +130,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         urlsPermitidas.add("google.com");
 
                         //TODO: fazer um filtro inteligente de URLs
-                        for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
-                            if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
+                        for (int i = 0; i <= urlsPermitidas.size() -1; i++)
+                        {
+                            if(urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
                                 return false;
                             }
                         }
@@ -134,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         Toast toast = Toast.makeText(getApplicationContext(), "Acesso negado.", duration);
                         toast.show();
                         return true;
-                    } else
+                    }
+                    else
                         return false;
                 }
 
