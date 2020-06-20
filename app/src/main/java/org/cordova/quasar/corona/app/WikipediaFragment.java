@@ -87,7 +87,7 @@ public class WikipediaFragment extends Fragment {
                                 return false;
                             }
                         }
-                        Log.d("ControleAcesso", "Acesso negado a AQUIUIUIU " + url);
+                        Log.d("ControleAcesso", "Acesso negado a " + url);
                         int duration = Toast.LENGTH_LONG;
                         return true;
                     } else
