@@ -25,7 +25,6 @@
         <ImageView
             android:layout_width="79dp"
             android:layout_height="130dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:alpha="0"
@@ -34,7 +33,6 @@
         <ImageView
             android:layout_width="69dp"
             android:layout_height="106dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:paddingLeft="15dp"
@@ -47,7 +45,6 @@
         <ImageView
             android:layout_width="51dp"
             android:layout_height="130dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:tint="@color/royalBlue"
@@ -56,7 +53,6 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_unb_logo"
@@ -75,7 +71,8 @@
         android:layout_marginEnd="35dp"
 
         android:text="@string/links_importantes"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/link1"
@@ -87,8 +84,13 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="35dp"
-        android:text="https://escolaemcasa.se.df.gov.br/"
-        android:textAlignment="center" />
+        android:clickable="true"
+        android:onClick="myOnClick"
+        android:text="@string/https_escolaemcasa_se_df_gov_br"
+        android:textAlignment="center"
+        android:textColor="@color/royalBlue"
+        android:textSize="18sp"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/link2"
@@ -100,8 +102,13 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="35dp"
-        android:text="https://escolaemcasa.se.df.gov.br/index.php/como-acessar/"
-        android:textAlignment="center" />
+        android:clickable="true"
+        android:onClick="myOnClick"
+        android:text="@string/https_escolaemcasa_se_df_gov_br_index_php_como_acessar"
+        android:textAlignment="center"
+        android:textColor="@color/royalBlue"
+        android:textSize="18sp"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/link3"
@@ -113,19 +120,26 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="35dp"
-        android:text="http://www.se.df.gov.br/"
-        android:textAlignment="center" />
+        android:clickable="true"
+        android:onClick="myOnClick"
+        android:text="@string/http_www_se_df_gov_br"
+        android:textAlignment="center"
+        android:textColor="@color/royalBlue"
+        android:textSize="18sp"
+        android:focusable="true" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:itemIconSize="20dp"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/main_menu" />
 
 </RelativeLayout>

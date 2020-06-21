@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WikipediaActivity">
+    tools:context=".WebviewActivity">
     <WebView
-        android:id="@+id/web_view_wiki"
+        android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"/>
@@ -24,5 +24,4 @@
         app:itemTextColor="@drawable/selector"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/main_menu" />
-
 </RelativeLayout>
