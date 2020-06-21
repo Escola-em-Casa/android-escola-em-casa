@@ -39,4 +39,11 @@ public class AboutActivity extends AppCompatActivity {
                 }
         );
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        navigationView.getMenu().getItem(2).setChecked(true);
+    }
+
 }

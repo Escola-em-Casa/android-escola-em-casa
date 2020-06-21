@@ -76,6 +76,14 @@ public class WikipediaActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        navigationView.getMenu().getItem(1).setChecked(true);
+    }
+
+
     private class MyWebViewClient extends WebViewClient {
 
         @Override
