@@ -4,7 +4,7 @@
         <item
             android:id="@+id/classroom"
             android:icon="@drawable/ic_classroom_logo"
-            android:title="Google Classroom" />
+            android:title="Google Sala De Aula" />
 
         <item
             android:id="@+id/wikipedia"

@@ -22,9 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mainLogo">
-
         <ImageView
-            android:layout_width="130dp"
+            android:layout_width="79dp"
             android:layout_height="130dp"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
@@ -33,18 +32,21 @@
             app:srcCompat="@drawable/ic_gdf_logo" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="69dp"
+            android:layout_height="106dp"
             android:layout_alignParentTop="true"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:paddingLeft="15dp"
+            android:paddingTop="40dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
             android:tint="@color/royalBlue"
             app:srcCompat="@drawable/ic_unb_logo" />
 
         <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="51dp"
+            android:layout_height="130dp"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -52,13 +54,13 @@
             app:srcCompat="@drawable/ic_gdf_logo" />
 
         <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:alpha="0"
-            app:srcCompat="@drawable/ic_gdf_logo" />
+            app:srcCompat="@drawable/ic_unb_logo"
+            android:alpha="0"/>
     </LinearLayout>
 
     <TextView
