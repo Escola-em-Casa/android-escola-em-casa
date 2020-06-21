@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
             navigationView.setSelectedItemId(R.id.classroom);
+            TextView textView = (TextView) navigationView.findViewById(R.id.navigation).findViewById(R.id.largeLabel);
+            textView.setTextSize(12);
             navigationView.setOnNavigationItemSelectedListener(
                     new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
