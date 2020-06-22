@@ -19,7 +19,7 @@ public class MyApplication extends Application implements SdStateChangeListener 
         context = getApplicationContext();
         duration = Toast.LENGTH_LONG;
         String mySdkKey = "ak-ec97df48-57ce-4311-bf98-cde273ad0329"; //Use the SDK API access key given by Datami.
-        SmiVpnSdk.initSponsoredData(mySdkKey, this, R.drawable.ic_launcher_background, MessagingType.BOTH);
+        SmiVpnSdk.initSponsoredData(mySdkKey, this, R.drawable.ic_launcher_background, MessagingType.NONE);
     }
 
     private static final String TAG = MainActivity.class.getName();
