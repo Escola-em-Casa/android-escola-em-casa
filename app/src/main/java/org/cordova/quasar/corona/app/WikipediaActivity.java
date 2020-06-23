@@ -39,17 +39,24 @@ public class WikipediaActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.classroom: {
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            case R.id.classroom:
+                                startActivity(new Intent(
+                                        getApplicationContext(),
+                                        MainActivity.class)
+                                );
                                 overridePendingTransition(0, 0);
+
                                 return true;
-                            }
                             case R.id.wikipedia:
-                            case R.id.about:{
-                                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                                overridePendingTransition(0, 0);
                                 return true;
-                            }
+                            case R.id.about:
+                                startActivity(new Intent(
+                                        getApplicationContext(),
+                                        AboutActivity.class)
+                                );
+                                overridePendingTransition(0, 0);
+
+                                return true;
                         }
                         return false;
                     }
@@ -58,8 +65,10 @@ public class WikipediaActivity extends AppCompatActivity {
 
         myWebView = (WebView) findViewById(R.id.web_view_wiki);
         myWebView.setWebViewClient(new MyWebViewClient());
+
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
         Locale.setDefault(new Locale("pt", "BR"));
         myWebView.loadUrl("https://pt.wikipedia.org/");
     }
@@ -79,41 +88,44 @@ public class WikipediaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         navigationView.getMenu().getItem(1).setChecked(true);
     }
 
 
     private class MyWebViewClient extends WebViewClient {
-
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
             try {
                 if(url.startsWith("javascript"))
                     return false;
 
-                if (url.startsWith("http") || url.startsWith("https"))
-                {
-                    if(MyApplication.sdState == SdState.SD_AVAILABLE)
-                    {
+                if (url.startsWith("http") || url.startsWith("https")) {
+                    if(MyApplication.sdState == SdState.SD_AVAILABLE) {
                         URL urlEntrada = null;
                         urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
+
                         urlsPermitidas.add("pt.wikipedia.org");
                         urlsPermitidas.add("en.wikipedia.org");
                         urlsPermitidas.add("wikipedia.org");
 
                         //TODO: fazer um filtro inteligente de URLs
-                        for (int i = 0; i <= urlsPermitidas.size() -1; i++)
-                        {
+                        for (int i = 0; i <= urlsPermitidas.size() -1; i++) {
                             if(urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
                                 return false;
                             }
                         }
+
                         Log.d("ControleAcesso", "Acesso negado a " + url);
+
                         int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(getApplicationContext(), "Acesso negado.", duration);
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Acesso negado.",
+                                duration);
                         toast.show();
+
                         return true;
                     }
                     else
@@ -124,9 +136,13 @@ public class WikipediaActivity extends AppCompatActivity {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         PackageManager packageManager = webView.getContext().getPackageManager();
+
                         if (intent != null) {
                             webView.stopLoading();
-                            ResolveInfo info = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+                            ResolveInfo info = packageManager.resolveActivity(intent,
+                                    PackageManager.MATCH_DEFAULT_ONLY);
+
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
@@ -149,6 +165,5 @@ public class WikipediaActivity extends AppCompatActivity {
             }
             return true;
         }
-
     }
 }
