@@ -15,24 +15,33 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_about);
+
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.about);
+
         navigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.classroom: {
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            case R.id.classroom:
+                                startActivity(new Intent(
+                                        getApplicationContext(),
+                                        MainActivity.class)
+                                );
                                 overridePendingTransition(0, 0);
+
                                 return true;
-                            }
-                            case R.id.wikipedia: {
-                                startActivity(new Intent(getApplicationContext(), WikipediaActivity.class));
+                            case R.id.wikipedia:
+                                startActivity(new Intent(
+                                        getApplicationContext(),
+                                        WikipediaActivity.class)
+                                );
                                 overridePendingTransition(0, 0);
+
                                 return true;
-                            }
                             case R.id.about:
                                 return true;
                         }
@@ -45,16 +54,20 @@ public class AboutActivity extends AppCompatActivity {
     public void myOnClick(View view) {
         String link = view.getResources().getResourceEntryName(view.getId());
 
-        if (link.equals("link1")){
-            startActivity(new Intent(getApplicationContext(), WebviewActivity.class).putExtra("url", "https://escolaemcasa.se.df.gov.br/"));
+        if (link.equals("link1")) {
+            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                    .putExtra("url", "https://escolaemcasa.se.df.gov.br/"));
             overridePendingTransition(0, 0);
         }
         else if (link.equals("link2")) {
-            startActivity(new Intent(getApplicationContext(), WebviewActivity.class).putExtra("url", "https://escolaemcasa.se.df.gov.br/index.php/como-acessar/"));
+            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                    .putExtra("url",
+                            "https://escolaemcasa.se.df.gov.br/index.php/como-acessar/"));
             overridePendingTransition(0, 0);
         }
         else if (link.equals("link3")) {
-            startActivity(new Intent(getApplicationContext(), WebviewActivity.class).putExtra("url", "http://www.se.df.gov.br/"));
+            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                    .putExtra("url", "http://www.se.df.gov.br/"));
             overridePendingTransition(0, 0);
         }
 

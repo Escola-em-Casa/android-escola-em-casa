@@ -30,11 +30,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
+
             setContentView(R.layout.activity_main);
-            BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+
+            BottomNavigationView navigationView = (BottomNavigationView) findViewById(
+                    R.id.navigation
+            );
             navigationView.setSelectedItemId(R.id.classroom);
-            TextView textView = (TextView) navigationView.findViewById(R.id.navigation).findViewById(R.id.largeLabel);
+
+            TextView textView = (TextView) navigationView.findViewById(R.id.navigation)
+                    .findViewById(R.id.largeLabel);
             textView.setTextSize(12);
+
             navigationView.setOnNavigationItemSelectedListener(
                     new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
@@ -42,27 +49,36 @@ public class MainActivity extends AppCompatActivity {
                             switch (item.getItemId()) {
                                 case R.id.classroom:
                                     return true;
-                                case R.id.wikipedia: {
-                                    startActivity(new Intent(getApplicationContext(), WikipediaActivity.class));
+                                case R.id.wikipedia:
+                                    startActivity(new Intent(
+                                            getApplicationContext(),
+                                            WikipediaActivity.class)
+                                    );
                                     overridePendingTransition(0, 0);
+
                                     return true;
-                                }
-                                case R.id.about:                                {
-                                    startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                                case R.id.about:
+                                    startActivity(new Intent(
+                                            getApplicationContext(),
+                                            AboutActivity.class)
+                                    );
                                     overridePendingTransition(0, 0);
+
                                     return true;
-                                }
                             }
-                            return false;
+                            return true;
                         }
                     }
             );
 
             myWebView = (WebView) findViewById(R.id.web_view);
             myWebView.setWebViewClient(new MyWebViewClient());
+
             WebSettings webSettings = myWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
+
             Locale.setDefault(new Locale("pt", "BR"));
+
             myWebView.loadUrl("https://classroom.google.com/?emr=0");
         } catch (Exception e) {
 
@@ -74,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
         // Check if the key event was the Back button and if there's history
         if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
             myWebView.goBack();
+
             return true;
         }
+
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
         return super.onKeyDown(keyCode, event);
@@ -129,16 +147,23 @@ public class MainActivity extends AppCompatActivity {
                         urlsPermitidas.add("google.com");
 
                         //TODO: fazer um filtro inteligente de URLs
-                        for (int i = 0; i <= urlsPermitidas.size() -1; i++)
-                        {
+                        for (int i = 0; i <= urlsPermitidas.size() -1; i++) {
                             if(urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
                                 return false;
                             }
                         }
+
                         Log.d("ControleAcesso", "Acesso negado a " + url);
+
                         int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(getApplicationContext(), "Acesso negado.", duration);
+
+                        Toast toast = Toast.makeText(
+                                getApplicationContext(),
+                                "Acesso negado.",
+                                duration
+                        );
                         toast.show();
+
                         return true;
                     }
                     else
@@ -149,20 +174,27 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         PackageManager packageManager = webView.getContext().getPackageManager();
+
                         if (intent != null) {
                             webView.stopLoading();
-                            ResolveInfo info = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                            ResolveInfo info = packageManager.resolveActivity(
+                                    intent,
+                                    PackageManager.MATCH_DEFAULT_ONLY
+                            );
+
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
                                 Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(
                                         Uri.parse("market://details?id=" + intent.getPackage()));
+
                                 if (marketIntent.resolveActivity(packageManager) != null) {
                                     getApplicationContext().startActivity(marketIntent);
+
                                     return true;
                                 }
                             }
-                            return true;
+                            return false;
                         }
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
@@ -174,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
-
     }
 }
 
