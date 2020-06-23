@@ -13,6 +13,17 @@
         android:layout_marginTop="35dp"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"/>
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="75dp"
+        android:layout_marginTop="410dp"
+        android:visibility="visible"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="#b7d7f3"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
