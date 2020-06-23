@@ -1,40 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fullscreen_content"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/royalBlue">
 
     <ImageView
+        android:id="@+id/main_logo"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/ic_main_logo"
-        android:layout_marginTop="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"/>
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/ic_main_logo" />
+
     <ProgressBar
         android:id="@+id/progressBar1"
         android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_height="75dp"
-        android:layout_marginTop="410dp"
-        android:visibility="visible"
+        android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
         android:indeterminateTint="#b7d7f3"
-        />
+        android:indeterminateTintMode="src_atop"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_logo" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp">
+        android:layout_marginBottom="35dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:layout_width="79dp"
             android:layout_height="130dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:alpha="0"
@@ -43,7 +47,6 @@
         <ImageView
             android:layout_width="93dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:paddingLeft="15dp"
@@ -55,7 +58,6 @@
         <ImageView
             android:layout_width="90dp"
             android:layout_height="130dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_gdf_logo" />
@@ -63,16 +65,16 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_unb_logo"
-            android:alpha="0"/>
+            android:alpha="0"
+            app:srcCompat="@drawable/ic_unb_logo" />
     </LinearLayout>
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/fullscreen_content_controls"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
