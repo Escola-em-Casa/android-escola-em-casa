@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Escola em Casa DF</string>
-    <string name="links_importantes">Links Importantes :</string>
-    <string name="https_escolaemcasa_se_df_gov_br"><u>https://escolaemcasa.se.df.gov.br/</u></string>
-    <string name="https_escolaemcasa_se_df_gov_br_index_php_como_acessar"><u>https://escolaemcasa.se.df.gov.br/index.php/como-acessar/</u></string>
-    <string name="http_www_se_df_gov_br"><u>http://www.se.df.gov.br/</u></string>
+    <string name="links_importantes">Links Importantes</string>
+    <string name="como_acessar"> Problemas para acessar o Google Sala de Aula? </string>
+    <string name="https_escolaemcasa_se_df_gov_br"><u>Escola em Casa DF (site)</u></string>
+    <string name="https_escolaemcasa_se_df_gov_br_index_php_como_acessar"><u>Como acessar o Google Sala de Aula</u></string>
+    <string name="http_www_se_df_gov_br"><u>Secretaria da Educação (site)</u></string>
 </resources>
