@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,6 +24,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private WebView myWebView;
@@ -109,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
     private class MyWebViewClient extends WebViewClient {
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+        public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
+            String url = this.youtubeProtect(webView, urlParameter);
             try {
                 if(url.startsWith("javascript"))
                     return false;
@@ -205,6 +209,35 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             return true;
+        }
+
+        private String youtubeProtect(WebView view, String urlParameter) {
+            final String regexYouTube = "^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#&?]*).*";
+            String url = "";
+            WebBackForwardList mWebBackForwardList = view.copyBackForwardList();
+            String historyUrl="";
+            if (mWebBackForwardList.getCurrentIndex() > 0) {
+                historyUrl = mWebBackForwardList.getItemAtIndex(mWebBackForwardList.getCurrentIndex()).getUrl();
+            }
+            if(historyUrl.matches(regexYouTube)){
+                return "";
+            }
+            if(urlParameter.matches(regexYouTube) && !urlParameter.matches("embed")) {
+                Pattern compiledPattern = Pattern.compile(regexYouTube);
+                Matcher matcher = compiledPattern.matcher(urlParameter);
+                if (matcher.find()) {
+                    url = "https://www.youtube-nocookie.com/embed/"+matcher.group(7)+"?rel=0";
+                    view.loadUrl(url);
+
+                    return "";
+                } else {
+                    url = urlParameter;
+                }
+            } else {
+                url = urlParameter;
+            }
+
+            return url;
         }
     }
 }
