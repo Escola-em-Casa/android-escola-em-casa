@@ -1,9 +1,9 @@
 # Escola em casa DF
 <a href="https://www.gnu.org/licenses/gpl-3.0.pt-br.html"><img src="https://img.shields.io/badge/licence-GPL3-green.svg"/></a>
 
-<div style="display: flex; justify-content: center;">
-    <img src="https://escolaemcasa.se.df.gov.br/wp-content/uploads/2020/04/Avatar-05.png" alt="logo" width="200px">
-</div>
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/26297247/85613853-b041a900-b630-11ea-9545-49ac30fc2fda.jpeg" alt="logo" width="200px">
+</p>
 
 Este repositório é destinado ao aplicativo 
 android da plataforma [**Escola em Casa DF**](https://escolaemcasa.se.df.gov.br). Concede acesso gratuito, através de dados patrocinados, aos recursos necessários para a realização do ensino à distância da Secretaria de Educação do Distrito Federal.
@@ -45,6 +45,18 @@ Caso queira simplesmente testar o aplicativo, você precisa gerar um APK e insta
 - [**Datami**](http://datami.com/) - Dados patrocinados
 - [**Elasticsearch**](https://www.elastic.co/guide/index.html) - Armazenamento de dados
 - [**Kibana**](https://www.elastic.co/guide/en/kibana/current/index.html) - Análise dos dados patrocinados
+
+## Como contribuir
+
+Ficaremos muito felizes de receber e incorporar suas contribuições.
+
+Em geral o processo é bem simples:
+
+Crie uma issue descrevendo uma feature que você queira trabalhar (ou olhe as issues com o label help-wanted e good-first-issue)
+Escreva seu código, testes e documentação
+Abra um pull request descrevendo as suas alterações propostas
+Seu pull request será revisado por um dos mantenedores, que pode levantar questões para você sobre eventuais mudanças necessárias ou questões.
+Leia o [Guia de Contribuição](./CONTRIBUTING.md) para melhores informações.
 
 ## Como conseguir ajuda
 
