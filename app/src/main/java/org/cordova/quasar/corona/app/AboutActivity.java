@@ -54,18 +54,18 @@ public class AboutActivity extends AppCompatActivity {
     public void myOnClick(View view) {
         String link = view.getResources().getResourceEntryName(view.getId());
 
-        if (link.equals("link1")) {
+        if (link.equals("escola_em_casa_btn")) {
             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                     .putExtra("url", "https://escolaemcasa.se.df.gov.br/"));
             overridePendingTransition(0, 0);
         }
-        else if (link.equals("link2")) {
+        else if (link.equals("como_acessar_btn")) {
             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                     .putExtra("url",
                             "https://escolaemcasa.se.df.gov.br/index.php/como-acessar/"));
             overridePendingTransition(0, 0);
         }
-        else if (link.equals("link3")) {
+        else if (link.equals("secretaria_site_btn")) {
             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                     .putExtra("url", "http://www.se.df.gov.br/"));
             overridePendingTransition(0, 0);

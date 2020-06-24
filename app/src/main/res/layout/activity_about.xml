@@ -29,11 +29,91 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_main_logo" />
 
+            <TextView
+                android:id="@+id/problems"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/como_acessar"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainLogo" />
+
+            <Button
+                android:id="@+id/como_acessar_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:text="@string/https_escolaemcasa_se_df_gov_br_index_php_como_acessar"
+                android:textAlignment="center"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintWidth_percent="0.8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/problems" />
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/links_importantes"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/como_acessar_btn" />
+
+            <Button
+                android:id="@+id/escola_em_casa_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:text="@string/https_escolaemcasa_se_df_gov_br"
+                android:textAlignment="center"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintWidth_percent="0.8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header" />
+
+            <Button
+                android:id="@+id/secretaria_site_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:text="@string/http_www_se_df_gov_br"
+                android:textAlignment="center"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintWidth_percent="0.8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/escola_em_casa_btn" />
+
             <LinearLayout
                 android:id="@+id/otherLogos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/mainLogo">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secretaria_site_btn">
 
                 <ImageView
                     android:layout_width="79dp"
@@ -71,85 +151,7 @@
                     android:alpha="0"
                     app:srcCompat="@drawable/ic_unb_logo" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/problems"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="Problemas ao acessar o Google Sala de Aula ? Acesse :"
-                android:textAlignment="center"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/otherLogos" />
-
-            <TextView
-                android:id="@+id/link2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="myOnClick"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:text="@string/https_escolaemcasa_se_df_gov_br_index_php_como_acessar"
-                android:textAlignment="center"
-                android:textColor="@color/royalBlue"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/problems" />
-
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/links_importantes"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/link2" />
-
-            <TextView
-                android:id="@+id/link1"
-                android:layout_width="321dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="myOnClick"
-                android:text="@string/https_escolaemcasa_se_df_gov_br"
-                android:textAlignment="center"
-                android:textColor="@color/royalBlue"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/header" />
-
-            <TextView
-                android:id="@+id/link3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="myOnClick"
-                android:text="@string/http_www_se_df_gov_br"
-                android:textAlignment="center"
-                android:textColor="@color/royalBlue"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/link1" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -165,4 +167,5 @@
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/main_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
