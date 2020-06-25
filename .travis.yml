@@ -31,7 +31,7 @@ deploy:
     secure: SmtsHqPI88MuJ3quDPf/iZumP5u8wUwGzyzYAmpZ7xrWC32SAOa4pkmSXDwmU3PMddsIo49Jd1O8iQv6XWmrv8oUZ9AAtyC4qfiCYvsxtS/8bVuxP2G6DN6qu1VxaR613heUutlsCKHAktou/F7wKboyad6u0Gnc4T3RY/FSKnSuWIfuWbM3hufE3RoSzMaAqR9VmpLbYYDonzb8sc2vrUPBv8V8vgjYmfUK5MyfLnqwYED822jyWY+fy6rK/6d3AbVJkUKuUC7urYOKVktiobg20Y8rlSldXf0aqFMh4uv6d7kivxTKUJ+/552mwaHDU/RpGwRB2umuAz4hvy/9FNkvagza3RGu5gmabPBD+XIhvzZHOjnKkUQHvvK9YTUAzEF3uLRgc984Fn6Xv0pEiA0/KEmax5QbkhY6cXY7itN7+3hedOvGK7+qWtqAQfjwXUhLCq2WtbJz7lL4AaqjQWBuMktgiYpLYAqpp+YZBGPH98mEdzpB65zs5ey+79oUoZSWznIKTsOEXS8vfMP+24gA+Feh0HUNt4/rr/4mmzDM/rHRdmWGx7luA76k6ZmDSus+vG2EcypaQzld2V/uYFfxdhUurqdG3NSLUDTadD8WoF7YX/fXzphDKG2vWVLRqQYu3SWQcfobPMXooz16KqxxmANe8eAEQH4T38NS1wM=
   file: app/build/outputs/apk/debug/app-debug.apk
   on:
-    repo: joaaogui/AppCoronaVPN
+    repo: Escola-em-Casa/android-escola-em-casa
   skip_cleanup: 'true'
 notifications:
   email: false
