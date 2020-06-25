@@ -43,6 +43,8 @@
                 app:layout_constraintTop_toBottomOf="@id/mainLogo" />
 
             <Button
+                android:textAllCaps="false"
+                style="@style/Base.TextAppearance.AppCompat"
                 android:id="@+id/como_acessar_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -75,6 +77,8 @@
                 app:layout_constraintTop_toBottomOf="@id/como_acessar_btn" />
 
             <Button
+                android:textAllCaps="false"
+                style="@style/Base.TextAppearance.AppCompat"
                 android:id="@+id/escola_em_casa_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -93,6 +97,8 @@
                 app:layout_constraintTop_toBottomOf="@id/header" />
 
             <Button
+                android:textAllCaps="false"
+                style="@style/Base.TextAppearance.AppCompat"
                 android:id="@+id/secretaria_site_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
