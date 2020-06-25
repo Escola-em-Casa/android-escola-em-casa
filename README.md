@@ -2,7 +2,7 @@
 <a href="https://www.gnu.org/licenses/gpl-3.0.pt-br.html"><img src="https://img.shields.io/badge/licence-GPL3-green.svg"/></a>
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/26297247/85613853-b041a900-b630-11ea-9545-49ac30fc2fda.jpeg" alt="logo" width="200px">
+    <img src="https://avatars2.githubusercontent.com/u/67379876?s=400&u=aeea6d44c84f2fb761a4a3fcd8e0f185c3bb2982&v=4" alt="logo" width="200px">
 </p>
 
 Este repositório é destinado ao aplicativo 
