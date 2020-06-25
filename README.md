@@ -14,7 +14,7 @@ A plataforma “Escola em Casa DF” é a sala de aula virtual da Secretaria de 
 
 O aplicativo permite os alunos acessarem as plataformas Google Classroom e Wikipedia gratuitamente, não consumindo seus dados móveis. A primeira é onde acontece a disponibilização de todos os recursos para a realização das aulas. A segunda serve como uma plataforma de apoio à pesquisa.
 
-A gratuidade do acesso às plataformas é feito através dos dados patrocinados. O qual permite o patrocinador pagar pelos dados móveis utilizados pelo consumidor.
+A gratuidade do acesso às plataformas é possibilitada através dos dados patrocinados. O qual permite o patrocinador pagar pelos dados móveis utilizados pelo consumidor.
 
 ## Entenda a arquitetura
 
