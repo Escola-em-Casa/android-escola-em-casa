@@ -19,9 +19,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WebviewActivity"></activity>
-        <activity android:name=".WikipediaActivity" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".WebviewActivity"
+                  android:configChanges="orientation|screenSize" />
+        <activity android:name=".WikipediaActivity" 
+                  android:configChanges="orientation|screenSize" />
+        <activity android:name=".AboutActivity" 
+                  android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -33,7 +36,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MyApplication" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
