@@ -5,5 +5,6 @@
     <color name="white">#FBFBFB</color>
     <color name="realWhite">#FFFFFF</color>
     <color name="lightSteelBlue">#98AFC3</color>
+    <color name="gainsboro">#E0E0E0</color>
     <color name="black">#353533</color>
 </resources>
