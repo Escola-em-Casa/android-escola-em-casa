@@ -42,7 +42,5 @@ public class MyApplication extends Application implements SdStateChangeListener 
             text = "Acesso via wifi.";
             Log.d(TAG, "wifi - reason: " + currentSmiResult.getSdReason());
         }
-//        toast = Toast.makeText(context, text, duration);
-//        toast.show();
     }
 }
