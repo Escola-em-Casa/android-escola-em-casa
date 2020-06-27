@@ -38,42 +38,54 @@ public class WebviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_webview);
         BottomNavigationView navigationView = findViewById(R.id.navigation);
+
         navigationView.setSelectedItemId(R.id.classroom);
         navigationView.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom: {
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url", "http://classroom.google.com/a/edu.se.df.gov.br"));
+                                    .putExtra("url",
+                                              "http://classroom.google.com/a/edu.se.df.gov.br"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
+
                             return true;
                         }
                         case R.id.wikipedia: {
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url", "https://pt.wikipedia.org/"));
+                                    .putExtra("url",
+                                              "https://pt.wikipedia.org/"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(1).setChecked(true);
+
                             return true;
                         }
                         case R.id.about: {
                             startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(2).setChecked(true);
+
                             return true;
                         }
                     }
+
                     return false;
                 }
         );
+
         myWebView = findViewById(R.id.web_view);
         myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.setWebChromeClient(new ChromeClient());
+
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
         Locale.setDefault(new Locale("pt", "BR"));
+
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
     }
@@ -81,8 +93,11 @@ public class WebviewActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         BottomNavigationView navigationView = findViewById(R.id.navigation);
+
         Log.d("URL", "onResume: " + url);
+
         switch (url) {
             case "http://classroom.google.com/a/edu.se.df.gov.br": {
                 navigationView.getMenu().getItem(0).setChecked(true);
@@ -90,11 +105,14 @@ public class WebviewActivity extends AppCompatActivity {
             }
             case "https://pt.wikipedia.org/": {
                 navigationView.getMenu().getItem(1).setChecked(true);
+
                 break;
             }
-            default:
+            default: {
                 navigationView.getMenu().getItem(2).setChecked(true);
+
                 break;
+            }
         }
     }
 
@@ -103,8 +121,10 @@ public class WebviewActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
             myWebView.goBack();
+
             return true;
         }
+
         return super.onKeyDown(keyCode, event);
     }
 
@@ -115,15 +135,21 @@ public class WebviewActivity extends AppCompatActivity {
             String url = "";
             WebBackForwardList mWebBackForwardList = view.copyBackForwardList();
             String historyUrl = "";
+
             if (mWebBackForwardList.getCurrentIndex() > 0) {
-                historyUrl = mWebBackForwardList.getItemAtIndex(mWebBackForwardList.getCurrentIndex()).getUrl();
+                historyUrl = mWebBackForwardList.getItemAtIndex(mWebBackForwardList
+                    .getCurrentIndex())
+                    .getUrl();
             }
-            if (historyUrl.matches(regexYouTube)) {
+
+            if (historyUrl.matches(regexYouTube))
                 return "";
-            }
-            if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed") && urlParameter.contains(".youtube")) {
+            
+            if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed") 
+             && urlParameter.contains(".youtube")) {
                 Pattern compiledPattern = Pattern.compile(regexYouTube);
                 Matcher matcher = compiledPattern.matcher(urlParameter);
+
                 if (matcher.find()) {
                     url = "https://www.youtube-nocookie.com/embed/" + matcher.group(7) + "?rel=0";
                     view.loadUrl(url);
@@ -142,6 +168,7 @@ public class WebviewActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
             String url = this.youtubeProtect(webView, urlParameter);
+            
             try {
                 if (url.startsWith("javascript"))
                     return false;
@@ -149,8 +176,10 @@ public class WebviewActivity extends AppCompatActivity {
                 if (url.startsWith("http") || url.startsWith("https")) {
                     if (MyApplication.sdState == SdState.SD_AVAILABLE) {
                         URL urlEntrada = null;
-                        urlEntrada = new URL(url);
                         List<String> urlsPermitidas = new ArrayList<String>(25);
+                        
+                        urlEntrada = new URL(url);
+                        
                         urlsPermitidas.add("se.df.gov.br");
                         urlsPermitidas.add("escolaemcasa.se.df.gov.br");
                         urlsPermitidas.add("pt.wikipedia.org");
@@ -181,36 +210,47 @@ public class WebviewActivity extends AppCompatActivity {
                         urlsPermitidas.add("forms.gle");
                         urlsPermitidas.add("google.com");
 
-
                         //TODO: fazer um filtro inteligente de URLs
                         for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
                             if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
                                 return false;
                             }
                         }
+
                         Log.d("ControleAcesso", "Acesso negado a " + url);
+                        
                         int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(getApplicationContext(), "Acesso negado.", duration);
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                                     "Acesso negado.", 
+                                                     duration);
+                        
                         toast.show();
+                        
                         return true;
-                    } else
+                    } else {
                         return false;
+                    }
                 }
 
                 if (url.startsWith("intent://")) {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         PackageManager packageManager = webView.getContext().getPackageManager();
+                        
                         if (intent != null) {
                             webView.stopLoading();
-                            ResolveInfo info = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                            ResolveInfo info = packageManager.resolveActivity(intent,
+                                PackageManager.MATCH_DEFAULT_ONLY);
+                            
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
                                 Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse("market://details?id=" + intent.getPackage()));
+                                    Uri.parse("market://details?id=" + intent.getPackage()));
+
                                 if (marketIntent.resolveActivity(packageManager) != null) {
                                     getApplicationContext().startActivity(marketIntent);
+
                                     return true;
                                 }
                             }
@@ -237,36 +277,46 @@ public class WebviewActivity extends AppCompatActivity {
         private int mOriginalOrientation;
         private int mOriginalSystemUiVisibility;
 
-        ChromeClient() {
-        }
+        ChromeClient() {}
 
         public Bitmap getDefaultVideoPoster() {
-            if (mCustomView == null) {
+            if (mCustomView == null)
                 return null;
-            }
+
             return BitmapFactory.decodeResource(getApplicationContext().getResources(), 2130837573);
         }
 
         public void onHideCustomView() {
             ((FrameLayout) getWindow().getDecorView()).removeView(this.mCustomView);
+            
             this.mCustomView = null;
+
             getWindow().getDecorView().setSystemUiVisibility(this.mOriginalSystemUiVisibility);
             setRequestedOrientation(this.mOriginalOrientation);
+
             this.mCustomViewCallback.onCustomViewHidden();
             this.mCustomViewCallback = null;
         }
 
-        public void onShowCustomView(View paramView, WebChromeClient.CustomViewCallback paramCustomViewCallback) {
+        public void onShowCustomView(View paramView, 
+                                     WebChromeClient.CustomViewCallback paramCustomViewCallback) {
             if (this.mCustomView != null) {
                 onHideCustomView();
+
                 return;
             }
+
             this.mCustomView = paramView;
             this.mOriginalSystemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
             this.mOriginalOrientation = getRequestedOrientation();
             this.mCustomViewCallback = paramCustomViewCallback;
-            ((FrameLayout) getWindow().getDecorView()).addView(this.mCustomView, new FrameLayout.LayoutParams(-1, -1));
-            getWindow().getDecorView().setSystemUiVisibility(3846 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            
+            ((FrameLayout) getWindow().getDecorView()).addView(
+                this.mCustomView,
+                new FrameLayout.LayoutParams(-1, -1));
+
+            getWindow().getDecorView().setSystemUiVisibility(3846
+             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
 
