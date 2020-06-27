@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
             Locale.setDefault(new Locale("pt", "BR"));
 
-            myWebView.loadUrl("https://classroom.google.com/?emr=0");
+            myWebView.loadUrl("http://classroom.google.com/a/edu.se.df.gov.br");
         } catch (Exception e) {
 
         }
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             if(historyUrl.matches(regexYouTube)){
                 return "";
             }
-            if(urlParameter.matches(regexYouTube) && !urlParameter.matches("embed")) {
+            if(urlParameter.matches(regexYouTube) && !urlParameter.matches("embed") && urlParameter.contains(".youtube")) {
                 Pattern compiledPattern = Pattern.compile(regexYouTube);
                 Matcher matcher = compiledPattern.matcher(urlParameter);
                 if (matcher.find()) {
