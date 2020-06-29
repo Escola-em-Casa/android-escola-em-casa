@@ -16,6 +16,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,8 @@ import java.util.regex.Pattern;
 public class WebviewActivity extends AppCompatActivity {
     private WebView myWebView;
     private String url;
+    private ProgressBar spinner;
+    String ShowOrHideWebViewInitialUse = "show";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class WebviewActivity extends AppCompatActivity {
         );
 
         myWebView = findViewById(R.id.web_view);
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
         myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.setWebChromeClient(new ChromeClient());
 
@@ -129,6 +133,26 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private class MyWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView webview, String url, Bitmap favicon) {
+
+            // only make it invisible the FIRST time the app is run
+            if (ShowOrHideWebViewInitialUse.equals("show")) {
+                webview.setVisibility(webview.INVISIBLE);
+            }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+            ShowOrHideWebViewInitialUse = "hide";
+            spinner.setVisibility(View.GONE);
+
+            view.setVisibility(myWebView.VISIBLE);
+            super.onPageFinished(view, url);
+
+        }
 
         private String youtubeProtect(WebView view, String urlParameter) {
             final String regexYouTube = "^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#&?]*).*";
