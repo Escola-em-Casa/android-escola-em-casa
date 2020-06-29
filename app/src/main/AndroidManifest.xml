@@ -54,7 +54,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- SmiSdk Intent Service required for all APIs -->
-        <service android:name="com.datami.smi.SmiIntentService" />
     </application>
 
 </manifest>

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.net.URISyntaxException;
@@ -174,7 +173,7 @@ public class WebviewActivity extends AppCompatActivity {
                     return false;
 
                 if (url.startsWith("http") || url.startsWith("https")) {
-                    if (MyApplication.sdState == SdState.SD_AVAILABLE) {
+                    if (true) {
                         URL urlEntrada = null;
                         List<String> urlsPermitidas = new ArrayList<String>(25);
                         

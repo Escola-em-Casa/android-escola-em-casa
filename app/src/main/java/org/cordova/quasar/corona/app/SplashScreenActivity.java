@@ -11,15 +11,7 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.datami.smi.SdState;
-import com.datami.smi.SdStateChangeListener;
-import com.datami.smi.SmiResult;
-
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class SplashScreenActivity extends AppCompatActivity implements SdStateChangeListener {
+public class SplashScreenActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -176,13 +168,5 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
-
-    @Override
-    public void onChange(SmiResult smiResult) {
-        if (smiResult.getSdState() == SdState.SD_AVAILABLE ||
-                smiResult.getSdState() == SdState.SD_NOT_AVAILABLE ||
-                smiResult.getSdState() == SdState.WIFI)
-            abrirMain();
     }
 }
