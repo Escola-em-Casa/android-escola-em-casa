@@ -135,15 +135,20 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
-
+            Log.d("COMECOU", "onPageStarted: COMECOU");
             // only make it invisible the FIRST time the app is run
-            if (ShowOrHideWebViewInitialUse.equals("show")) {
+            if (ShowOrHideWebViewInitialUse.equals("show") && !url.equals("http://www.se.df.gov.br/")) {
                 webview.setVisibility(webview.INVISIBLE);
+            }
+            if(url.equals("http://www.se.df.gov.br/")) {
+                spinner.setVisibility(View.GONE);
             }
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            Log.d("Terminou", "onPageStarted: TERMINOU");
+
 
             ShowOrHideWebViewInitialUse = "hide";
             spinner.setVisibility(View.GONE);
