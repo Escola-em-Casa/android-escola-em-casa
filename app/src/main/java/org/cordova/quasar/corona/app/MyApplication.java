@@ -1,14 +1,19 @@
 package org.cordova.quasar.corona.app;
+
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.datami.smi.*;
+import com.datami.smi.SdState;
+import com.datami.smi.SdStateChangeListener;
+import com.datami.smi.SmiResult;
+import com.datami.smi.SmiVpnSdk;
 import com.datami.smi.internal.MessagingType;
 
 public class MyApplication extends Application implements SdStateChangeListener {
+    private static final String TAG = MainActivity.class.getName();
+    public static SdState sdState;
     private Toast toast;
     private Context context;
     private int duration;
@@ -22,24 +27,20 @@ public class MyApplication extends Application implements SdStateChangeListener 
         SmiVpnSdk.initSponsoredData(mySdkKey, this, R.drawable.ic_launcher_background, MessagingType.NONE);
     }
 
-    private static final String TAG = MainActivity.class.getName();
-    public static SdState sdState;
     @Override
     public void onChange(SmiResult currentSmiResult) {
         sdState = currentSmiResult.getSdState();
-        Log.d(TAG, "sponsored data state : "+sdState);
+        Log.d(TAG, "sponsored data state : " + sdState);
         CharSequence text = "";
-        if(sdState == SdState.SD_AVAILABLE) {
+        if (sdState == SdState.SD_AVAILABLE) {
             text = "Seu acesso a esse site é gratuito.";
-        } else if(sdState == SdState.SD_NOT_AVAILABLE) {
+        } else if (sdState == SdState.SD_NOT_AVAILABLE) {
             text = "Seu acesso a esse site poderá acarretar cobranças em seu plano de dados.";
             Log.d(TAG, " - reason: " + currentSmiResult.getSdReason());
-        } else if(sdState == SdState.WIFI) {
+        } else if (sdState == SdState.WIFI) {
             // device is in wifi
             text = "Acesso via wifi.";
             Log.d(TAG, "wifi - reason: " + currentSmiResult.getSdReason());
         }
-//        toast = Toast.makeText(context, text, duration);
-//        toast.show();
     }
 }

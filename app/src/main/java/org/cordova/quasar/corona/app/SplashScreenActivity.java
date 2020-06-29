@@ -2,22 +2,18 @@ package org.cordova.quasar.corona.app;
 
 
 import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.datami.smi.SdState;
 import com.datami.smi.SdStateChangeListener;
 import com.datami.smi.SmiResult;
-import com.datami.smi.SmiVpnSdk;
-import com.datami.smi.internal.MessagingType;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -42,6 +38,21 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
+    private final int REQUEST_CODE = 1;
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -79,25 +90,11 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
             hide();
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_splash_screen);
+        setContentView(R.layout.activity_splash_screen);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -113,13 +110,12 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
 
         Handler handle = new Handler();
         handle.postDelayed(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 abrirMain();
             }
         }, 10000);
     }
-
-    private final int REQUEST_CODE = 1;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,7 +180,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
 
     @Override
     public void onChange(SmiResult smiResult) {
-        if(smiResult.getSdState() == SdState.SD_AVAILABLE ||
+        if (smiResult.getSdState() == SdState.SD_AVAILABLE ||
                 smiResult.getSdState() == SdState.SD_NOT_AVAILABLE ||
                 smiResult.getSdState() == SdState.WIFI)
             abrirMain();

@@ -7,11 +7,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="50dp"
+        android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:paddingTop="20dp">
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,26 +43,26 @@
                 app:layout_constraintTop_toBottomOf="@id/mainLogo" />
 
             <Button
-                android:textAllCaps="false"
-                style="@style/Base.TextAppearance.AppCompat"
                 android:id="@+id/como_acessar_btn"
+                style="@style/Base.TextAppearance.AppCompat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="myOnClick"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
-                android:background="@color/gainsboro"
                 android:text="@string/https_escolaemcasa_se_df_gov_br_index_php_como_acessar"
                 android:textAlignment="center"
+                android:textAllCaps="false"
                 android:textColor="@color/royalBlue"
                 android:textSize="18sp"
-                app:layout_constraintWidth_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/problems" />
+                app:layout_constraintTop_toBottomOf="@id/problems"
+                app:layout_constraintWidth_percent="0.8" />
 
             <TextView
                 android:id="@+id/header"
@@ -77,50 +77,50 @@
                 app:layout_constraintTop_toBottomOf="@id/como_acessar_btn" />
 
             <Button
-                android:textAllCaps="false"
-                style="@style/Base.TextAppearance.AppCompat"
                 android:id="@+id/escola_em_casa_btn"
+                style="@style/Base.TextAppearance.AppCompat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="myOnClick"
-                android:background="@color/gainsboro"
                 android:text="@string/https_escolaemcasa_se_df_gov_br"
                 android:textAlignment="center"
+                android:textAllCaps="false"
                 android:textColor="@color/royalBlue"
                 android:textSize="18sp"
-                app:layout_constraintWidth_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/header" />
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:layout_constraintWidth_percent="0.8" />
 
             <Button
-                android:textAllCaps="false"
-                style="@style/Base.TextAppearance.AppCompat"
                 android:id="@+id/secretaria_site_btn"
+                style="@style/Base.TextAppearance.AppCompat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="myOnClick"
-                android:background="@color/gainsboro"
                 android:text="@string/http_www_se_df_gov_br"
                 android:textAlignment="center"
+                android:textAllCaps="false"
                 android:textColor="@color/royalBlue"
                 android:textSize="18sp"
-                app:layout_constraintWidth_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/escola_em_casa_btn" />
+                app:layout_constraintTop_toBottomOf="@id/escola_em_casa_btn"
+                app:layout_constraintWidth_percent="0.8" />
 
             <LinearLayout
                 android:id="@+id/otherLogos"
-                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/secretaria_site_btn">
