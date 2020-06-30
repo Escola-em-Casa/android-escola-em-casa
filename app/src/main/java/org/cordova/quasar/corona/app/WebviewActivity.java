@@ -52,6 +52,9 @@ public class WebviewActivity extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom: {
+                            if (url.equals("http://classroom.google.com/a/edu.se.df.gov.br")){
+                                return true;
+                            }
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                                     .putExtra("url",
                                               "http://classroom.google.com/a/edu.se.df.gov.br"));
@@ -61,6 +64,9 @@ public class WebviewActivity extends AppCompatActivity {
                             return true;
                         }
                         case R.id.wikipedia: {
+                            if (url.equals("https://pt.wikipedia.org/")){
+                                return true;
+                            }
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                                     .putExtra("url",
                                               "https://pt.wikipedia.org/"));
