@@ -1,5 +1,7 @@
 package org.cordova.quasar.corona.app;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JsResult;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -136,7 +139,6 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
-            Log.d("COMECOU", "onPageStarted: COMECOU");
             // only make it invisible the FIRST time the app is run
             if (ShowOrHideWebViewInitialUse.equals("show") && !url.equals("http://www.se.df.gov.br/")) {
                 webview.setVisibility(webview.INVISIBLE);
@@ -148,9 +150,6 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            Log.d("Terminou", "onPageStarted: TERMINOU");
-
-
             ShowOrHideWebViewInitialUse = "hide";
             spinner.setVisibility(View.GONE);
 
@@ -159,15 +158,15 @@ public class WebviewActivity extends AppCompatActivity {
 
             view.loadUrl(
                     "javascript:(function f() {" +
-                    "var email = document.getElementsByName('identifier');" +
-                    "email[0].oninput = function(value) {" +
-                    "if(!/^\\w+([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
-                    "email[0].value = '';" +
-                    "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
-                    "return false;" +
-                    "}" +
-                    "}" +
-                    "})()");
+                            "var email = document.getElementsByName('identifier');" +
+                            "email[0].oninput = function(value) {" +
+                            "if(!/^\\w+([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
+                            "email[0].value = email[0].value.split('@')[0];" +
+                            "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
+                            "return false;" +
+                            "}" +
+                            "}" +
+                            "})()");
 
         }
 
@@ -185,8 +184,8 @@ public class WebviewActivity extends AppCompatActivity {
 
             if (historyUrl.matches(regexYouTube))
                 return "";
-            
-            if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed") 
+
+            if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed")
              && urlParameter.contains(".youtube")) {
                 Pattern compiledPattern = Pattern.compile(regexYouTube);
                 Matcher matcher = compiledPattern.matcher(urlParameter);
@@ -209,7 +208,7 @@ public class WebviewActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
             String url = this.youtubeProtect(webView, urlParameter);
-            
+
             try {
                 if (url.startsWith("javascript"))
                     return false;
@@ -218,9 +217,9 @@ public class WebviewActivity extends AppCompatActivity {
                     if (MyApplication.sdState == SdState.SD_AVAILABLE) {
                         URL urlEntrada = null;
                         List<String> urlsPermitidas = new ArrayList<String>(25);
-                        
+
                         urlEntrada = new URL(url);
-                        
+
                         urlsPermitidas.add("se.df.gov.br");
                         urlsPermitidas.add("escolaemcasa.se.df.gov.br");
                         urlsPermitidas.add("pt.wikipedia.org");
@@ -259,14 +258,14 @@ public class WebviewActivity extends AppCompatActivity {
                         }
 
                         Log.d("ControleAcesso", "Acesso negado a " + url);
-                        
+
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(getApplicationContext(),
-                                                     "Acesso negado.", 
+                                                     "Acesso negado.",
                                                      duration);
-                        
+
                         toast.show();
-                        
+
                         return true;
                     } else {
                         return false;
@@ -277,12 +276,12 @@ public class WebviewActivity extends AppCompatActivity {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         PackageManager packageManager = webView.getContext().getPackageManager();
-                        
+
                         if (intent != null) {
                             webView.stopLoading();
                             ResolveInfo info = packageManager.resolveActivity(intent,
                                 PackageManager.MATCH_DEFAULT_ONLY);
-                            
+
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
@@ -320,6 +319,20 @@ public class WebviewActivity extends AppCompatActivity {
 
         ChromeClient() {}
 
+        @Override
+        public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+            AlertDialog dialog = new AlertDialog.Builder(view.getContext()).
+                    setMessage(message).
+                    setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //do nothing
+                        }
+                    }).create();
+            dialog.show();
+            result.confirm();
+            return true;
+        }
         public Bitmap getDefaultVideoPoster() {
             if (mCustomView == null)
                 return null;
@@ -329,7 +342,7 @@ public class WebviewActivity extends AppCompatActivity {
 
         public void onHideCustomView() {
             ((FrameLayout) getWindow().getDecorView()).removeView(this.mCustomView);
-            
+
             this.mCustomView = null;
 
             getWindow().getDecorView().setSystemUiVisibility(this.mOriginalSystemUiVisibility);
@@ -339,7 +352,7 @@ public class WebviewActivity extends AppCompatActivity {
             this.mCustomViewCallback = null;
         }
 
-        public void onShowCustomView(View paramView, 
+        public void onShowCustomView(View paramView,
                                      WebChromeClient.CustomViewCallback paramCustomViewCallback) {
             if (this.mCustomView != null) {
                 onHideCustomView();
@@ -351,7 +364,7 @@ public class WebviewActivity extends AppCompatActivity {
             this.mOriginalSystemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
             this.mOriginalOrientation = getRequestedOrientation();
             this.mCustomViewCallback = paramCustomViewCallback;
-            
+
             ((FrameLayout) getWindow().getDecorView()).addView(
                 this.mCustomView,
                 new FrameLayout.LayoutParams(-1, -1));
