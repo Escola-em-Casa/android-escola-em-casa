@@ -228,6 +228,7 @@ public class WebviewActivity extends AppCompatActivity {
                         urlsPermitidas.add("se.df.gov.br");
                         urlsPermitidas.add("escolaemcasa.se.df.gov.br");
                         urlsPermitidas.add("pt.wikipedia.org");
+                        urlsPermitidas.add("educacao.df.gov.br");
                         urlsPermitidas.add("en.wikipedia.org");
                         urlsPermitidas.add("wikipedia.org");
                         urlsPermitidas.add("classroom.google.com");
