@@ -173,6 +173,10 @@ public class WebviewActivity extends AppCompatActivity {
                             "}" +
                             "}" +
                             "})()");
+            view.loadUrl(
+                    "javascript:(function f() {" +
+                            "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
+                            "})()");
 
         }
 
@@ -213,11 +217,18 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
+            Log.d("URL: ",urlParameter);
             String url = this.youtubeProtect(webView, urlParameter);
 
             try {
+                Log.d("URL: ", url);
                 if (url.startsWith("javascript"))
                     return false;
+                if (url.startsWith("mailto:")) {
+                    webView.getContext().startActivity(
+                            new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                    return true;
+                }
 
                 if (url.startsWith("http") || url.startsWith("https")) {
                     if (MyApplication.sdState == SdState.SD_AVAILABLE) {
@@ -267,7 +278,7 @@ public class WebviewActivity extends AppCompatActivity {
 
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(getApplicationContext(),
-                                                     "Acesso negado.",
+                                                     "Acesso negado: " + url,
                                                      duration);
 
                         toast.show();
