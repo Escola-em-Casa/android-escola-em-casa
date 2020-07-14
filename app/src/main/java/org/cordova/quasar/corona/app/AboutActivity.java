@@ -23,7 +23,7 @@ public class AboutActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.classroom:
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url", "http://classroom.google.com/a/edu.se.df.gov.br"));
+                                    .putExtra("url", "https://classroom.google.com/?emr=0"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
                             return true;

@@ -52,12 +52,12 @@ public class WebviewActivity extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom: {
-                            if (url.equals("http://classroom.google.com/a/edu.se.df.gov.br")){
+                            if (url.equals("https://classroom.google.com/?emr=0")){
                                 return true;
                             }
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                                     .putExtra("url",
-                                              "http://classroom.google.com/a/edu.se.df.gov.br"));
+                                              "https://classroom.google.com/?emr=0"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
 
@@ -111,7 +111,7 @@ public class WebviewActivity extends AppCompatActivity {
         Log.d("URL", "onResume: " + url);
 
         switch (url) {
-            case "http://classroom.google.com/a/edu.se.df.gov.br": {
+            case "https://classroom.google.com/?emr=0": {
                 navigationView.getMenu().getItem(0).setChecked(true);
                 break;
             }
@@ -175,6 +175,7 @@ public class WebviewActivity extends AppCompatActivity {
             view.loadUrl(
                     "javascript:(function f() {" +
                             "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
+                            "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula'" +
                             "})()");
 
         }
