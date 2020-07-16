@@ -171,21 +171,34 @@ public class WebviewActivity extends AppCompatActivity {
             super.onPageFinished(view, url);
 
             view.loadUrl(
-                    "javascript:(function f() {" +
-                            "var email = document.getElementsByName('identifier');" +
-                            "email[0].oninput = function(value) {" +
-                            "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
+                "javascript:(function f(e) {" +
+                    "var email = document.getElementsByName('identifier');" +
+                    "var submitBtn = document.getElementsByClassName('VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc qIypjc TrZEUc')[0];" +
+
+                    "email[0].oninput = function(value) {" +
+                        "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
                             "email[0].value = email[0].value.split('@')[0];" +
+                            "submitBtn.disabled = true;" +
                             "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
                             "return false;" +
-                            "}" +
-                            "}" +
-                            "})()");
+                        "}" +
+
+                        "if(!email[0].value.split('@')[1]) {" +
+                            "submitBtn.disabled = true;" +
+                        "}" +
+
+                        "else {" +
+                            "submitBtn.disabled = false;" +
+                        "}" +
+                    "}" +
+                "})()");
+
             view.loadUrl(
-                    "javascript:(function f() {" +
-                            "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
-                            "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula'" +
-                            "})()");
+                "javascript:(function f() {" +
+                    "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
+
+                    "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula'" +
+                "})()");
 
         }
 
