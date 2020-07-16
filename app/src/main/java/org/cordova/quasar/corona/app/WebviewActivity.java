@@ -1,5 +1,6 @@
 package org.cordova.quasar.corona.app;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +23,10 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,12 +44,22 @@ public class WebviewActivity extends AppCompatActivity {
     private String url;
     private ProgressBar spinner;
     String ShowOrHideWebViewInitialUse = "show";
+    private int PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_webview);
+
+        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
+                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
+        } else {
+            requestCameraPermission();
+        }
+
         BottomNavigationView navigationView = findViewById(R.id.navigation);
 
         String datamilessToastMessage = "A internet utilizada ainda não está sendo paga pelo GDF.";
@@ -61,24 +75,24 @@ public class WebviewActivity extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom: {
-                            if (url.equals("https://classroom.google.com/?emr=0")){
+                            if (url.equals("https://classroom.google.com/?emr=0")) {
                                 return true;
                             }
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                                     .putExtra("url",
-                                              "https://classroom.google.com/?emr=0"));
+                                            "https://classroom.google.com/?emr=0"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
 
                             return true;
                         }
                         case R.id.wikipedia: {
-                            if (url.equals("https://pt.wikipedia.org/")){
+                            if (url.equals("https://pt.wikipedia.org/")) {
                                 return true;
                             }
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                                     .putExtra("url",
-                                              "https://pt.wikipedia.org/"));
+                                            "https://pt.wikipedia.org/"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(1).setChecked(true);
 
@@ -98,7 +112,7 @@ public class WebviewActivity extends AppCompatActivity {
         );
 
         myWebView = findViewById(R.id.web_view);
-        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner = (ProgressBar) findViewById(R.id.progressBar1);
         myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.setWebChromeClient(new ChromeClient());
 
@@ -109,6 +123,38 @@ public class WebviewActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
+    }
+
+    private void requestCameraPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.CAMERA) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            new AlertDialog.Builder(WebviewActivity.this).setTitle("Permissões Negadas").setMessage("Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(WebviewActivity.this, new String[]{Manifest.permission.CAMERA,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+                        }
+                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            }).create().show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && (grantResults[0] + grantResults[1] + grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this, "Permissão concedida", Toast.LENGTH_SHORT);
+            }
+        }
     }
 
     @Override
@@ -157,7 +203,7 @@ public class WebviewActivity extends AppCompatActivity {
             if (ShowOrHideWebViewInitialUse.equals("show") && !url.equals("http://www.se.df.gov.br/")) {
                 webview.setVisibility(webview.INVISIBLE);
             }
-            if(url.equals("http://www.se.df.gov.br/")) {
+            if (url.equals("http://www.se.df.gov.br/")) {
                 spinner.setVisibility(View.GONE);
             }
         }
@@ -210,15 +256,15 @@ public class WebviewActivity extends AppCompatActivity {
 
             if (mWebBackForwardList.getCurrentIndex() > 0) {
                 historyUrl = mWebBackForwardList.getItemAtIndex(mWebBackForwardList
-                    .getCurrentIndex())
-                    .getUrl();
+                        .getCurrentIndex())
+                        .getUrl();
             }
 
             if (historyUrl.matches(regexYouTube))
                 return "";
 
             if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed")
-             && urlParameter.contains(".youtube")) {
+                    && urlParameter.contains(".youtube")) {
                 Pattern compiledPattern = Pattern.compile(regexYouTube);
                 Matcher matcher = compiledPattern.matcher(urlParameter);
 
@@ -239,7 +285,7 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
-            Log.d("URL: ",urlParameter);
+            Log.d("URL: ", urlParameter);
             String url = this.youtubeProtect(webView, urlParameter);
 
             try {
@@ -300,8 +346,8 @@ public class WebviewActivity extends AppCompatActivity {
 
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(getApplicationContext(),
-                                                     "Acesso negado: " + url,
-                                                     duration);
+                                "Acesso negado: " + url,
+                                duration);
 
                         toast.show();
 
@@ -319,13 +365,13 @@ public class WebviewActivity extends AppCompatActivity {
                         if (intent != null) {
                             webView.stopLoading();
                             ResolveInfo info = packageManager.resolveActivity(intent,
-                                PackageManager.MATCH_DEFAULT_ONLY);
+                                    PackageManager.MATCH_DEFAULT_ONLY);
 
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
                                 Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(
-                                    Uri.parse("market://details?id=" + intent.getPackage()));
+                                        Uri.parse("market://details?id=" + intent.getPackage()));
 
                                 if (marketIntent.resolveActivity(packageManager) != null) {
                                     getApplicationContext().startActivity(marketIntent);
@@ -356,7 +402,8 @@ public class WebviewActivity extends AppCompatActivity {
         private int mOriginalOrientation;
         private int mOriginalSystemUiVisibility;
 
-        ChromeClient() {}
+        ChromeClient() {
+        }
 
         @Override
         public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
@@ -372,6 +419,7 @@ public class WebviewActivity extends AppCompatActivity {
             result.confirm();
             return true;
         }
+
         public Bitmap getDefaultVideoPoster() {
             if (mCustomView == null)
                 return null;
@@ -405,11 +453,11 @@ public class WebviewActivity extends AppCompatActivity {
             this.mCustomViewCallback = paramCustomViewCallback;
 
             ((FrameLayout) getWindow().getDecorView()).addView(
-                this.mCustomView,
-                new FrameLayout.LayoutParams(-1, -1));
+                    this.mCustomView,
+                    new FrameLayout.LayoutParams(-1, -1));
 
             getWindow().getDecorView().setSystemUiVisibility(3846
-             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
 
