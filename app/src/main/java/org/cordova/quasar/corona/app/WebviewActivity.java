@@ -162,6 +162,8 @@ public class WebviewActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data != null && data.getDataString() == null)
+            data = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
@@ -180,6 +182,7 @@ public class WebviewActivity extends AppCompatActivity {
                     }
                 } else {
                     String dataString = data.getDataString();
+                    Log.d("sdadsa", "onActivityResult: "+ dataString);
                     if (dataString != null) {
                         results = new Uri[]{Uri.parse(dataString)};
                     }
@@ -189,7 +192,8 @@ public class WebviewActivity extends AppCompatActivity {
             mFilePathCallback.onReceiveValue(results);
             mFilePathCallback = null;
 
-        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        }
+        else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             if (requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null) {
                 super.onActivityResult(requestCode, resultCode, data);
                 return;
@@ -224,8 +228,6 @@ public class WebviewActivity extends AppCompatActivity {
 
             }
         }
-
-        return;
     }
 
     private void requestCameraPermission() {
@@ -255,7 +257,7 @@ public class WebviewActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.length > 0 && (grantResults[0] + grantResults[1] + grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(this, "Permissão concedida", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "Permissão concedida", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -532,11 +534,9 @@ public class WebviewActivity extends AppCompatActivity {
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
                     mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
-                    Log.d("TAG", "onShowFileChooser: " + mCameraPhotoPath);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                             Uri.fromFile(photoFile));
                 } else {
-                    Log.d("deu ruim", "onShowFileChooser:  deu ruim demais");
                     takePictureIntent = null;
                 }
             }
