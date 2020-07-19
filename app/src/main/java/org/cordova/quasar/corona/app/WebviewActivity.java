@@ -103,12 +103,12 @@ public class WebviewActivity extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom: {
-                            if (url.equals("https://classroom.google.com/?emr=0")) {
+                            if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
                                 return true;
                             }
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                                     .putExtra("url",
-                                            "https://classroom.google.com/?emr=0"));
+                                            "https://classroom.google.com/a/estudante.se.df.gov.br"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
 
@@ -271,7 +271,7 @@ public class WebviewActivity extends AppCompatActivity {
         Log.d("URL", "onResume: " + url);
 
         switch (url) {
-            case "https://classroom.google.com/?emr=0": {
+            case "https://classroom.google.com/a/estudante.se.df.gov.br": {
                 navigationView.getMenu().getItem(0).setChecked(true);
                 break;
             }
@@ -329,17 +329,8 @@ public class WebviewActivity extends AppCompatActivity {
                     "email[0].oninput = function(value) {" +
                         "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
                             "email[0].value = email[0].value.split('@')[0];" +
-                            "submitBtn.disabled = true;" +
                             "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
                             "return false;" +
-                        "}" +
-
-                        "if(!email[0].value.split('@')[1]) {" +
-                            "submitBtn.disabled = true;" +
-                        "}" +
-
-                        "else {" +
-                            "submitBtn.disabled = false;" +
                         "}" +
                     "}" +
                 "})()");
@@ -348,7 +339,7 @@ public class WebviewActivity extends AppCompatActivity {
                 "javascript:(function f() {" +
                     "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
 
-                    "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula'" +
+                    "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
                 "})()");
 
         }
