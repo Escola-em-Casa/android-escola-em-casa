@@ -134,6 +134,14 @@ public class WebviewActivity extends AppCompatActivity {
 
                             return true;
                         }
+                        case R.id.questions: {
+                            startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
+                            overridePendingTransition(0, 0);
+
+                            navigationView.getMenu().getItem(3).setChecked(true);
+
+                            return true;
+                        }
                     }
 
                     return false;
