@@ -16,5 +16,9 @@
             android:icon="@drawable/ic_about_logo"
             android:title="Sobre" />
 
+        <item
+            android:id="@+id/questions"
+            android:icon="@drawable/ic_question_logo"
+            android:title="Dúvidas" />
     </group>
 </menu>
