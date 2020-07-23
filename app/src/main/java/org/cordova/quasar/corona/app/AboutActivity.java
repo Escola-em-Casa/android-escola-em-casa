@@ -33,17 +33,15 @@ public class AboutActivity extends AppCompatActivity {
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(1).setChecked(true);
                             return true;
-                        case R.id.about:
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(2).setChecked(true);
-                            return true;
                         case R.id.questions:
                             startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
                             overridePendingTransition(0, 0);
-
+                            navigationView.getMenu().getItem(2).setChecked(true);
+                            return true;
+                        case R.id.about:
+                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                            overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(3).setChecked(true);
-
                             return true;
                     }
                     return false;
@@ -79,6 +77,6 @@ public class AboutActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         BottomNavigationView navigationView = findViewById(R.id.navigation);
-        navigationView.getMenu().getItem(2).setChecked(true);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 }

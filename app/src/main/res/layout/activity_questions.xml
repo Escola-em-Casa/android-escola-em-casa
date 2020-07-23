@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,8 +6,43 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/faq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="AHAHAHAHAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/header-teste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/links_importantes"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/faq" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
