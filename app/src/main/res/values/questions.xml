@@ -1,0 +1,15 @@
+<resources>
+    <string name="sponsored_data_question">Os dados móveis de internet do aplicativo já estão 
+        sendo pagos pelo governo?</string>
+    <string name="sponsored_data_answer">Os dados móveis de internet ainda não estão sendo
+        patrocinados (pagos) pelo Governo do Distrito Federal. </string>    
+    <string name="meet_question">O governo pagará pelo uso da plataforma Meet Google?</string>
+    <string name="meet_answer">Mesmo quando liberado o patrocínio dos dados, não será pago pelo Governo
+        o uso da plataforma Meet Google, pois só é possível utilizá-la através do seu próprio 
+        aplicativo. É responsabilidade do governo arcar somente pelas plataformas que são abertas 
+        dentro do nosso próprio aplicativo, Escola em Casa DF. </string>
+    <string name="route_question">Se eu rotear a internet do celular para o computador, os dados 
+        móveis de internet serão pagos pelo governo?</string>
+    <string name="route_answer">Não serão patrocinados (pagos) os dados móveis de internet quando 
+        roteados, ou compartilhados, com outros dispositivos e/ou computadores.</string>
+</resources>
