@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays; 
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -396,45 +397,15 @@ public class WebviewActivity extends AppCompatActivity {
 
                 if (url.startsWith("http") || url.startsWith("https")) {
                     if (true) {
-                        URL urlEntrada = null;
-                        List<String> urlsPermitidas = new ArrayList<String>(25);
+                        URL urlEntry = null;
+                        List<String> allowedUrls = new ArrayList<String>(25);
 
-                        urlEntrada = new URL(url);
+                        urlEntry = new URL(url);
 
-                        urlsPermitidas.add("se.df.gov.br");
-                        urlsPermitidas.add("escolaemcasa.se.df.gov.br");
-                        urlsPermitidas.add("pt.wikipedia.org");
-                        urlsPermitidas.add("educacao.df.gov.br");
-                        urlsPermitidas.add("en.wikipedia.org");
-                        urlsPermitidas.add("wikipedia.org");
-                        urlsPermitidas.add("classroom.google.com");
-                        urlsPermitidas.add("accounts.google.com");
-                        urlsPermitidas.add("googledrive.com");
-                        urlsPermitidas.add("drive.google.com");
-                        urlsPermitidas.add("docs.google.com");
-                        urlsPermitidas.add("c.docs.google.com");
-                        urlsPermitidas.add("sheets.google.com");
-                        urlsPermitidas.add("slides.google.com");
-                        urlsPermitidas.add("takeout.google.com");
-                        urlsPermitidas.add("gg.google.com");
-                        urlsPermitidas.add("script.google.com");
-                        urlsPermitidas.add("ssl.google-analytics.com");
-                        urlsPermitidas.add("video.google.com");
-                        urlsPermitidas.add("s.ytimg.com");
-                        urlsPermitidas.add("apis.google.com");
-                        urlsPermitidas.add("googleapis.com");
-                        urlsPermitidas.add("googleusercontent.com");
-                        urlsPermitidas.add("gstatic.com");
-                        urlsPermitidas.add("gvt1.com");
-                        urlsPermitidas.add("edu.google.com");
-                        urlsPermitidas.add("accounts.youtube.com");
-                        urlsPermitidas.add("myaccount.google.com");
-                        urlsPermitidas.add("forms.gle");
-                        urlsPermitidas.add("google.com");
+                        allowedUrls = Arrays.asList(getResources().getStringArray(R.array.allowed_sites));
 
-                        //TODO: fazer um filtro inteligente de URLs
-                        for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
-                            if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
+                        for (int i = 0; i <= allowedUrls.size() - 1; i++) {
+                            if (urlEntry.getAuthority().contains(allowedUrls.get(i))) {
                                 return false;
                             }
                         }

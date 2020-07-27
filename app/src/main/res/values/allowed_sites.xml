@@ -1,0 +1,34 @@
+<resources>
+    <string-array name="allowed_sites">       
+        <item>se.df.gov.br</item>
+        <item>escolaemcasa.se.df.gov.br</item>
+        <item>pt.wikipedia.org</item>
+        <item>educacao.df.gov.br</item>
+        <item>en.wikipedia.org</item>
+        <item>wikipedia.org</item>
+        <item>classroom.google.com</item>
+        <item>accounts.google.com</item>
+        <item>googledrive.com</item>
+        <item>drive.google.com</item>
+        <item>docs.google.com</item>
+        <item>c.docs.google.com</item>
+        <item>sheets.google.com</item>
+        <item>slides.google.com</item>
+        <item>takeout.google.com</item>
+        <item>gg.google.com</item>
+        <item>script.google.com</item>
+        <item>ssl.google-analytics.com</item>
+        <item>video.google.com</item>
+        <item>s.ytimg.com</item>
+        <item>apis.google.com</item>
+        <item>googleapis.com</item>
+        <item>googleusercontent.com</item>
+        <item>gstatic.com</item>
+        <item>gvt1.com</item>
+        <item>edu.google.com</item>
+        <item>accounts.youtube.com</item>
+        <item>myaccount.google.com</item>
+        <item>forms.gle</item>
+        <item>google.com</item>
+    </string-array>
+</resources>
