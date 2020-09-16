@@ -91,14 +91,6 @@ public class WebviewActivity extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
 
-        String datamilessToastMessage = "A internet utilizada ainda não está sendo paga pelo GDF.";
-
-        Toast.makeText(
-            getApplicationContext(), 
-            datamilessToastMessage, 
-            Toast.LENGTH_LONG)
-        .show();
-
         navigationView.setSelectedItemId(R.id.classroom);
         navigationView.setOnNavigationItemSelectedListener(
                 item -> {
@@ -127,10 +119,18 @@ public class WebviewActivity extends AppCompatActivity {
 
                             return true;
                         }
+                        case R.id.questions: {
+                            startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
+                            overridePendingTransition(0, 0);
+
+                            navigationView.getMenu().getItem(2).setChecked(true);
+
+                            return true;
+                        }
                         case R.id.about: {
                             startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                             overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(2).setChecked(true);
+                            navigationView.getMenu().getItem(3).setChecked(true);
 
                             return true;
                         }
@@ -325,7 +325,6 @@ public class WebviewActivity extends AppCompatActivity {
             view.loadUrl(
                 "javascript:(function f(e) {" +
                     "var email = document.getElementsByName('identifier');" +
-                    "var submitBtn = document.getElementsByClassName('VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc qIypjc TrZEUc')[0];" +
 
                     "email[0].oninput = function(value) {" +
                         "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
@@ -341,6 +340,10 @@ public class WebviewActivity extends AppCompatActivity {
                     "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
 
                     "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
+                "})()");
+            view.loadUrl(
+                "javascript:(function f() {" +
+                    "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
                 "})()");
 
         }
