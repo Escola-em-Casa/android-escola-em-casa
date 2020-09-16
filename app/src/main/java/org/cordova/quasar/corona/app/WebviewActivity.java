@@ -345,7 +345,10 @@ public class WebviewActivity extends AppCompatActivity {
                 "javascript:(function f() {" +
                     "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
                 "})()");
-
+            view.loadUrl(
+                "javascript:(function f() {" +
+                        "document.getElementById('p-donation').style.display='none'; " +
+                        "})()");
         }
 
         private String youtubeProtect(WebView view, String urlParameter) {
