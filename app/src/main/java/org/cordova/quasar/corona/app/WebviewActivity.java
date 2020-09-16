@@ -91,14 +91,6 @@ public class WebviewActivity extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
 
-        String datamilessToastMessage = "A internet utilizada ainda não está sendo paga pelo GDF.";
-
-        Toast.makeText(
-            getApplicationContext(), 
-            datamilessToastMessage, 
-            Toast.LENGTH_LONG)
-        .show();
-
         navigationView.setSelectedItemId(R.id.classroom);
         navigationView.setOnNavigationItemSelectedListener(
                 item -> {
