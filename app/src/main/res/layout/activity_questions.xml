@@ -14,9 +14,9 @@
         android:text="@string/item_questions"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,123 +25,81 @@
         android:layout_marginBottom="50dp"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintTop_toBottomOf="@id/faq" >
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/faq">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- activity_info layout file -->
-            <!-- Clickable title -->
-            <TextView  android:id="@+id/help_title_gest"
-                android:text="@string/sponsored_data_question"
-                android:tag="0"
-                android:clickable="true"
-                android:onClick="toggle_contents"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:focusable="true" />
-
-            <!--content to hide/show -->
-            <TextView  android:id="@+id/txt_help_gest"
-                android:text="@string/sponsored_data_answer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/help_title_gest"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
-
-
             <TextView
                 android:id="@+id/sponsored_data_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
+                style="@style/CustomQuestion"
+                android:tag="0"
                 android:text="@string/sponsored_data_question"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_help_gest" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/sponsored_data_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="30dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                style="@style/CustomAnswer"
                 android:text="@string/sponsored_data_answer"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sponsored_data_question" />
 
-            <TextView
-                android:id="@+id/meet_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:text="@string/meet_question"
-                android:textSize="20sp"
-                android:textStyle="bold"
+            <View
+                android:id="@+id/divider0"
+                style="@style/CustomDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sponsored_data_answer" />
+                app:layout_constraintTop_toBottomOf="@+id/sponsored_data_answer" />
+
+            <TextView
+                android:id="@+id/meet_question"
+                style="@style/CustomQuestion"
+                android:tag="1"
+                android:text="@string/meet_question"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider0" />
 
             <TextView
                 android:id="@+id/meet_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="30dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                style="@style/CustomAnswer"
                 android:text="@string/meet_answer"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/meet_question" />
+                app:layout_constraintTop_toBottomOf="@+id/meet_question" />
+
+            <View
+                android:id="@+id/divider1"
+                style="@style/CustomDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/meet_answer" />
 
             <TextView
                 android:id="@+id/route_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
+                style="@style/CustomQuestion"
+                android:tag="2"
                 android:text="@string/route_question"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/meet_answer" />
+                app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
             <TextView
                 android:id="@+id/route_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="30dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                style="@style/CustomAnswer"
                 android:text="@string/route_answer"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/route_question" />
+                app:layout_constraintTop_toBottomOf="@+id/route_question" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
