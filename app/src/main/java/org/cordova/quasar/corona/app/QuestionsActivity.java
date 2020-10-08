@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import java.util.List;
 public class QuestionsActivity extends AppCompatActivity {
 
     List<TextView> textViews = new ArrayList<>();
+    List<ImageView> imageViews = new ArrayList<>();
 
 
     @Override
@@ -68,6 +70,10 @@ public class QuestionsActivity extends AppCompatActivity {
         textViews.get(1).setVisibility(View.GONE);
         textViews.add(2,(TextView) findViewById(R.id.route_answer));
         textViews.get(2).setVisibility(View.GONE);
+
+        imageViews.add(0, (ImageView) findViewById(R.id.sponsored_data_icon));
+        imageViews.add(1, (ImageView) findViewById(R.id.meet_icon));
+        imageViews.add(2, (ImageView) findViewById(R.id.route_icon));
     }
 
     @Override
@@ -92,15 +98,18 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     public void toggle_contents(View v) {
-        TextView answerView = textViews.get(Integer.parseInt((String) v.getTag()));
+        int id = Integer.parseInt((String) v.getTag());
+        TextView answerView = textViews.get(id);
 
 
         if (answerView.isShown()) {
             slide(this, answerView, false);
             answerView.setVisibility(View.GONE);
+            imageViews.get(id).setImageResource(R.drawable.baseline_expand_more_24);
         } else {
             answerView.setVisibility(View.VISIBLE);
             slide(this, answerView, true);
+            imageViews.get(id).setImageResource(R.drawable.baseline_expand_less_24);
         }
     }
 }
