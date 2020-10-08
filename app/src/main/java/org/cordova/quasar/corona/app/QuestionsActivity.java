@@ -1,13 +1,26 @@
 package org.cordova.quasar.corona.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class QuestionsActivity extends AppCompatActivity {
+
+    List<TextView> textViews = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +61,10 @@ public class QuestionsActivity extends AppCompatActivity {
                     return false;
                 }
         );
+
+        textViews.add(0,(TextView) findViewById(R.id.txt_help_gest));
+        textViews.get(0).setVisibility(View.GONE);
+
     }
 
     @Override
@@ -55,5 +72,45 @@ public class QuestionsActivity extends AppCompatActivity {
         super.onResume();
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.getMenu().getItem(2).setChecked(true);
+    }
+
+    //TODO: refactor slide functions
+    void slide_down(Context ctx, View v) {
+        Animation a = AnimationUtils.loadAnimation(ctx, R.anim.slide_down);
+        if (a != null) {
+            a.reset();
+            if (v != null) {
+                v.clearAnimation();
+                v.startAnimation(a);
+            }
+        }
+    }
+
+    void slide_up(Context ctx, View v) {
+        Animation a = AnimationUtils.loadAnimation(ctx, R.anim.slide_up);
+        if (a != null) {
+            a.reset();
+            if (v != null) {
+                v.clearAnimation();
+                v.startAnimation(a);
+            }
+        }
+    }
+
+
+    /**
+     * onClick handler
+     */
+    public void toggle_contents(View v) {
+        TextView answerView = textViews.get(Integer.parseInt((String) v.getTag()));
+
+
+        if (answerView.isShown()) {
+            slide_up(this, answerView);
+            answerView.setVisibility(View.GONE);
+        } else {
+            answerView.setVisibility(View.VISIBLE);
+            slide_down(this, answerView);
+        }
     }
 }
