@@ -78,8 +78,10 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     //TODO: refactor slide functions
-    void slide_down(Context ctx, View v) {
-        Animation a = AnimationUtils.loadAnimation(ctx, R.anim.slide_down);
+    void slide(Context ctx, View v, Boolean down) {
+        Animation a;
+        if(down) a = AnimationUtils.loadAnimation(ctx, R.anim.slide_down);
+        else a = AnimationUtils.loadAnimation(ctx, R.anim.slide_up);
         if (a != null) {
             a.reset();
             if (v != null) {
@@ -89,31 +91,16 @@ public class QuestionsActivity extends AppCompatActivity {
         }
     }
 
-    void slide_up(Context ctx, View v) {
-        Animation a = AnimationUtils.loadAnimation(ctx, R.anim.slide_up);
-        if (a != null) {
-            a.reset();
-            if (v != null) {
-                v.clearAnimation();
-                v.startAnimation(a);
-            }
-        }
-    }
-
-
-    /**
-     * onClick handler
-     */
     public void toggle_contents(View v) {
         TextView answerView = textViews.get(Integer.parseInt((String) v.getTag()));
 
 
         if (answerView.isShown()) {
-            slide_up(this, answerView);
+            slide(this, answerView, false);
             answerView.setVisibility(View.GONE);
         } else {
             answerView.setVisibility(View.VISIBLE);
-            slide_down(this, answerView);
+            slide(this, answerView, true);
         }
     }
 }
