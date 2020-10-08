@@ -14,3 +14,4 @@
 .cxx
 /.idea/jarRepositories.xml
 .vscode/*
+.idea/
