@@ -62,9 +62,12 @@ public class QuestionsActivity extends AppCompatActivity {
                 }
         );
 
-        textViews.add(0,(TextView) findViewById(R.id.txt_help_gest));
+        textViews.add(0,(TextView) findViewById(R.id.sponsored_data_answer));
         textViews.get(0).setVisibility(View.GONE);
-
+        textViews.add(1,(TextView) findViewById(R.id.meet_answer));
+        textViews.get(1).setVisibility(View.GONE);
+        textViews.add(2,(TextView) findViewById(R.id.route_answer));
+        textViews.get(2).setVisibility(View.GONE);
     }
 
     @Override
