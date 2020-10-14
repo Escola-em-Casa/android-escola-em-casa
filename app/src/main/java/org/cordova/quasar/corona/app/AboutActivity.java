@@ -8,6 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
+import android.content.SharedPreferences;
+
 public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,28 @@ public class AboutActivity extends AppCompatActivity {
                     return false;
                 }
         );
+
+        new GuideView.Builder(this)
+            .setTitle("Sobre")
+            .setContentText("Esta aba serve para acessar as informações do app")
+            .setGravity(Gravity.auto) //optional
+            .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+            .setTargetView(findViewById(R.id.about))
+            .setContentTextSize(12)//optional
+            .setTitleTextSize(14)//optional
+            .build()
+            .show();
+
+        new GuideView.Builder(this)
+            .setTitle("Sobre")
+            .setContentText("Esta aba serve para acessar as informações do app")
+            .setGravity(Gravity.auto) //optional
+            .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+            .setTargetView(findViewById(R.id.escola_em_casa_btn))
+            .setContentTextSize(12)//optional
+            .setTitleTextSize(14)//optional
+            .build()
+            .show();
     }
 
     public void myOnClick(View view) {
