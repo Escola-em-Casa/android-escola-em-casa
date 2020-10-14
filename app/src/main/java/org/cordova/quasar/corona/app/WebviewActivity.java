@@ -49,6 +49,13 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
+import android.content.SharedPreferences;
+
 public class WebviewActivity extends AppCompatActivity {
     private WebView myWebView;
     private String url;
@@ -74,6 +81,90 @@ public class WebviewActivity extends AppCompatActivity {
         );
         return imageFile;
     }
+
+    private void checkClassroomFirstRun() {
+        final String PREFS_NAME = "classroom_first_run";
+        final String PREF_VERSION_CODE_KEY = "1.0";
+        final int DOESNT_EXIST = -1;
+    
+        // Get current version code
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+    
+        // Get saved version code
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+    
+        // Check for first run or upgrade
+        if (currentVersionCode == savedVersionCode) {
+    
+            // This is just a normal run
+            return;
+    
+        } else if (savedVersionCode == DOESNT_EXIST) {
+            new GuideView.Builder(this)
+              .setTitle("Google Classroom")
+              .setContentText("Esta aba serve para acessar sua conta do google classrom")
+              .setGravity(Gravity.auto) //optional
+              .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+              .setTargetView(findViewById(R.id.classroom))
+              .setContentTextSize(12)//optional
+              .setTitleTextSize(14)//optional
+              .build()
+              .show();    
+        } else if (currentVersionCode > savedVersionCode) { 
+          new GuideView.Builder(this)
+              .setTitle("Google Classroom")
+              .setContentText("Esta aba serve para acessar sua conta do google classrom")
+              .setGravity(Gravity.auto) //optional
+              .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+              .setTargetView(findViewById(R.id.classroom))
+              .setContentTextSize(12)//optional
+              .setTitleTextSize(14)//optional
+              .build()
+              .show(); 
+        }
+    
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
+
+    private void checkWikipediaFirstRun() {
+      final String PREFS_NAME = "wikipedia_first_run";
+      final String PREF_VERSION_CODE_KEY = "1.0";
+      final int DOESNT_EXIST = -1;
+  
+      // Get current version code
+      int currentVersionCode = BuildConfig.VERSION_CODE;
+  
+      // Get saved version code
+      SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+      int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+  
+      // Check for first run or upgrade
+      if (currentVersionCode == savedVersionCode) {
+  
+          // This is just a normal run
+          return;
+  
+      } else if (savedVersionCode == DOESNT_EXIST) {
+          new GuideView.Builder(this)
+              .setTitle("Wikipedia")
+              .setContentText("Esta aba serve para acessar a wikipedia")
+              .setGravity(Gravity.auto) //optional
+              .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+              .setTargetView(findViewById(R.id.wikipedia))
+              .setContentTextSize(12)//optional
+              .setTitleTextSize(14)//optional
+              .build()
+              .show();  
+      } else if (currentVersionCode > savedVersionCode) {
+  
+          // TODO This is an upgrade
+      }
+  
+      // Update the shared preferences with the current version code
+      prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+  }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +250,12 @@ public class WebviewActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
+      
+        if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
+          checkClassroomFirstRun();
+        } else if (url.equals("https://pt.wikipedia.org/")) {
+          checkWikipediaFirstRun();
+        }
     }
 
     @Override
@@ -287,6 +384,36 @@ public class WebviewActivity extends AppCompatActivity {
                 break;
             }
         }
+        // if (sPreferences.getBoolean("firstRun", true)) {
+        //   sPreferences.edit().putBoolean("firstRun", false).apply();
+        //   Toast.makeText(getApplicationContext(), "primeiro launcher", Toast.LENGTH_LONG).show();
+        // } else {
+        //   Toast.makeText(getApplicationContext(), "segundo? terceiro?...", Toast.LENGTH_LONG).show();
+        // }
+
+        // if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
+        //   new GuideView.Builder(this)
+        //     .setTitle("Google Classroom")
+        //     .setContentText("Esta aba serve para acessar sua conta do google classrom")
+        //     .setGravity(Gravity.auto) //optional
+        //     .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+        //     .setTargetView(findViewById(R.id.classroom))
+        //     .setContentTextSize(12)//optional
+        //     .setTitleTextSize(14)//optional
+        //     .build()
+        //     .show();
+        // } else if (url.equals("https://pt.wikipedia.org/")) {
+        //   new GuideView.Builder(this)
+        //     .setTitle("Wikipedia")
+        //     .setContentText("Esta aba serve para acessar a wikipedia")
+        //     .setGravity(Gravity.auto) //optional
+        //     .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+        //     .setTargetView(findViewById(R.id.wikipedia))
+        //     .setContentTextSize(12)//optional
+        //     .setTitleTextSize(14)//optional
+        //     .build()
+        //     .show();
+        // }
     }
 
 
