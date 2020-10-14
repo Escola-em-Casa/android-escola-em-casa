@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
+    ndkVersion "21.1.6352462"
     buildToolsVersion "29.0.3"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,4 +40,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     implementation 'com.android.support:multidex:+'
+    implementation 'com.github.iammert:MaterialIntroView:1.6.0'
+    implementation 'com.github.mreram:showcaseview:1.2.0'
 }
