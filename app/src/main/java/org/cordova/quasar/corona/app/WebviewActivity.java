@@ -52,7 +52,6 @@ import java.util.regex.Pattern;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
-import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
 import android.content.SharedPreferences;
 
@@ -68,6 +67,8 @@ public class WebviewActivity extends AppCompatActivity {
     private String mCameraPhotoPath;
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int FILECHOOSER_RESULTCODE = 1;
+    private String classrom_tutorial = "Esta aba serve para acessar sua conta do Google Sala de Aula.\n\nSeu email de acesso é composto pelo primeiro nome junto com o código de estudante, acrescido de @estudante.se.df.gov.br\n\nPara saber como obter o primeiro acesso, verifique a aba 'sobre', no link, 'como acessar o Google Sala de Aula'.";
+    private String wikipedia_tutorial = "Esta aba serve para acessar a wikipédia.\n\nUtilizando o ícone da lupa é possivel fazer buscas dentro da wikipédia";
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -102,26 +103,16 @@ public class WebviewActivity extends AppCompatActivity {
     
         } else if (savedVersionCode == DOESNT_EXIST) {
             new GuideView.Builder(this)
-              .setTitle("Google Classroom")
-              .setContentText("Esta aba serve para acessar sua conta do google classrom")
-              .setGravity(Gravity.auto) //optional
-              .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+              .setTitle("Google Sala de Aula")
+              .setContentText(classrom_tutorial)
+              .setDismissType(DismissType.targetView)
               .setTargetView(findViewById(R.id.classroom))
-              .setContentTextSize(12)//optional
-              .setTitleTextSize(14)//optional
+              .setContentTextSize(14)
+              .setTitleTextSize(16)
               .build()
               .show();    
-        } else if (currentVersionCode > savedVersionCode) { 
-          new GuideView.Builder(this)
-              .setTitle("Google Classroom")
-              .setContentText("Esta aba serve para acessar sua conta do google classrom")
-              .setGravity(Gravity.auto) //optional
-              .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
-              .setTargetView(findViewById(R.id.classroom))
-              .setContentTextSize(12)//optional
-              .setTitleTextSize(14)//optional
-              .build()
-              .show(); 
+        } else if (currentVersionCode > savedVersionCode) {
+            // TODO This is an upgrade
         }
     
         // Update the shared preferences with the current version code
@@ -148,13 +139,12 @@ public class WebviewActivity extends AppCompatActivity {
   
       } else if (savedVersionCode == DOESNT_EXIST) {
           new GuideView.Builder(this)
-              .setTitle("Wikipedia")
-              .setContentText("Esta aba serve para acessar a wikipedia")
-              .setGravity(Gravity.auto) //optional
-              .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+              .setTitle("Wikipédia")
+              .setContentText(wikipedia_tutorial)
+              .setDismissType(DismissType.anywhere)
               .setTargetView(findViewById(R.id.wikipedia))
-              .setContentTextSize(12)//optional
-              .setTitleTextSize(14)//optional
+              .setContentTextSize(14)
+              .setTitleTextSize(16)
               .build()
               .show();  
       } else if (currentVersionCode > savedVersionCode) {
@@ -384,36 +374,6 @@ public class WebviewActivity extends AppCompatActivity {
                 break;
             }
         }
-        // if (sPreferences.getBoolean("firstRun", true)) {
-        //   sPreferences.edit().putBoolean("firstRun", false).apply();
-        //   Toast.makeText(getApplicationContext(), "primeiro launcher", Toast.LENGTH_LONG).show();
-        // } else {
-        //   Toast.makeText(getApplicationContext(), "segundo? terceiro?...", Toast.LENGTH_LONG).show();
-        // }
-
-        // if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
-        //   new GuideView.Builder(this)
-        //     .setTitle("Google Classroom")
-        //     .setContentText("Esta aba serve para acessar sua conta do google classrom")
-        //     .setGravity(Gravity.auto) //optional
-        //     .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
-        //     .setTargetView(findViewById(R.id.classroom))
-        //     .setContentTextSize(12)//optional
-        //     .setTitleTextSize(14)//optional
-        //     .build()
-        //     .show();
-        // } else if (url.equals("https://pt.wikipedia.org/")) {
-        //   new GuideView.Builder(this)
-        //     .setTitle("Wikipedia")
-        //     .setContentText("Esta aba serve para acessar a wikipedia")
-        //     .setGravity(Gravity.auto) //optional
-        //     .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
-        //     .setTargetView(findViewById(R.id.wikipedia))
-        //     .setContentTextSize(12)//optional
-        //     .setTitleTextSize(14)//optional
-        //     .build()
-        //     .show();
-        // }
     }
 
 
