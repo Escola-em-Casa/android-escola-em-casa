@@ -31,7 +31,7 @@
                 app:srcCompat="@drawable/ic_main_logo" />
 
             <TextView
-                android:id="@+id/about"
+                android:id="@+id/about_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
@@ -56,7 +56,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/about" />
+                app:layout_constraintTop_toBottomOf="@id/about_text" />
 
             <Button
                 android:id="@+id/como_acessar_btn"
@@ -137,6 +137,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:text="@string/tutorial"
                 android:textAlignment="center"
                 android:textSize="20sp"
@@ -200,6 +202,7 @@
                 android:background="@color/gainsboro"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="myOnClick"
                 android:text="@string/tutorial_btn"
                 android:textAllCaps="false"
                 android:textColor="@color/royalBlue"
