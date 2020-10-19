@@ -10,11 +10,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
-import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
 import android.content.SharedPreferences;
 
 public class QuestionsActivity extends AppCompatActivity {
+  private String question_tutorial = "Esta aba serve para acessar as dúvidas frequentes.\n\nCaso não consiga solucionar sua dúvida, verifique a aba 'sobre', no link, 'Escola em Casa DF (site)'.";
+    
     private void checkFirstRun() {
       final String PREFS_NAME = "questions_first_run";
       final String PREF_VERSION_CODE_KEY = "1.0";
@@ -36,12 +37,11 @@ public class QuestionsActivity extends AppCompatActivity {
       } else if (savedVersionCode == DOESNT_EXIST) {
         new GuideView.Builder(this)
             .setTitle("Dúvidas Frequentes")
-            .setContentText("Esta aba serve para acessar as dúvidas frequentes")
-            .setGravity(Gravity.auto) //optional
-            .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
+            .setContentText(question_tutorial)
+            .setDismissType(DismissType.anywhere)
             .setTargetView(findViewById(R.id.questions))
-            .setContentTextSize(12)//optional
-            .setTitleTextSize(14)//optional
+            .setContentTextSize(14)
+            .setTitleTextSize(16)
             .build()
             .show();
       } else if (currentVersionCode > savedVersionCode) {
