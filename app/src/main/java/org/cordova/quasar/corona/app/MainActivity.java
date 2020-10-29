@@ -2,10 +2,25 @@ package org.cordova.quasar.corona.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 1000; // 1000 = 1s
+
+    // Method to send request each second
+    private void startHandler(){
+        handler.postDelayed(runnable = () -> {
+            handler.postDelayed(runnable, delay);
+            //send httpRequest here
+            Log.w("Request", "1 sec"); // log msg to test loop
+        }, delay);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
