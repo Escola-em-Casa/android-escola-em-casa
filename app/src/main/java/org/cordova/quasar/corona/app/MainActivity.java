@@ -24,8 +24,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                 .putExtra("url", "https://classroom.google.com/a/estudante.se.df.gov.br"));
         overridePendingTransition(0, 0);
+        startHandler();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startHandler();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable); //stop handler
     }
 }
