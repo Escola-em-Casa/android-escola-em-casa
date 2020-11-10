@@ -201,6 +201,9 @@ public class WebviewActivity extends AppCompatActivity {
                             return true;
                         }
                         case R.id.questions: {
+                            if (navigationView.getSelectedItemId() == R.id.questions) {
+                              return true;
+                            }
                             startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
                             overridePendingTransition(0, 0);
 
@@ -209,6 +212,9 @@ public class WebviewActivity extends AppCompatActivity {
                             return true;
                         }
                         case R.id.about: {
+                            if (navigationView.getSelectedItemId() == R.id.about) {
+                              return true;
+                            }
                             startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(3).setChecked(true);
