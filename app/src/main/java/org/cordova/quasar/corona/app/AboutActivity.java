@@ -18,18 +18,21 @@ public class AboutActivity extends AppCompatActivity {
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.about);
 
+        String CLASSROOMURL = "https://classroom.google.com/a/estudante.se.df.gov.br";
+        String WIKPEDIAURL = "https://pt.wikipedia.org/";
+
         navigationView.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom:
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url", "https://classroom.google.com/a/estudante.se.df.gov.br"));
+                                    .putExtra("url", CLASSROOMURL));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
                             return true;
                         case R.id.wikipedia:
                             startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url", "https://pt.wikipedia.org/"));
+                                    .putExtra("url", WIKPEDIAURL));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(1).setChecked(true);
                             return true;
@@ -51,22 +54,25 @@ public class AboutActivity extends AppCompatActivity {
 
     public void myOnClick(View view) {
         String link = view.getResources().getResourceEntryName(view.getId());
+        String ESCOLAEMCASAURL = "https://escolaemcasa.se.df.gov.br/";
+        String ESCOLAEMCASADFURL = "https://escolaemcasa.se.df.gov.br/index.php/como-acessar/";
+        String SEDF = "http://www.se.df.gov.br/";
 
         switch (link) {
             case "escola_em_casa_btn":
                 startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                        .putExtra("url", "https://escolaemcasa.se.df.gov.br/"));
+                        .putExtra("url", ESCOLAEMCASAURL));
                 overridePendingTransition(0, 0);
                 break;
             case "como_acessar_btn":
                 startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                         .putExtra("url",
-                                "https://escolaemcasa.se.df.gov.br/index.php/como-acessar/"));
+                                ESCOLAEMCASADFURL));
                 overridePendingTransition(0, 0);
                 break;
             case "secretaria_site_btn":
                 startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                        .putExtra("url", "http://www.se.df.gov.br/"));
+                        .putExtra("url", SEDF));
                 overridePendingTransition(0, 0);
                 break;
         }
