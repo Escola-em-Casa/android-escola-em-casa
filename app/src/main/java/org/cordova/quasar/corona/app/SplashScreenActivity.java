@@ -112,7 +112,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
         handle.postDelayed(new Runnable() {
             @Override
             public void run() {
-                abrirMain();
+                OpenMain();
             }
         }, 10000);
     }
@@ -127,7 +127,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
         }
     }
 
-    private void abrirMain() {
+    private void OpenMain() {
         Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -183,6 +183,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SdStateCh
         if (smiResult.getSdState() == SdState.SD_AVAILABLE ||
                 smiResult.getSdState() == SdState.SD_NOT_AVAILABLE ||
                 smiResult.getSdState() == SdState.WIFI)
-            abrirMain();
+            OpenMain();
     }
 }
