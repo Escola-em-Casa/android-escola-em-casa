@@ -39,6 +39,10 @@ Caso queira simplesmente testar o aplicativo, você precisa gerar um APK e insta
 
 - Pronto, estará com o aplicativo rodando em seu dispositivo.
 
+## Como desbloquear um domínio para acesso patrocinado?
+
+Vá até o arquivo `WebviewActivity.java`, linha 411, existirá um bloco de links contidos por array chamado urlsPermitidas. Adicione o dominio desejado ao final da lista que ele estará desbloquado
+
 ## Tecnologias do projeto
 
 - [**Android App**](https://developer.android.com/guide) - Desenvolver nativamente
