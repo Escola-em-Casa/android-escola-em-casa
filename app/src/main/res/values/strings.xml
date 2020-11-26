@@ -22,7 +22,7 @@
     <string name="http_www_se_df_gov_br"><u>Secretaria da Educação (site)</u></string>
     <string name="tutorial"> Dificuldades para usar o aplicativo? </string>
     <string name="tutorial_btn"> Tutorial interativo </string>
-    <string name="email_checker">
+    <string name="js_email_checker">
     javascript:(function f(e) {
         var email = document.getElementsByName(\'identifier\');
 
@@ -35,11 +35,16 @@
         }
     })()
     </string>
-    <string name="email_information">
+    <string name="js_email_information">
     javascript:(function f() {
         document.getElementsByClassName(\'OIPlvf\')[0].style.display=\'none\';
 
         document.getElementsByClassName(\'Y4dIwd\')[0].innerHTML = \'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)\'
+    })()
+    </string>
+    <string name="js_hide_driver">
+    javascript:(function f() {
+        document.getElementsByClassName(\'docs-ml-header-item docs-ml-header-drive-link\')[0].style.display=\'none\';
     })()
     </string>
 </resources>
