@@ -47,4 +47,9 @@
         document.getElementsByClassName(\'docs-ml-header-item docs-ml-header-drive-link\')[0].style.display=\'none\';
     })()
     </string>
+    <string name="js_hide_donation">
+    javascript:(function f() {
+        document.getElementById(\'p-donation\').style.display=\'none\';
+    })()
+    </string>
 </resources>

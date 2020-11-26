@@ -414,11 +414,8 @@ public class WebviewActivity extends AppCompatActivity {
             view.loadUrl(getString(R.string.js_email_information));
 
             view.loadUrl(getString(R.string.js_hide_driver));
-            
-            view.loadUrl(
-                "javascript:(function f() {" +
-                        "document.getElementById('p-donation').style.display='none'; " +
-                        "})()");
+
+            view.loadUrl(getString(R.string.js_hide_donation));
         }
 
         private String youtubeProtect(WebView view, String urlParameter) {
