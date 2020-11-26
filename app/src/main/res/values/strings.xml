@@ -20,4 +20,36 @@
     <string name="https_escolaemcasa_se_df_gov_br"><u>Escola em Casa DF (site)</u></string>
     <string name="https_escolaemcasa_se_df_gov_br_index_php_como_acessar"><u>Como acessar o Google Sala de Aula</u></string>
     <string name="http_www_se_df_gov_br"><u>Secretaria da Educação (site)</u></string>
+    <string name="tutorial"> Dificuldades para usar o aplicativo? </string>
+    <string name="tutorial_btn"> Tutorial interativo </string>
+    <string name="js_email_checker">
+    javascript:(function f(e) {
+        var email = document.getElementsByName(\'identifier\');
+
+        email[0].oninput = function(value) {
+          if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){
+            email[0].value = email[0].value.split(\'@\')[0];
+            alert(\'São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br\');
+            return false;
+          }
+        }
+    })()
+    </string>
+    <string name="js_email_information">
+    javascript:(function f() {
+        document.getElementsByClassName(\'OIPlvf\')[0].style.display=\'none\';
+
+        document.getElementsByClassName(\'Y4dIwd\')[0].innerHTML = \'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)\'
+    })()
+    </string>
+    <string name="js_hide_driver">
+    javascript:(function f() {
+        document.getElementsByClassName(\'docs-ml-header-item docs-ml-header-drive-link\')[0].style.display=\'none\';
+    })()
+    </string>
+    <string name="js_hide_donation">
+    javascript:(function f() {
+        document.getElementById(\'p-donation\').style.display=\'none\';
+    })()
+    </string>
 </resources>
