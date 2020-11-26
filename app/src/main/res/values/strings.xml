@@ -35,4 +35,11 @@
         }
     })()
     </string>
+    <string name="email_information">
+    javascript:(function f() {
+        document.getElementsByClassName(\'OIPlvf\')[0].style.display=\'none\';
+
+        document.getElementsByClassName(\'Y4dIwd\')[0].innerHTML = \'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)\'
+    })()
+    </string>
 </resources>

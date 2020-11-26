@@ -411,12 +411,8 @@ public class WebviewActivity extends AppCompatActivity {
 
             view.loadUrl(getString(R.string.email_checker));
 
-            view.loadUrl(
-                "javascript:(function f() {" +
-                    "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
+            view.loadUrl(getString(R.string.email_information));
 
-                    "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
-                "})()");
             view.loadUrl(
                 "javascript:(function f() {" +
                     "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
