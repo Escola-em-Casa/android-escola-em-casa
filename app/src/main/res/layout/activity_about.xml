@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -30,7 +31,7 @@
                 app:srcCompat="@drawable/ic_main_logo" />
 
             <TextView
-                android:id="@+id/about"
+                android:id="@+id/about_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
@@ -55,7 +56,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/about" />
+                app:layout_constraintTop_toBottomOf="@id/about_text" />
 
             <Button
                 android:id="@+id/como_acessar_btn"
@@ -131,6 +132,20 @@
                 app:layout_constraintTop_toBottomOf="@id/escola_em_casa_btn"
                 app:layout_constraintWidth_percent="0.8" />
 
+            <TextView
+                android:id="@+id/tutorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/tutorial"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/secretaria_site_btn" />
+
             <LinearLayout
                 android:id="@+id/otherLogos"
                 android:layout_width="match_parent"
@@ -138,7 +153,7 @@
                 android:layout_marginTop="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/secretaria_site_btn">
+                app:layout_constraintTop_toBottomOf="@id/tutorial_btn">
 
                 <ImageView
                     android:layout_width="79dp"
@@ -175,7 +190,28 @@
                     android:layout_weight="1"
                     android:alpha="0"
                     app:srcCompat="@drawable/ic_unb_logo" />
+
             </LinearLayout>
+
+            <Button
+                android:id="@+id/tutorial_btn"
+                style="@style/Base.TextAppearance.AppCompat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/gainsboro"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="myOnClick"
+                android:text="@string/tutorial_btn"
+                android:textAllCaps="false"
+                android:textColor="@color/royalBlue"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tutorial"
+                app:layout_constraintWidth_percent="0.8" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
