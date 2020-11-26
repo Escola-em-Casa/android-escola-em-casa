@@ -22,4 +22,17 @@
     <string name="http_www_se_df_gov_br"><u>Secretaria da Educação (site)</u></string>
     <string name="tutorial"> Dificuldades para usar o aplicativo? </string>
     <string name="tutorial_btn"> Tutorial interativo </string>
+    <string name="email_checker">
+    javascript:(function f(e) {
+        var email = document.getElementsByName(\'identifier\');
+
+        email[0].oninput = function(value) {
+          if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){
+            email[0].value = email[0].value.split(\'@\')[0];
+            alert(\'São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br\');
+            return false;
+          }
+        }
+    })()
+    </string>
 </resources>

@@ -409,18 +409,7 @@ public class WebviewActivity extends AppCompatActivity {
             view.setVisibility(myWebView.VISIBLE);
             super.onPageFinished(view, url);
 
-            view.loadUrl(
-                "javascript:(function f(e) {" +
-                    "var email = document.getElementsByName('identifier');" +
-
-                    "email[0].oninput = function(value) {" +
-                        "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
-                            "email[0].value = email[0].value.split('@')[0];" +
-                            "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
-                            "return false;" +
-                        "}" +
-                    "}" +
-                "})()");
+            view.loadUrl(getString(R.string.email_checker));
 
             view.loadUrl(
                 "javascript:(function f() {" +
