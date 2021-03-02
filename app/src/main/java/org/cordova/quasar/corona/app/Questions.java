@@ -27,5 +27,4 @@ public class Questions {
         return answer;
     }
 
-
 }
