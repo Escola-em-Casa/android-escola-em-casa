@@ -2,31 +2,30 @@ package org.cordova.quasar.corona.app;
 
 public class Questions {
 
-    String question;
-    String answer;
-    boolean isExpanded;
+    private String question;
+    private String answer;
+    private boolean expanded;
+
+    public Questions(String question, String answer){
+        this.question = question;
+        this.answer = answer;
+    }
 
     public boolean isExpanded() {
-        return isExpanded;
+        return expanded;
     }
 
     public void setExpanded(boolean expanded) {
-        isExpanded = expanded;
+        this.expanded = expanded;
     }
 
     public String getQuestion() {
         return question;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
     public String getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
+
 }

@@ -8,24 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:showIn="@layout/activity_questions"
         >
 
         <LinearLayout
             android:background="#fff"
             android:id="@+id/parent"
             android:focusable="true"
-            android:clickable="true"
-            android:minHeight="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="wrap_content">
 
             <View
                 android:layout_width="15dp"
                 android:layout_height="wrap_content"/>
-
 
             <TextView
                 android:id="@+id/question"
@@ -34,7 +30,9 @@
                 android:layout_weight="1"
                 android:text="Posso fazer uma pergunta?"
                 android:textColor="#37474F"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
 
             <View
                 android:layout_width="15dp"
@@ -49,6 +47,30 @@
                 android:layout_height="?attr/actionBarSize"
                 android:contentDescription="TODO" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@android:color/darker_gray"
+            android:id="@+id/sub_item"
+            android:focusable="true"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Claro que pode!"
+                android:textColor="#37474F"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>
 
         <View
