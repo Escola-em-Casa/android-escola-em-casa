@@ -24,12 +24,17 @@ public class QuestionsActivity extends AppCompatActivity {
 
         List<Questions> questionsList = new ArrayList<>();
 
-        questionsList.add(new Questions("Os dados móveis de internet do aplicativo já estão sendo pagos pelo governo?", "Os dados móveis de internet já estão sendo"));
+        questionsList.add(new Questions("Os dados móveis de internet do aplicativo já estão sendo pagos pelo governo?", "Os dados móveis de internet já estão sendo patrocinados (pagos) pelo Governo do Distrito Federal. " +
+                "No momento, é possivel fazer uso dos dados utilizando chips ativos das operadoras Claro, Tim e Vivo."));
         questionsList.add(new Questions("O governo pagará pelo uso da plataforma Google Meet?", "Não, pois só é possível utilizá-la através do seu próprio aplicativo. Os dados patrocinados são utilizados somente " +
                 "dentro do aplicativo Escola em Casa DF."));
         questionsList.add(new Questions("Se eu rotear a internet do celular para o computador, os dados móveis de internet serão pagos pelo governo?", "Não serão patrocinados (pagos) os dados móveis de internet quando " +
                 "roteados, ou compartilhados, com outros dispositivos e/ou computadores."));
-
+        questionsList.add(new Questions("Como alternar entre contas?", "Para alterar entre contas, siga os seguintes passos: 1- Clique no botão superior esquerdo. " +
+                "2- Após o menu lateral abrir, clique no seu email. 3- Nessa tela, você verá todas as contas acessadas no aplicativo. Caso queira adicionar alguma, clique em 'Adicionar conta' e siga as instruções."));
+        questionsList.add(new Questions("Como Acessar o Google Sala de Aula?", "No menu inferior, clique na primeira opção 'Google Classroom'. Posteriormente, faça o login com um email válido." ));
+        questionsList.add(new Questions("O que eu consigo acessar nesse aplicativo?", "Nesse aplicativo você terá acesso apenas às funcionalidades do Google Sala de Aula, pesquisas no Wikipédia, além de acessar aulas" +
+                "disponibilizadas no Youtube (apenas com o link direto enviado pelo professor)." ));
 
         RecAdapter adapter = new RecAdapter(questionsList);
 
