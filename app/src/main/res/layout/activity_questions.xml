@@ -4,18 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:ignore="MissingConstraints">
-
-    <LinearLayout
-        android:id="@+id/Top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        tools:ignore="MissingConstraints">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -59,8 +47,6 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
@@ -74,7 +60,6 @@
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/main_menu" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
