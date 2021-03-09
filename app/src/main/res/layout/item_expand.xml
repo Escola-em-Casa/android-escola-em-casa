@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Posso fazer uma pergunta?"
-                android:textColor="#37474F"
+                android:textColor="#2092E5"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"/>
