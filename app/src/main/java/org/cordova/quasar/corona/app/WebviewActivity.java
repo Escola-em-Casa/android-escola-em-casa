@@ -49,6 +49,12 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
+
+import android.content.SharedPreferences;
+
 public class WebviewActivity extends AppCompatActivity {
     private WebView myWebView;
     private String url;
@@ -61,6 +67,8 @@ public class WebviewActivity extends AppCompatActivity {
     private String mCameraPhotoPath;
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int FILECHOOSER_RESULTCODE = 1;
+    private String classrom_tutorial = "Esta aba serve para acessar sua conta do Google Sala de Aula.\n\nSeu email de acesso é composto pelo primeiro nome junto com o código de estudante, acrescido de @estudante.se.df.gov.br\n\nPara saber como obter o primeiro acesso, verifique a aba 'sobre', no link, 'como acessar o Google Sala de Aula'.";
+    private String wikipedia_tutorial = "Esta aba serve para acessar a wikipédia.\n\nUtilizando o ícone da lupa é possivel fazer buscas dentro da wikipédia";
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -74,6 +82,79 @@ public class WebviewActivity extends AppCompatActivity {
         );
         return imageFile;
     }
+
+    private void checkClassroomFirstRun() {
+        final String PREFS_NAME = "classroom_first_run";
+        final String PREF_VERSION_CODE_KEY = "1.0";
+        final int DOESNT_EXIST = -1;
+    
+        // Get current version code
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+    
+        // Get saved version code
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+    
+        // Check for first run or upgrade
+        if (currentVersionCode == savedVersionCode) {
+    
+            // This is just a normal run
+            return;
+    
+        } else if (savedVersionCode == DOESNT_EXIST) {
+            new GuideView.Builder(this)
+              .setTitle("Google Sala de Aula")
+              .setContentText(classrom_tutorial)
+              .setDismissType(DismissType.targetView)
+              .setTargetView(findViewById(R.id.classroom))
+              .setContentTextSize(14)
+              .setTitleTextSize(16)
+              .build()
+              .show();    
+        } else if (currentVersionCode > savedVersionCode) {
+            // TODO This is an upgrade
+        }
+    
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
+
+    private void checkWikipediaFirstRun() {
+      final String PREFS_NAME = "wikipedia_first_run";
+      final String PREF_VERSION_CODE_KEY = "1.0";
+      final int DOESNT_EXIST = -1;
+  
+      // Get current version code
+      int currentVersionCode = BuildConfig.VERSION_CODE;
+  
+      // Get saved version code
+      SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+      int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+  
+      // Check for first run or upgrade
+      if (currentVersionCode == savedVersionCode) {
+  
+          // This is just a normal run
+          return;
+  
+      } else if (savedVersionCode == DOESNT_EXIST) {
+          new GuideView.Builder(this)
+              .setTitle("Wikipédia")
+              .setContentText(wikipedia_tutorial)
+              .setDismissType(DismissType.anywhere)
+              .setTargetView(findViewById(R.id.wikipedia))
+              .setContentTextSize(14)
+              .setTitleTextSize(16)
+              .build()
+              .show();  
+      } else if (currentVersionCode > savedVersionCode) {
+  
+          // TODO This is an upgrade
+      }
+  
+      // Update the shared preferences with the current version code
+      prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+  }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +240,12 @@ public class WebviewActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
+      
+        if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
+          checkClassroomFirstRun();
+        } else if (url.equals("https://pt.wikipedia.org/")) {
+          checkWikipediaFirstRun();
+        }
     }
 
     @Override
