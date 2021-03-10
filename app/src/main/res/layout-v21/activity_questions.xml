@@ -24,27 +24,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="95dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginRight="95dp"
                 android:layout_marginBottom="25dp"
                 android:text="@string/item_questions"
                 android:textAlignment="center"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="#2092E5"
+                android:textStyle="bold"/>
         </LinearLayout>
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context="QuestionsActivity">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list"
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/item_expand" />
-        </LinearLayout>
+                android:orientation="vertical"
+                tools:context="QuestionsActivity">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="1500dp"
+                    tools:listitem="@layout/item_expand" />
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
