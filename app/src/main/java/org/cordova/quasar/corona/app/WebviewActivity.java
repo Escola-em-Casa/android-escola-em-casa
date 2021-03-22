@@ -251,7 +251,12 @@ public class WebviewActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myWebView.goBack();
+                if(myWebView.canGoBack()){
+                    myWebView.goBack();
+                }
+                else{
+                    WebviewActivity.this.onBackPressed();
+                }
             }
         });
     }
