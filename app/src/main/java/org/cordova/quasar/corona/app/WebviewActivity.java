@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 
 import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -246,6 +247,13 @@ public class WebviewActivity extends AppCompatActivity {
         } else if (url.equals("https://pt.wikipedia.org/")) {
           checkWikipediaFirstRun();
         }
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myWebView.goBack();
+            }
+        });
     }
 
     @Override

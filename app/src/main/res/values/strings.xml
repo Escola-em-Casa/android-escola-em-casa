@@ -22,4 +22,5 @@
     <string name="http_www_se_df_gov_br"><u>Secretaria da Educação (site)</u></string>
     <string name="tutorial"> Dificuldades para usar o aplicativo? </string>
     <string name="tutorial_btn"> Tutorial interativo </string>
+    <string name="todo">TODO</string>
 </resources>
