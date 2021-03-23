@@ -70,7 +70,7 @@ public class WebviewActivity extends AppCompatActivity {
     private static final int FILECHOOSER_RESULTCODE = 1;
     private String classrom_tutorial = "Esta aba serve para acessar sua conta do Google Sala de Aula.\n\nSeu email de acesso é composto pelo primeiro nome junto com o código de estudante, acrescido de @estudante.se.df.gov.br\n\nPara saber como obter o primeiro acesso, verifique a aba 'sobre', no link, 'como acessar o Google Sala de Aula'.";
     private String wikipedia_tutorial = "Esta aba serve para acessar a wikipédia.\n\nUtilizando o ícone da lupa é possivel fazer buscas dentro da wikipédia";
-
+    private FloatingActionButton fab;
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
@@ -247,7 +247,7 @@ public class WebviewActivity extends AppCompatActivity {
         } else if (url.equals("https://pt.wikipedia.org/")) {
           checkWikipediaFirstRun();
         }
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -486,11 +486,24 @@ public class WebviewActivity extends AppCompatActivity {
             return url;
         }
 
+        public void setBackFloatButtonVisibilty(WebView view){
+            if(view.canGoBack()){
+                fab.setVisibility(View.VISIBLE);
+            }else{
+                fab.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onLoadResource(WebView view, String url) {
+            setBackFloatButtonVisibilty(view);
+            super.onLoadResource(view, url);
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
             Log.d("URL: ", urlParameter);
             String url = this.youtubeProtect(webView, urlParameter);
-
             try {
                 Log.d("URL: ", url);
                 if (url.startsWith("javascript"))
