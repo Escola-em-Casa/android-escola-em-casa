@@ -62,6 +62,7 @@ public class WebviewActivity extends AppCompatActivity {
     private String mCameraPhotoPath;
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int FILECHOOSER_RESULTCODE = 1;
+    FloatingActionButton fab;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -160,16 +161,11 @@ public class WebviewActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(myWebView.canGoBack()){
-                    myWebView.goBack();
-                }
-                else{
-                    WebviewActivity.this.onBackPressed();
-                }
+                myWebView.goBack();
             }
         });
     }
@@ -397,6 +393,20 @@ public class WebviewActivity extends AppCompatActivity {
             }
 
             return url;
+        }
+
+        public void setBackFloatButtonVisibilty(WebView view){
+            if(view.canGoBack()){
+                fab.setVisibility(View.VISIBLE);
+            }else{
+                fab.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onLoadResource(WebView view, String url) {
+            setBackFloatButtonVisibilty(view);
+            super.onLoadResource(view, url);
         }
 
         @Override

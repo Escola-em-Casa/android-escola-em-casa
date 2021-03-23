@@ -18,8 +18,7 @@
         android:clickable="true"
         android:focusable="true"
         android:tint="#FFFFFF"
-        app:srcCompat="?attr/homeAsUpIndicator"
-        android:contentDescription="@string/todo" />
+        app:srcCompat="?attr/homeAsUpIndicator" />
 
     <WebView
         android:id="@+id/web_view"
