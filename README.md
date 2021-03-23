@@ -43,6 +43,10 @@ Caso queira simplesmente testar o aplicativo, você precisa gerar um APK e insta
 
 Vá até o arquivo `WebviewActivity.java`, linha 411, existirá um bloco de links contidos por array chamado urlsPermitidas. Adicione o dominio desejado ao final da lista que ele estará desbloquado
 
+## Como atualizar o SDK do Datami?
+
+Para atualizar o SDK do Datami é necessário baixar o SDK mais atual no [Site do Datami](https://developer.datami.com/#/onboardhome/sdkintegrationkit). É necessária uma conta que pode ser criada gratuitamente. Basta selecionar "android" em seguida a versão mais atual e então baixar o arquivo "vpnsdk-android.zip", após extraído será encontrado um arquivo em formato ".aar". O arquivo deve ser adicionado ao diretório "app/libs" no diretório raiz. Dele virão todos os métodos necessários para a utilização do Datami. Para cada atualização do SDK é necessário realizar o download e adição do arquivo ao projeto.
+
 ## Tecnologias do projeto
 
 - [**Android App**](https://developer.android.com/guide) - Desenvolver nativamente
