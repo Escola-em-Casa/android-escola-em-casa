@@ -385,12 +385,24 @@ public class WebviewActivity extends AppCompatActivity {
 
             return url;
         }
+        public String formShortLinkFixer(WebView webView, String url){
+            Pattern pattern = Pattern.compile("forms.gle/[\\w]{10}\\w*.*browser_fallback_url=(.*/viewform)",Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(url);
+            String fixed_url;
+            if(matcher.find()) {
+                fixed_url = matcher.group(1);
+                webView.loadUrl(fixed_url);
+            }else{
+                fixed_url = url;
+            }
+            return fixed_url;
+        };
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
             Log.d("URL: ", urlParameter);
             String url = this.youtubeProtect(webView, urlParameter);
-
+            url = this.formShortLinkFixer(webView, url);
             try {
                 Log.d("URL: ", url);
                 if (url.startsWith("javascript"))
