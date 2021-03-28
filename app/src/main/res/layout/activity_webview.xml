@@ -6,11 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".WebviewActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/web_view"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="#FFFFFF"
+        app:srcCompat="?attr/homeAsUpIndicator" />
+
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/navigation" />
+        android:layout_above="@+id/navigation" >
+
+    </WebView>
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -33,5 +49,7 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/main_menu" />
+        app:menu="@menu/main_menu" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>

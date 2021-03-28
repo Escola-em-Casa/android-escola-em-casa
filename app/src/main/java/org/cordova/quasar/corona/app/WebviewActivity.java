@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 
 import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +62,7 @@ public class WebviewActivity extends AppCompatActivity {
     private String mCameraPhotoPath;
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int FILECHOOSER_RESULTCODE = 1;
+    FloatingActionButton fab;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -159,6 +161,13 @@ public class WebviewActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myWebView.goBack();
+            }
+        });
     }
 
     @Override
@@ -397,6 +406,20 @@ public class WebviewActivity extends AppCompatActivity {
             }
             return fixed_url;
         };
+
+        public void setBackFloatButtonVisibilty(WebView view){
+            if(view.canGoBack()){
+                fab.setVisibility(View.VISIBLE);
+            }else{
+                fab.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onLoadResource(WebView view, String url) {
+            setBackFloatButtonVisibilty(view);
+            super.onLoadResource(view, url);
+        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
