@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -20,14 +21,13 @@
 
             <ImageView
                 android:id="@+id/mainLogo"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginRight="35dp"
+                android:layout_width="253dp"
+                android:layout_height="178dp"
+                android:layout_marginTop="32dp"
                 android:tint="@color/royalBlue"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_main_logo" />
+                app:srcCompat="@drawable/ic_main_logo"
+                tools:layout_editor_absoluteX="79dp" />
 
             <TextView
                 android:id="@+id/about"
@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/gainsboro"
+                android:background="@color/royalBlue"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="myOnClick"
@@ -72,7 +72,7 @@
                 android:text="@string/https_escolaemcasa_se_df_gov_br_index_php_como_acessar"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/royalBlue"
+                android:textColor="@color/gainsboro"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -97,19 +97,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/gainsboro"
+                android:background="@color/royalBlue"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="myOnClick"
                 android:text="@string/https_escolaemcasa_se_df_gov_br"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/royalBlue"
+                android:textColor="@color/realWhite"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/header"
                 app:layout_constraintWidth_percent="0.8" />
+
 
             <Button
                 android:id="@+id/secretaria_site_btn"
@@ -117,14 +118,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/gainsboro"
+                android:background="@color/royalBlue"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="myOnClick"
                 android:text="@string/http_www_se_df_gov_br"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/royalBlue"
+                android:textColor="@color/realWhite"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -135,8 +136,9 @@
                 android:id="@+id/otherLogos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/secretaria_site_btn">
 
