@@ -30,7 +30,7 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
-            android:name=".WebviewActivity"
+            android:name=".ClassroomActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleInstance"

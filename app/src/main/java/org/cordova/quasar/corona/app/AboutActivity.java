@@ -22,7 +22,7 @@ public class AboutActivity extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom:
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                            startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                                     .putExtra("url", "https://classroom.google.com/a/estudante.se.df.gov.br"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
@@ -54,18 +54,18 @@ public class AboutActivity extends AppCompatActivity {
 
         switch (link) {
             case "escola_em_casa_btn":
-                startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                         .putExtra("url", "https://escolaemcasa.se.df.gov.br/"));
                 overridePendingTransition(0, 0);
                 break;
             case "como_acessar_btn":
-                startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                         .putExtra("url",
                                 "https://escolaemcasa.se.df.gov.br/index.php/como-acessar/"));
                 overridePendingTransition(0, 0);
                 break;
             case "secretaria_site_btn":
-                startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                         .putExtra("url", "http://www.se.df.gov.br/"));
                 overridePendingTransition(0, 0);
                 break;
