@@ -27,7 +27,7 @@ public class QuestionsActivity extends AppCompatActivity {
                             navigationView.getMenu().getItem(0).setChecked(true);
                             return true;
                         case R.id.wikipedia:
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                            startActivity(new Intent(getApplicationContext(), WikipediaActivity.class)
                                     .putExtra("url", "https://pt.wikipedia.org/"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(1).setChecked(true);
