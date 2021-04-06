@@ -26,7 +26,9 @@
         <activity
             android:name=".WebviewActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleInstance"
+            android:alwaysRetainTaskState="true"/>
         <activity
             android:name=".AboutActivity"
             android:configChanges="orientation|screenSize"
