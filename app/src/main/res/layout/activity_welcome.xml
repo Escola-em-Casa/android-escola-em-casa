@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="30dp"
-        android:background="@color/ic_launcher_background"
+        android:background="@android:color/darker_gray"
+        android:enabled="false"
         android:text="Continuar"
         android:textColor="@color/realWhite"
         app:cornerRadius="8dp"
@@ -38,6 +39,7 @@
         android:text="Aceito os termos de política e privacidade."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/web_view" />
+        app:layout_constraintTop_toBottomOf="@+id/web_view"
+        android:onClick="itemClicked"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
