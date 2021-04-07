@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirstRun first_run = new FirstRun(getApplicationContext());
         if(first_run.isFirstTime()){
+            first_run.setFirstTime(false);
             startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
             overridePendingTransition(0, 0);
         }else{
