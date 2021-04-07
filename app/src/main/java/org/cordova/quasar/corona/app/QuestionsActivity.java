@@ -16,7 +16,6 @@ import java.util.Objects;
 
 public class QuestionsActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -4,18 +4,23 @@ package org.cordova.quasar.corona.app;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
+public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> implements Filterable {
 
     private List<Questions> list;
+    private List<Questions> listFull;
 
     public RecAdapter(List<Questions> list) {
         this.list = list;
+        listFull = new ArrayList<>(list);
     }
 
     @Override
@@ -67,4 +72,40 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
             answer.setText(questions1.getAnswer());
         }
     }
+
+    @Override
+    public Filter getFilter(){
+        return listFilter;
+    }
+
+    private Filter listFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint){
+            List<Questions> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length()==0){
+                filteredList.addAll(listFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Questions item: listFull) {
+                    if (item.getQuestion().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
