@@ -2,6 +2,12 @@ package org.cordova.quasar.corona.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,13 +21,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class QuestionsActivity extends AppCompatActivity {
+     List<Questions> questionsList = new ArrayList<>();
+     RecAdapter adapter = new RecAdapter(questionsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
-
-        List<Questions> questionsList = new ArrayList<>();
 
         questionsList.add(new Questions("Os dados móveis de internet do aplicativo já estão sendo pagos pelo governo?", "Os dados móveis de internet já estão sendo patrocinados (pagos) pelo Governo do Distrito Federal. " +
                 "No momento, é possivel fazer uso dos dados utilizando chips ativos das operadoras Claro, Tim e Vivo."));
@@ -34,8 +40,6 @@ public class QuestionsActivity extends AppCompatActivity {
         questionsList.add(new Questions("Como Acessar o Google Sala de Aula?", "No menu inferior, clique na primeira opção 'Google Classroom'. Posteriormente, faça o login com um email válido." ));
         questionsList.add(new Questions("O que eu consigo acessar nesse aplicativo?", "Nesse aplicativo você terá acesso apenas às funcionalidades do Google Sala de Aula, pesquisas no Wikipédia, além de acessar aulas" +
                 "disponibilizadas no Youtube (apenas com o link direto enviado pelo professor)." ));
-
-        RecAdapter adapter = new RecAdapter(questionsList);
 
         RecyclerView recyclerView = findViewById(R.id.list);
 
@@ -79,6 +83,31 @@ public class QuestionsActivity extends AppCompatActivity {
                     return false;
                 }
         );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("testando:", "Teste1");
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override

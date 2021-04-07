@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> implements Filterable {
@@ -78,12 +79,12 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> i
         return listFilter;
     }
 
-    private Filter listFilter = new Filter() {
+    Filter listFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint){
             List<Questions> filteredList = new ArrayList<>();
 
-            if (constraint == null || constraint.length()==0){
+            if (constraint.toString().isEmpty()){
                 filteredList.addAll(listFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
@@ -104,7 +105,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> i
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             list.clear();
-            list.addAll((List) results.values);
+            list.addAll((List<Questions>) results.values);
             notifyDataSetChanged();
         }
     };

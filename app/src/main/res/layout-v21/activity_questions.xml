@@ -32,6 +32,14 @@
                 android:textSize="24sp"
                 android:textColor="#2092E5"
                 android:textStyle="bold"/>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:menu="@menu/menu_search"/>
+
         </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
