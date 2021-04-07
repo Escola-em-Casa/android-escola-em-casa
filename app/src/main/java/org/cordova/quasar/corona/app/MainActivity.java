@@ -8,12 +8,17 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private static FirstRun first_run;
+
+    public static FirstRun getFirstRun() {
+        return first_run;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirstRun first_run = new FirstRun(getApplicationContext());
+        first_run = new FirstRun(getApplicationContext());
         if(first_run.isFirstTime()){
-            first_run.setFirstTime(false);
             startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
             overridePendingTransition(0, 0);
         }else{
@@ -22,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
             overridePendingTransition(0, 0);
         }
     }
-
 }
 class FirstRun
 {

@@ -31,19 +31,19 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
                         .putExtra("url", "https://classroom.google.com/a/estudante.se.df.gov.br"));
                 overridePendingTransition(0, 0);
+                MainActivity.getFirstRun().setFirstTime(false);
             }
         });
-
     }
     @SuppressLint("ResourceAsColor")
     public void itemClicked(View v) {
         CheckBox checkBox = (CheckBox)v;
         if(checkBox.isChecked()){
             button.setEnabled(true);
-            button.setBackgroundColor(Color.rgb(32,146,229));
+            button.setBackgroundResource(R.drawable.button_enabled);
         }else{
             button.setEnabled(false);
-            button.setBackgroundColor(Color.GRAY);
+            button.setBackgroundResource(R.drawable.button_disabled);
         }
     }
 }
