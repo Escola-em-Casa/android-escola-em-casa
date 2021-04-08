@@ -21,13 +21,13 @@ public class QuestionsActivity extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.classroom:
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                            startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                                     .putExtra("url", "https://classroom.google.com/a/estudante.se.df.gov.br"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(0).setChecked(true);
                             return true;
                         case R.id.wikipedia:
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                            startActivity(new Intent(getApplicationContext(), WikipediaActivity.class)
                                     .putExtra("url", "https://pt.wikipedia.org/"));
                             overridePendingTransition(0, 0);
                             navigationView.getMenu().getItem(1).setChecked(true);

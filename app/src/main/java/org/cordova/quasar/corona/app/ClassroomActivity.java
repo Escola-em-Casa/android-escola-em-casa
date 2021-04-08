@@ -50,7 +50,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WebviewActivity extends AppCompatActivity {
+public class ClassroomActivity extends AppCompatActivity {
     private WebView myWebView;
     private String url;
     private ProgressBar spinner;
@@ -81,12 +81,12 @@ public class WebviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_webview);
+        setContentView(R.layout.activity_classroom);
 
-        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
+        if (ContextCompat.checkSelfPermission(ClassroomActivity.this, Manifest.permission.CAMERA) +
+                ContextCompat.checkSelfPermission(ClassroomActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(ClassroomActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(ClassroomActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
         } else {
             requestCameraPermission();
         }
@@ -101,7 +101,7 @@ public class WebviewActivity extends AppCompatActivity {
                             if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
                                 return true;
                             }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                            startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                                     .putExtra("url",
                                             "https://classroom.google.com/a/estudante.se.df.gov.br"));
                             overridePendingTransition(0, 0);
@@ -113,7 +113,7 @@ public class WebviewActivity extends AppCompatActivity {
                             if (url.equals("https://pt.wikipedia.org/")) {
                                 return true;
                             }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
+                            startActivity(new Intent(getApplicationContext(), WikipediaActivity.class)
                                     .putExtra("url",
                                             "https://pt.wikipedia.org/"));
                             overridePendingTransition(0, 0);
@@ -241,14 +241,14 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void requestCameraPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.CAMERA) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            new AlertDialog.Builder(WebviewActivity.this).setTitle("Permissões Negadas").setMessage("Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.")
+        if (ActivityCompat.shouldShowRequestPermissionRationale(ClassroomActivity.this, Manifest.permission.CAMERA) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(ClassroomActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(ClassroomActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            new AlertDialog.Builder(ClassroomActivity.this).setTitle("Permissões Negadas").setMessage("Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(WebviewActivity.this, new String[]{Manifest.permission.CAMERA,
+                            ActivityCompat.requestPermissions(ClassroomActivity.this, new String[]{Manifest.permission.CAMERA,
                                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
                         }
                     }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

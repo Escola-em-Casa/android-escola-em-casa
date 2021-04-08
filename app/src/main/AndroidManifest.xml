@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />
 
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".MyApplication"
@@ -22,15 +22,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
-            android:name=".WebviewActivity"
+            android:name=".WikipediaActivity"
+            android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".ClassroomActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".AboutActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".QuestionsActivity"
             android:configChanges="orientation|screenSize"
