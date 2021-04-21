@@ -341,76 +341,86 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private class MyWebViewClient extends WebViewClient {
-
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
-            // only make it invisible the FIRST time the app is run
-            if (ShowOrHideWebViewInitialUse.equals("show") && !url.equals("http://www.se.df.gov.br/")) {
+            boolean isThisFirstUse = isFirstUse();
+            boolean isSeDfGovUrl = url.equals("http://www.se.df.gov.br/");
+            boolean isUrlDifferentThanGovUrl = !isSeDfGovUrl;
+            boolean isFirstUseAndDifferentUrlThanGovUrl = isThisFirstUse && isUrlDifferentThanGovUrl;
+            if (isFirstUseAndDifferentUrlThanGovUrl) {
                 webview.setVisibility(webview.INVISIBLE);
             }
-            if (url.equals("http://www.se.df.gov.br/")) {
+            if (isSeDfGovUrl) {
                 spinner.setVisibility(View.GONE);
             }
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            ShowOrHideWebViewInitialUse = "hide";
+            setNotFirstUse();
             spinner.setVisibility(View.GONE);
 
             view.setVisibility(myWebView.VISIBLE);
             super.onPageFinished(view, url);
 
-            view.loadUrl(
-                "javascript:(function f(e) {" +
+            String firstJSUrl = "javascript:(function f(e) {" +
                     "var email = document.getElementsByName('identifier');" +
 
                     "email[0].oninput = function(value) {" +
-                        "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
-                            "email[0].value = email[0].value.split('@')[0];" +
-                            "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
-                            "return false;" +
-                        "}" +
+                    "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
+                    "email[0].value = email[0].value.split('@')[0];" +
+                    "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
+                    "return false;" +
                     "}" +
-                "})()");
+                    "}" +
+                    "})()";
+            view.loadUrl(firstJSUrl);
 
-            view.loadUrl(
-                "javascript:(function f() {" +
+            String secondJSUrl = "javascript:(function f() {" +
                     "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
 
                     "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
-                "})()");
-            view.loadUrl(
-                "javascript:(function f() {" +
+                    "})()";
+
+            view.loadUrl(secondJSUrl);
+
+            String thirdJSUrl = "javascript:(function f() {" +
                     "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
-                "})()");
-            view.loadUrl(
-                "javascript:(function f() {" +
-                        "document.getElementById('p-donation').style.display='none'; " +
-                        "})()");
+                    "})()";
+            view.loadUrl(thirdJSUrl);
+            
+            String fourthJSUrl = "javascript:(function f() {" +
+                    "document.getElementById('p-donation').style.display='none'; " +
+                    "})()";
+            view.loadUrl(fourthJSUrl);
         }
 
-        private String youtubeProtect(WebView view, String urlParameter) {
+        private String processYoutubeLink(WebView view, String urlParameter) {
             final String regexYouTube = "^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#&?]*).*";
-            String url = "";
+            String url;
             WebBackForwardList mWebBackForwardList = view.copyBackForwardList();
             String historyUrl = "";
 
-            if (mWebBackForwardList.getCurrentIndex() > 0) {
-                historyUrl = mWebBackForwardList.getItemAtIndex(mWebBackForwardList
-                        .getCurrentIndex())
-                        .getUrl();
+            int currentIndex = mWebBackForwardList.getCurrentIndex();
+            boolean isCurrentIndexGreaterThanZero = currentIndex > 0;
+            if (isCurrentIndexGreaterThanZero) {
+                historyUrl = mWebBackForwardList.getItemAtIndex(currentIndex).getUrl();
             }
 
-            if (historyUrl.matches(regexYouTube))
+            boolean historyUrlMatchsWithtYoutubeRegex = historyUrl.matches(regexYouTube);
+            if (historyUrlMatchsWithtYoutubeRegex)
                 return "";
 
-            if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed")
-                    && urlParameter.contains(".youtube")) {
+            boolean urlParamaterMatchsWithYoutubeRegex = urlParameter.matches(regexYouTube);
+            boolean urlParamaterHasNoEmbedString = !urlParameter.matches("embed");
+            boolean urlParamaterContainsDotYoutube = urlParameter.contains(".youtube");
+            boolean urlParamaterIsFormatedAsExpected = urlParamaterMatchsWithYoutubeRegex && urlParamaterHasNoEmbedString && urlParamaterContainsDotYoutube;
+            if (urlParamaterIsFormatedAsExpected) {
                 Pattern compiledPattern = Pattern.compile(regexYouTube);
                 Matcher matcher = compiledPattern.matcher(urlParameter);
 
-                if (matcher.find()) {
+                boolean urlParamaterWasFoundInRegex = matcher.find();
+                if (urlParamaterWasFoundInRegex) {
                     url = "https://www.youtube-nocookie.com/embed/" + matcher.group(7) + "?rel=0";
                     view.loadUrl(url);
 
@@ -424,18 +434,24 @@ public class WebviewActivity extends AppCompatActivity {
 
             return url;
         }
-        public String formShortLinkFixer(WebView webView, String url){
-            Pattern pattern = Pattern.compile("forms.gle/[\\w]{10}\\w*.*browser_fallback_url=(.*/viewform)",Pattern.CASE_INSENSITIVE);
+        public String fixFormShortLink(WebView webView, String url){
+            String formShortLinkRegex = "forms.gle/[\\w]{10}\\w*.*browser_fallback_url=(.*/viewform)";
+            Pattern pattern = Pattern.compile(formShortLinkRegex, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(url);
             String fixed_url;
-            if(matcher.find()) {
-                fixed_url = matcher.group(1);
+            boolean urlMatchsWithRegex = matcher.find();
+            if(urlMatchsWithRegex) {
+                fixed_url = getFirstGroupOnRegex(matcher);
                 webView.loadUrl(fixed_url);
             }else{
                 fixed_url = url;
             }
             return fixed_url;
-        };
+        }
+
+        private String getFirstGroupOnRegex(Matcher matcher) {
+            return matcher.group(1);
+        }
 
         public void setBackFloatButtonVisibilty(WebView view){
             if(view.canGoBack()){
@@ -453,21 +469,25 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
-            Log.d("URL: ", urlParameter);
-            String url = this.youtubeProtect(webView, urlParameter);
-            url = this.formShortLinkFixer(webView, url);
+            String url = this.processYoutubeLink(webView, urlParameter);
+            url = this.fixFormShortLink(webView, url);
+            boolean urlStartsWithJavascript = url.startsWith("javascript");
+            boolean urlStartsWithMailto = url.startsWith("mailto:");
             try {
-                Log.d("URL: ", url);
-                if (url.startsWith("javascript"))
+                if (urlStartsWithJavascript)
                     return false;
-                if (url.startsWith("mailto:")) {
-                    webView.getContext().startActivity(
-                            new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                if (urlStartsWithMailto) {
+                    Intent actionViewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    webView.getContext().startActivity(actionViewIntent);
                     return true;
                 }
 
-                if (url.startsWith("http") || url.startsWith("https")) {
-                    if (MyApplication.sdState == SdState.SD_AVAILABLE) {
+                boolean urlStartsWithHttp = url.startsWith("http");
+                boolean urlStartsWithHttps = url.startsWith("https");
+                boolean urlStartsWithHttpOrHttps = urlStartsWithHttp || urlStartsWithHttps;
+                if (urlStartsWithHttpOrHttps) {
+                    boolean isSdAvailable = MyApplication.sdState == SdState.SD_AVAILABLE;
+                    if (isSdAvailable) {
                         URL urlEntrada = null;
                         List<String> urlsPermitidas = new ArrayList<String>(25);
 
@@ -505,7 +525,8 @@ public class WebviewActivity extends AppCompatActivity {
 
                         //TODO: fazer um filtro inteligente de URLs
                         for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
-                            if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
+                            boolean isUrlAllowed = urlEntrada.getAuthority().contains(urlsPermitidas.get(i));
+                            if (isUrlAllowed) {
                                 return false;
                             }
                         }
@@ -513,10 +534,8 @@ public class WebviewActivity extends AppCompatActivity {
                         Log.d("ControleAcesso", "Acesso negado a " + url);
 
                         int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Acesso negado: " + url,
-                                duration);
-
+                        String deniedAcessText = "Acesso negado: " + url;
+                        Toast toast = Toast.makeText(getApplicationContext(), deniedAcessText, duration);
                         toast.show();
 
                         return true;
@@ -525,7 +544,8 @@ public class WebviewActivity extends AppCompatActivity {
                     }
                 }
 
-                if (url.startsWith("intent://")) {
+                boolean urlStartsWithIntent = url.startsWith("intent://");
+                if (urlStartsWithIntent) {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         PackageManager packageManager = webView.getContext().getPackageManager();
@@ -538,8 +558,9 @@ public class WebviewActivity extends AppCompatActivity {
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
+                                String concatMarketWithPackage = "market://details?id=" + intent.getPackage();
                                 Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse("market://details?id=" + intent.getPackage()));
+                                        Uri.parse(concatMarketWithPackage));
 
                                 if (marketIntent.resolveActivity(packageManager) != null) {
                                     getApplicationContext().startActivity(marketIntent);
@@ -559,7 +580,14 @@ public class WebviewActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
 
+    private boolean isFirstUse() {
+        return ShowOrHideWebViewInitialUse.equals("show");
+    }
+
+    private void setNotFirstUse() {
+        ShowOrHideWebViewInitialUse = "hide";
     }
 
 
