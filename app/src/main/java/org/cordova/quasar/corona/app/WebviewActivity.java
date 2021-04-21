@@ -294,7 +294,8 @@ public class WebviewActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.length > 0 && (grantResults[0] + grantResults[1] + grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(this, "Permissão concedida", Toast.LENGTH_SHORT).show();
+                String grantedPermissionText = "Permissão concedida";
+                Toast.makeText(this, grantedPermissionText, Toast.LENGTH_SHORT).show();
             }
         }
     }
