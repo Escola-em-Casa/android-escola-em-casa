@@ -72,7 +72,7 @@ public class WebviewActivity extends AppCompatActivity {
         int ActivityWebviewLayout = R.layout.activity_webview;
         setContentView(ActivityWebviewLayout);
 
-        checkCameraPermission();
+        checkCameraPermissions();
 
         setupNavigationView();
 
@@ -181,11 +181,14 @@ public class WebviewActivity extends AppCompatActivity {
         );
     }
 
-    private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
+    private void checkCameraPermissions() {
+        WebviewActivity webViewActivityContext = WebviewActivity.this;
+        if (ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.CAMERA) +
+                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.READ_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            String onSuccessText = "Permissões já concedidas";
+            Toast.makeText(webViewActivityContext, onSuccessText, Toast.LENGTH_SHORT);
         } else {
             requestCameraPermission();
         }
