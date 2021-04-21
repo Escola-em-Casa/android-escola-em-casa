@@ -119,7 +119,8 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void setupProgressBar() {
-        spinner = findViewById(R.id.progressBar1);
+        int progressBar1Id = R.id.progressBar1;
+        spinner = findViewById(progressBar1Id);
     }
 
     private void setupNavigationView() {
