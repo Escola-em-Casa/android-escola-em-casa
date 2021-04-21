@@ -183,10 +183,12 @@ public class WebviewActivity extends AppCompatActivity {
 
     private void checkCameraPermissions() {
         WebviewActivity webViewActivityContext = WebviewActivity.this;
-        if (ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.CAMERA) +
-                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.READ_EXTERNAL_STORAGE) +
-                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
+        int sumGrantedPermissions = ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.CAMERA) +
+                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.READ_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        boolean allPermissionsWereGranted = sumGrantedPermissions == PackageManager.PERMISSION_GRANTED;
+        if (allPermissionsWereGranted) {
             String onSuccessText = "Permissões já concedidas";
             Toast.makeText(webViewActivityContext, onSuccessText, Toast.LENGTH_SHORT);
         } else {
