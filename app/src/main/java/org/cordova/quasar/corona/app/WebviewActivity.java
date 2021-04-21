@@ -592,36 +592,28 @@ public class WebviewActivity extends AppCompatActivity {
 
 
     private class ChromeClient extends WebChromeClient {
-        protected FrameLayout mFullscreenContainer;
         private View mCustomView;
         private WebChromeClient.CustomViewCallback mCustomViewCallback;
         private int mOriginalOrientation;
         private int mOriginalSystemUiVisibility;
-
-        ChromeClient() {
-        }
-
-        // For Android 5.0
+        
         public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath, WebChromeClient.FileChooserParams fileChooserParams) {
-            // Double check that we don't have any existing callbacks
-            if (mFilePathCallback != null) {
+            boolean isThereAnyCallback = mFilePathCallback != null;
+            if (isThereAnyCallback) {
                 mFilePathCallback.onReceiveValue(null);
             }
             mFilePathCallback = filePath;
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the File where the photo should go
+            boolean isTakePictureIntentFilled = takePictureIntent.resolveActivity(getPackageManager()) != null;
+            if (isTakePictureIntentFilled) {
                 File photoFile = null;
                 try {
                     photoFile = createImageFile();
                     takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
                 } catch (IOException ex) {
-                    // Error occurred while creating the File
                     Log.e("ErrorCreatingFile", "Unable to create Image File", ex);
                 }
-
-                // Continue only if the File was successfully created
                 if (photoFile != null) {
                     mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -636,7 +628,8 @@ public class WebviewActivity extends AppCompatActivity {
             contentSelectionIntent.setType("*/*");
 
             Intent[] intentArray;
-            if (takePictureIntent != null) {
+            boolean isTakePictureFilled = takePictureIntent != null;
+            if (isTakePictureFilled) {
                 intentArray = new Intent[]{takePictureIntent};
             } else {
                 intentArray = new Intent[0];
@@ -653,64 +646,41 @@ public class WebviewActivity extends AppCompatActivity {
 
         }
 
-        // openFileChooser for Android 3.0+
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-
             mUploadMessage = uploadMsg;
-            // Create AndroidExampleFolder at sdcard
-            // Create AndroidExampleFolder at sdcard
+            File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "AndroidExampleFolder");
 
-            File imageStorageDir = new File(
-                    Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_PICTURES)
-                    , "AndroidExampleFolder");
-
-            if (!imageStorageDir.exists()) {
-                // Create AndroidExampleFolder at sdcard
+            boolean imageDirectoryDoesNotExists = !imageStorageDir.exists();
+            if (imageDirectoryDoesNotExists) {
                 imageStorageDir.mkdirs();
             }
 
-            // Create camera captured image file path and name
-            File file = new File(
-                    imageStorageDir + File.separator + "IMG_"
-                            + String.valueOf(System.currentTimeMillis())
-                            + ".jpg");
-
+            String currentTimeString = String.valueOf(System.currentTimeMillis());
+            String concatPathnameWithFileNameAndExtension = imageStorageDir + File.separator + "IMG_" + currentTimeString + ".jpg";
+            File file = new File(concatPathnameWithFileNameAndExtension);
             mCapturedImageURI = Uri.fromFile(file);
-
-            // Camera capture image intent
-            final Intent captureIntent = new Intent(
-                    android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            
+            final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
 
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-
-            // Create file chooser intent
+            
             Intent chooserIntent = Intent.createChooser(i, "Upload De Imagem");
-
-            // Set camera intent to file chooser
+            
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS
                     , new Parcelable[] { captureIntent });
-
-            // On select image call onActivityResult method of activity
+            
             startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
-
-
         }
 
-        // openFileChooser for Android < 3.0
         public void openFileChooser(ValueCallback<Uri> uploadMsg) {
             openFileChooser(uploadMsg, "");
         }
 
-        //openFileChooser for other Android versions
-        public void openFileChooser(ValueCallback<Uri> uploadMsg,
-                                    String acceptType,
-                                    String capture) {
-
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
             openFileChooser(uploadMsg, acceptType);
         }
 
@@ -718,11 +688,7 @@ public class WebviewActivity extends AppCompatActivity {
         public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
             AlertDialog dialog = new AlertDialog.Builder(view.getContext()).
                     setMessage(message).
-                    setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //do nothing
-                        }
+                    setPositiveButton("OK", (dialog1, which) -> {
                     }).create();
             dialog.show();
             result.confirm();
@@ -732,8 +698,8 @@ public class WebviewActivity extends AppCompatActivity {
         public Bitmap getDefaultVideoPoster() {
             if (mCustomView == null)
                 return null;
-
-            return BitmapFactory.decodeResource(getApplicationContext().getResources(), 2130837573);
+            int defaultId = 2130837573;
+            return BitmapFactory.decodeResource(getApplicationContext().getResources(), defaultId);
         }
 
         public void onHideCustomView() {
