@@ -273,25 +273,20 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void requestCameraPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.CAMERA) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            new AlertDialog.Builder(WebviewActivity.this).setTitle("Permissões Negadas").setMessage("Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(WebviewActivity.this, new String[]{Manifest.permission.CAMERA,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            }).create().show();
+        final WebviewActivity webviewActivity = WebviewActivity.this;
+        boolean hasAnyDeniedPermission = ActivityCompat.shouldShowRequestPermissionRationale(webviewActivity, Manifest.permission.CAMERA) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(webviewActivity, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(webviewActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        String[] permissionsString = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (hasAnyDeniedPermission) {
+            String permissionsDeniedText = "Permissões Negadas";
+            String explanationText = "Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.";
+            String positiveButtonText = "Ok";
+            String cancellButtonText = "Cancelar";
+            new AlertDialog.Builder(webviewActivity).setTitle(permissionsDeniedText).setMessage(explanationText)
+                    .setPositiveButton(positiveButtonText, (dialogInterface, i) -> ActivityCompat.requestPermissions(webviewActivity, permissionsString, PERMISSION_CODE)).setNegativeButton(cancellButtonText, (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, permissionsString, PERMISSION_CODE);
         }
     }
 
