@@ -3,6 +3,7 @@ package org.cordova.quasar.corona.app;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -124,53 +125,57 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void setupNavigationView() {
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
+        int navigationId = R.id.navigation;
+        BottomNavigationView navigationView = findViewById(navigationId);
 
-        navigationView.setSelectedItemId(R.id.classroom);
+        final int classroomId = R.id.classroom;
+        navigationView.setSelectedItemId(classroomId);
+
         navigationView.setOnNavigationItemSelectedListener(
                 item -> {
-                    switch (item.getItemId()) {
-                        case R.id.classroom: {
-                            if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
+                    final int wikipediaId = R.id.wikipedia;
+                    int selectedItemId = item.getItemId();
+
+                    Context applicationContext = getApplicationContext();
+
+                    Intent webviewActivityIntent = new Intent(applicationContext, WebviewActivity.class);
+
+                    overridePendingTransition(0, 0);
+                    final int questionsId = R.id.questions;
+                    final int aboutId = R.id.about;
+                    switch (selectedItemId) {
+                        case classroomId: {
+                            String classroomUrl = "https://classroom.google.com/a/estudante.se.df.gov.br";
+                            boolean isUrlEqualsClassroomUrl = url.equals(classroomUrl);
+                            if (isUrlEqualsClassroomUrl) {
                                 return true;
                             }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url",
-                                            "https://classroom.google.com/a/estudante.se.df.gov.br"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(0).setChecked(true);
-
+                            Intent activityWithUrlIntent = webviewActivityIntent.putExtra("url", classroomUrl);
+                            startActivity(activityWithUrlIntent);
                             return true;
                         }
-                        case R.id.wikipedia: {
-                            if (url.equals("https://pt.wikipedia.org/")) {
+                        case wikipediaId: {
+                            String wikipediaUrl = "https://pt.wikipedia.org/";
+                            boolean isUrlEqualsWikipediaUrl = url.equals(wikipediaUrl);
+                            if (isUrlEqualsWikipediaUrl) {
                                 return true;
                             }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url",
-                                            "https://pt.wikipedia.org/"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(1).setChecked(true);
-
+                            Intent activityWithUrlIntent = webviewActivityIntent.putExtra("url", wikipediaUrl);
+                            startActivity(activityWithUrlIntent);
                             return true;
                         }
-                        case R.id.questions: {
-                            startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
-                            overridePendingTransition(0, 0);
-
-                            navigationView.getMenu().getItem(2).setChecked(true);
-
+                        case questionsId: {
+                            Intent questionsActivityIntent = new Intent(applicationContext, QuestionsActivity.class);
+                            startActivity(questionsActivityIntent);
                             return true;
                         }
-                        case R.id.about: {
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(3).setChecked(true);
-
+                        case aboutId: {
+                            Intent aboutActivityIntent = new Intent(applicationContext, AboutActivity.class);
+                            startActivity(aboutActivityIntent);
                             return true;
                         }
                     }
-
+                    navigationView.getMenu().getItem(selectedItemId).setChecked(true);
                     return false;
                 }
         );
