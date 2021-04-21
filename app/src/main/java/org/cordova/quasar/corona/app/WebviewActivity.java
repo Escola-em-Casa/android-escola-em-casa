@@ -65,14 +65,20 @@ public class WebviewActivity extends AppCompatActivity {
     FloatingActionButton fab;
 
     private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String dateFormat = "yyyyMMdd_HHmmss";
+        Locale locale = Locale.US;
+        Date currentDate = new Date();
+        String timeStamp = new SimpleDateFormat(dateFormat, locale).format(currentDate);
+        String imageFormatPrefix = "JPEG_";
+        String concatImageFormatTimeStamp = imageFormatPrefix + timeStamp + "_";
+        String picturesDirectory = Environment.DIRECTORY_PICTURES;
+        File storageDir = getExternalFilesDir(picturesDirectory);
+
+        String imageFormatSuffix = ".jpg";
         File imageFile = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                concatImageFormatTimeStamp,
+                imageFormatSuffix,
+                storageDir
         );
         return imageFile;
     }
