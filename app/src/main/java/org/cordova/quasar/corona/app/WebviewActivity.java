@@ -64,39 +64,64 @@ public class WebviewActivity extends AppCompatActivity {
     private static final int FILECHOOSER_RESULTCODE = 1;
     FloatingActionButton fab;
 
-    private File createImageFile() throws IOException {
-        String dateFormat = "yyyyMMdd_HHmmss";
-        Locale locale = Locale.US;
-        Date currentDate = new Date();
-        String timeStamp = new SimpleDateFormat(dateFormat, locale).format(currentDate);
-        String imageFormatPrefix = "JPEG_";
-        String concatImageFormatTimeStamp = imageFormatPrefix + timeStamp + "_";
-        String picturesDirectory = Environment.DIRECTORY_PICTURES;
-        File storageDir = getExternalFilesDir(picturesDirectory);
-
-        String imageFormatSuffix = ".jpg";
-        File imageFile = File.createTempFile(
-                concatImageFormatTimeStamp,
-                imageFormatSuffix,
-                storageDir
-        );
-        return imageFile;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_webview);
+        int ActivityWebviewLayout = R.layout.activity_webview;
+        setContentView(ActivityWebviewLayout);
 
-        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
-        } else {
-            requestCameraPermission();
-        }
+        checkCameraPermission();
 
+        setupNavigationView();
+
+        setupProgressBar();
+
+        setupFabButton();
+
+        setupMyWebView();
+
+        loadUrlOnWebView();
+
+    }
+
+    private void loadUrlOnWebView() {
+        Locale.setDefault(new Locale("pt", "BR"));
+        url = getIntent().getStringExtra("url");
+        myWebView.loadUrl(url);
+    }
+
+    private void setupFabButton() {
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myWebView.goBack();
+            }
+        });
+    }
+
+    private void setupMyWebView() {
+        myWebView = findViewById(R.id.web_view);
+        myWebView.setWebViewClient(new MyWebViewClient());
+        myWebView.setWebChromeClient(new ChromeClient());
+
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setPluginState(WebSettings.PluginState.OFF);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.supportZoom();
+    }
+
+    private void setupProgressBar() {
+        spinner = findViewById(R.id.progressBar1);
+    }
+
+    private void setupNavigationView() {
         BottomNavigationView navigationView = findViewById(R.id.navigation);
 
         navigationView.setSelectedItemId(R.id.classroom);
@@ -147,33 +172,16 @@ public class WebviewActivity extends AppCompatActivity {
                     return false;
                 }
         );
+    }
 
-        myWebView = findViewById(R.id.web_view);
-        spinner = (ProgressBar) findViewById(R.id.progressBar1);
-        myWebView.setWebViewClient(new MyWebViewClient());
-        myWebView.setWebChromeClient(new ChromeClient());
-
-        WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setPluginState(WebSettings.PluginState.OFF);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setAllowFileAccess(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.supportZoom();
-
-        Locale.setDefault(new Locale("pt", "BR"));
-
-        url = getIntent().getStringExtra("url");
-        myWebView.loadUrl(url);
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myWebView.goBack();
-            }
-        });
+    private void checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
+                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
+        } else {
+            requestCameraPermission();
+        }
     }
 
     @Override
@@ -718,4 +726,22 @@ public class WebviewActivity extends AppCompatActivity {
         }
     }
 
+    private File createImageFile() throws IOException {
+        String dateFormat = "yyyyMMdd_HHmmss";
+        Locale locale = Locale.US;
+        Date currentDate = new Date();
+        String timeStamp = new SimpleDateFormat(dateFormat, locale).format(currentDate);
+        String imageFormatPrefix = "JPEG_";
+        String concatImageFormatTimeStamp = imageFormatPrefix + timeStamp + "_";
+        String picturesDirectory = Environment.DIRECTORY_PICTURES;
+        File storageDir = getExternalFilesDir(picturesDirectory);
+
+        String imageFormatSuffix = ".jpg";
+        File imageFile = File.createTempFile(
+                concatImageFormatTimeStamp,
+                imageFormatSuffix,
+                storageDir
+        );
+        return imageFile;
+    }
 }
