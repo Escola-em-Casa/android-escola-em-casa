@@ -198,70 +198,76 @@ public class WebviewActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null && data.getDataString() == null)
+        boolean dataStringIsEmptyButHasData = data != null && data.getDataString() == null;
+        if(dataStringIsEmptyButHasData) {
             data = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
+        }
+        boolean isSdkVersionEqualsOrNewerThanLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+        boolean isDataEmpty = data == null;
+        if (isSdkVersionEqualsOrNewerThanLollipop) {
+            boolean isRequestCodeDifferentThanInputFileRequestOrEmptyFilePathCallback = requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null;
+            if (isRequestCodeDifferentThanInputFileRequestOrEmptyFilePathCallback) {
                 super.onActivityResult(requestCode, resultCode, data);
                 return;
             }
-
             Uri[] results = null;
-
-            // Check that the response is a good one
-            if (resultCode == Activity.RESULT_OK) {
-                if (data == null) {
-                    // If there is not data, then we may have taken a photo
-                    if (mCameraPhotoPath != null) {
-                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
+            boolean isResultCodeOK = resultCode == Activity.RESULT_OK;
+            if (isResultCodeOK) {
+                if (isDataEmpty) {
+                    boolean isCameraPhotoPathEmpty = mCameraPhotoPath != null;
+                    if (isCameraPhotoPathEmpty) {
+                        Uri parsedCameraPhotoPath = Uri.parse(mCameraPhotoPath);
+                        results = new Uri[]{parsedCameraPhotoPath};
                     }
                 } else {
                     String dataString = data.getDataString();
-                    Log.d("sdadsa", "onActivityResult: "+ dataString);
-                    if (dataString != null) {
-                        results = new Uri[]{Uri.parse(dataString)};
+                    boolean isDataStringFilled = dataString != null;
+                    if (isDataStringFilled) {
+                        Uri parsedDataString = Uri.parse(dataString);
+                        results = new Uri[]{parsedDataString};
                     }
                 }
             }
-
             mFilePathCallback.onReceiveValue(results);
             mFilePathCallback = null;
-
         }
-        else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            if (requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null) {
-                super.onActivityResult(requestCode, resultCode, data);
-                return;
-            }
-
-            if (requestCode == FILECHOOSER_RESULTCODE) {
-
-                if (null == this.mUploadMessage) {
+        else {
+            boolean isSdkVersionEqualsOrNewerThanKitkat = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT;
+            if (isSdkVersionEqualsOrNewerThanKitkat) {
+                boolean isRequestCodeDifferentThanFileChooserOrEmptyUploadMessage = requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null;
+                if (isRequestCodeDifferentThanFileChooserOrEmptyUploadMessage) {
+                    super.onActivityResult(requestCode, resultCode, data);
                     return;
-
                 }
 
-                Uri result = null;
-
-                try {
-                    if (resultCode != RESULT_OK) {
-
-                        result = null;
-
-                    } else {
-
-                        // retrieve from the private variable if the intent is null
-                        result = data == null ? mCapturedImageURI : data.getData();
+                boolean isRequestCodeEqualsFileChooserResultCode = requestCode == FILECHOOSER_RESULTCODE;
+                if (isRequestCodeEqualsFileChooserResultCode) {
+                    boolean isUploadMessageEmpty = this.mUploadMessage == null;
+                    if (isUploadMessageEmpty) {
+                        return;
                     }
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "activity :" + e,
-                            Toast.LENGTH_LONG).show();
+
+                    Uri result = null;
+                    try {
+                        boolean isResultCodeABadResult = resultCode != RESULT_OK;
+                        if (isResultCodeABadResult) {
+                            result = null;
+                        } else {
+                            if(isDataEmpty){
+                                result = mCapturedImageURI;
+                            }else{
+                                result = data.getData();
+                            }
+                        }
+                    } catch (Exception e) {
+                        String onFailureText = "activity :" + e;
+                        Toast.makeText(getApplicationContext(), onFailureText, Toast.LENGTH_LONG).show();
+                    }
+
+                    mUploadMessage.onReceiveValue(result);
+                    mUploadMessage = null;
+
                 }
-
-                mUploadMessage.onReceiveValue(result);
-                mUploadMessage = null;
-
             }
         }
     }
