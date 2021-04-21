@@ -94,12 +94,7 @@ public class WebviewActivity extends AppCompatActivity {
 
     private void setupFabButton() {
         fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myWebView.goBack();
-            }
-        });
+        fab.setOnClickListener(view -> myWebView.goBack());
     }
 
     private void setupMyWebView() {
