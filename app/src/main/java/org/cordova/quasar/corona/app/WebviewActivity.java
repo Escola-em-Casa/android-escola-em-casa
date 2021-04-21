@@ -306,21 +306,23 @@ public class WebviewActivity extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
 
-        Log.d("URL", "onResume: " + url);
+        final String classroomUrl = "https://classroom.google.com/a/estudante.se.df.gov.br";
+        final String wikipediaUrl = "https://pt.wikipedia.org/";
 
         switch (url) {
-            case "https://classroom.google.com/a/estudante.se.df.gov.br": {
-                navigationView.getMenu().getItem(0).setChecked(true);
+            case classroomUrl: {
+                int classroomId = 0;
+                navigationView.getMenu().getItem(classroomId).setChecked(true);
                 break;
             }
-            case "https://pt.wikipedia.org/": {
-                navigationView.getMenu().getItem(1).setChecked(true);
-
+            case wikipediaUrl: {
+                int wikipediaId = 1;
+                navigationView.getMenu().getItem(wikipediaId).setChecked(true);
                 break;
             }
             default: {
-                navigationView.getMenu().getItem(2).setChecked(true);
-
+                int defaultId = 2;
+                navigationView.getMenu().getItem(defaultId).setChecked(true);
                 break;
             }
         }
