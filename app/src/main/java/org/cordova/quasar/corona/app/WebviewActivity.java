@@ -86,7 +86,8 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void loadUrlOnWebView() {
-        Locale.setDefault(new Locale("pt", "BR"));
+        Locale brLocale = new Locale("pt", "BR");
+        Locale.setDefault(brLocale);
         url = getIntent().getStringExtra("url");
         myWebView.loadUrl(url);
     }
