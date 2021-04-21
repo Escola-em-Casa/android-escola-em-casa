@@ -98,9 +98,14 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     private void setupMyWebView() {
-        myWebView = findViewById(R.id.web_view);
-        myWebView.setWebViewClient(new MyWebViewClient());
-        myWebView.setWebChromeClient(new ChromeClient());
+        int myWebviewId = R.id.web_view;
+        myWebView = findViewById(myWebviewId);
+
+        MyWebViewClient webViewClient = new MyWebViewClient();
+        myWebView.setWebViewClient(webViewClient);
+
+        ChromeClient chromeClient = new ChromeClient();
+        myWebView.setWebChromeClient(chromeClient);
 
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
