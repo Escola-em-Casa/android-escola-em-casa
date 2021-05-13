@@ -2,13 +2,17 @@ package org.cordova.quasar.corona.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.SearchView;
 
+import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class QuestionsActivity extends AppCompatActivity {
      List<Questions> questionsList = new ArrayList<>();
@@ -51,6 +57,24 @@ public class QuestionsActivity extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.questions);
+
+        EditText editText = findViewById(R.id.edittext);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
 
         navigationView.setOnNavigationItemSelectedListener(
                 item -> {
@@ -85,29 +109,16 @@ public class QuestionsActivity extends AppCompatActivity {
         );
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
+    private void filter(String text) {
+        ArrayList<Questions> filteredList = new ArrayList<>();
 
-        final MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+        for (Questions q : questionsList) {
+            if (q.getQuestion().toLowerCase().contains(text.toLowerCase())
+                    || q.getAnswer().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(q);
             }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Log.d("testando:", "Teste1");
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-        return true;
+        }
+        adapter.filterList(filteredList);
     }
 
     @Override
