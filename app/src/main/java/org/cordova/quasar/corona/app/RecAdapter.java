@@ -109,4 +109,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> i
             notifyDataSetChanged();
         }
     };
+    public void filterList(ArrayList<Questions> filteredList) {
+        list = filteredList;
+        notifyDataSetChanged();
+    }
 }
