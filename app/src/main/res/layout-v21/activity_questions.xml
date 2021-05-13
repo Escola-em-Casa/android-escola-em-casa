@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="org.cordova.quasar.corona.app.QuestionsActivity">
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -33,12 +35,12 @@
                 android:textColor="#2092E5"
                 android:textStyle="bold"/>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/search_bar"
+            <EditText
+                android:id="@+id/edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                app:menu="@menu/menu_search"/>
+                android:layout_margin="16dp"
+                android:hint="@string/pesquisar"/>
 
         </LinearLayout>
         <ScrollView
