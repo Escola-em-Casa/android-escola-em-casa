@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/main_logo"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="325dp"
+        android:layout_height="313dp"
+        android:layout_marginTop="88dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,8 +26,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_logo" />
+        app:layout_constraintTop_toBottomOf="@id/main_logo"
+        app:layout_constraintVertical_bias="0.316" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
