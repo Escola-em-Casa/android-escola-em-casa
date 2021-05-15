@@ -1,6 +1,5 @@
 package org.cordova.quasar.corona.app;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,32 +23,25 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WebviewActivity extends AppCompatActivity {
+public class WikipediaActivity extends NavigationBarActivity {
     private WebView myWebView;
     private String url;
     private ProgressBar spinner;
@@ -64,83 +55,13 @@ public class WebviewActivity extends AppCompatActivity {
     private static final int FILECHOOSER_RESULTCODE = 1;
     FloatingActionButton fab;
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        return imageFile;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_webview);
+        setContentView(R.layout.activity_wikipedia);
 
-        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
-        } else {
-            requestCameraPermission();
-        }
-
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
-
-        navigationView.setSelectedItemId(R.id.classroom);
-        navigationView.setOnNavigationItemSelectedListener(
-                item -> {
-                    switch (item.getItemId()) {
-                        case R.id.classroom: {
-                            if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
-                                return true;
-                            }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url",
-                                            "https://classroom.google.com/a/estudante.se.df.gov.br"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(0).setChecked(true);
-
-                            return true;
-                        }
-                        case R.id.wikipedia: {
-                            if (url.equals("https://pt.wikipedia.org/")) {
-                                return true;
-                            }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url",
-                                            "https://pt.wikipedia.org/"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(1).setChecked(true);
-
-                            return true;
-                        }
-                        case R.id.questions: {
-                            startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
-                            overridePendingTransition(0, 0);
-
-                            navigationView.getMenu().getItem(2).setChecked(true);
-
-                            return true;
-                        }
-                        case R.id.about: {
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(3).setChecked(true);
-
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-        );
+        super.setupNavigationBar(R.id.navigation, R.id.wikipedia);
 
         myWebView = findViewById(R.id.web_view);
         spinner = (ProgressBar) findViewById(R.id.progressBar1);
@@ -240,29 +161,6 @@ public class WebviewActivity extends AppCompatActivity {
         }
     }
 
-    private void requestCameraPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.CAMERA) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            new AlertDialog.Builder(WebviewActivity.this).setTitle("Permissões Negadas").setMessage("Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(WebviewActivity.this, new String[]{Manifest.permission.CAMERA,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            }).create().show();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_CODE) {
@@ -332,32 +230,32 @@ public class WebviewActivity extends AppCompatActivity {
             super.onPageFinished(view, url);
 
             view.loadUrl(
-                "javascript:(function f(e) {" +
-                    "var email = document.getElementsByName('identifier');" +
+                    "javascript:(function f(e) {" +
+                            "var email = document.getElementsByName('identifier');" +
 
-                    "email[0].oninput = function(value) {" +
-                        "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
+                            "email[0].oninput = function(value) {" +
+                            "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
                             "email[0].value = email[0].value.split('@')[0];" +
                             "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
                             "return false;" +
-                        "}" +
-                    "}" +
-                "})()");
+                            "}" +
+                            "}" +
+                            "})()");
 
             view.loadUrl(
-                "javascript:(function f() {" +
-                    "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
+                    "javascript:(function f() {" +
+                            "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
 
-                    "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
-                "})()");
+                            "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
+                            "})()");
             view.loadUrl(
-                "javascript:(function f() {" +
-                    "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
-                "})()");
+                    "javascript:(function f() {" +
+                            "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
+                            "})()");
             view.loadUrl(
-                "javascript:(function f() {" +
-                        "document.getElementById('p-donation').style.display='none'; " +
-                        "})()");
+                    "javascript:(function f() {" +
+                            "document.getElementById('p-donation').style.display='none'; " +
+                            "})()");
         }
 
         private String youtubeProtect(WebView view, String urlParameter) {
@@ -534,66 +432,6 @@ public class WebviewActivity extends AppCompatActivity {
 
 
     private class ChromeClient extends WebChromeClient {
-        protected FrameLayout mFullscreenContainer;
-        private View mCustomView;
-        private WebChromeClient.CustomViewCallback mCustomViewCallback;
-        private int mOriginalOrientation;
-        private int mOriginalSystemUiVisibility;
-
-        ChromeClient() {
-        }
-
-        // For Android 5.0
-        public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath, WebChromeClient.FileChooserParams fileChooserParams) {
-            // Double check that we don't have any existing callbacks
-            if (mFilePathCallback != null) {
-                mFilePathCallback.onReceiveValue(null);
-            }
-            mFilePathCallback = filePath;
-
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the File where the photo should go
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                    takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
-                    Log.e("ErrorCreatingFile", "Unable to create Image File", ex);
-                }
-
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            Uri.fromFile(photoFile));
-                } else {
-                    takePictureIntent = null;
-                }
-            }
-
-            Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
-            contentSelectionIntent.setType("*/*");
-
-            Intent[] intentArray;
-            if (takePictureIntent != null) {
-                intentArray = new Intent[]{takePictureIntent};
-            } else {
-                intentArray = new Intent[0];
-            }
-
-            Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
-            chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
-            chooserIntent.putExtra(Intent.EXTRA_TITLE, "Upload De Arquivo");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-
-            startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE);
-
-            return true;
-
-        }
 
         // openFileChooser for Android 3.0+
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
@@ -635,7 +473,7 @@ public class WebviewActivity extends AppCompatActivity {
 
             // Set camera intent to file chooser
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS
-                    , new Parcelable[] { captureIntent });
+                    , new Parcelable[]{captureIntent});
 
             // On select image call onActivityResult method of activity
             startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
@@ -669,46 +507,6 @@ public class WebviewActivity extends AppCompatActivity {
             dialog.show();
             result.confirm();
             return true;
-        }
-
-        public Bitmap getDefaultVideoPoster() {
-            if (mCustomView == null)
-                return null;
-
-            return BitmapFactory.decodeResource(getApplicationContext().getResources(), 2130837573);
-        }
-
-        public void onHideCustomView() {
-            ((FrameLayout) getWindow().getDecorView()).removeView(this.mCustomView);
-
-            this.mCustomView = null;
-
-            getWindow().getDecorView().setSystemUiVisibility(this.mOriginalSystemUiVisibility);
-            setRequestedOrientation(this.mOriginalOrientation);
-
-            this.mCustomViewCallback.onCustomViewHidden();
-            this.mCustomViewCallback = null;
-        }
-
-        public void onShowCustomView(View paramView,
-                                     WebChromeClient.CustomViewCallback paramCustomViewCallback) {
-            if (this.mCustomView != null) {
-                onHideCustomView();
-
-                return;
-            }
-
-            this.mCustomView = paramView;
-            this.mOriginalSystemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
-            this.mOriginalOrientation = getRequestedOrientation();
-            this.mCustomViewCallback = paramCustomViewCallback;
-
-            ((FrameLayout) getWindow().getDecorView()).addView(
-                    this.mCustomView,
-                    new FrameLayout.LayoutParams(-1, -1));
-
-            getWindow().getDecorView().setSystemUiVisibility(3846
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
 
