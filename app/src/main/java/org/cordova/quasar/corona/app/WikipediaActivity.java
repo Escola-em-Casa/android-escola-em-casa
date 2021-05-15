@@ -27,7 +27,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.datami.smi.SdState;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,7 +41,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WikipediaActivity extends AppCompatActivity {
+public class WikipediaActivity extends NavigationBarActivity {
     private WebView myWebView;
     private String url;
     private ProgressBar spinner;
@@ -62,56 +61,7 @@ public class WikipediaActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_wikipedia);
 
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
-
-        navigationView.setSelectedItemId(R.id.wikipedia);
-        navigationView.setOnNavigationItemSelectedListener(
-                item -> {
-                    switch (item.getItemId()) {
-                        case R.id.classroom: {
-                            if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
-                                return true;
-                            }
-                            startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
-                                    .putExtra("url",
-                                            "https://classroom.google.com/a/estudante.se.df.gov.br"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(0).setChecked(true);
-
-                            return true;
-                        }
-                        case R.id.wikipedia: {
-                            if (url.equals("https://pt.wikipedia.org/")) {
-                                return true;
-                            }
-                            startActivity(new Intent(getApplicationContext(), WikipediaActivity.class)
-                                    .putExtra("url",
-                                            "https://pt.wikipedia.org/"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(1).setChecked(true);
-
-                            return true;
-                        }
-                        case R.id.questions: {
-                            startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
-                            overridePendingTransition(0, 0);
-
-                            navigationView.getMenu().getItem(2).setChecked(true);
-
-                            return true;
-                        }
-                        case R.id.about: {
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(3).setChecked(true);
-
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-        );
+        super.setupNavigationBar(R.id.navigation, R.id.wikipedia);
 
         myWebView = findViewById(R.id.web_view);
         spinner = (ProgressBar) findViewById(R.id.progressBar1);
