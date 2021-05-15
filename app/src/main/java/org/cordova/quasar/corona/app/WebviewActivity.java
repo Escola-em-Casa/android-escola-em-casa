@@ -3,6 +3,7 @@ package org.cordova.quasar.corona.app;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -64,88 +65,48 @@ public class WebviewActivity extends AppCompatActivity {
     private static final int FILECHOOSER_RESULTCODE = 1;
     FloatingActionButton fab;
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        return imageFile;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_webview);
+        int ActivityWebviewLayout = R.layout.activity_webview;
+        setContentView(ActivityWebviewLayout);
 
-        if (ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.CAMERA) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) +
-                ContextCompat.checkSelfPermission(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(WebviewActivity.this, "Permissões já concedidas", Toast.LENGTH_SHORT);
-        } else {
-            requestCameraPermission();
-        }
+        checkCameraPermissions();
 
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
+        setupNavigationView();
 
-        navigationView.setSelectedItemId(R.id.classroom);
-        navigationView.setOnNavigationItemSelectedListener(
-                item -> {
-                    switch (item.getItemId()) {
-                        case R.id.classroom: {
-                            if (url.equals("https://classroom.google.com/a/estudante.se.df.gov.br")) {
-                                return true;
-                            }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url",
-                                            "https://classroom.google.com/a/estudante.se.df.gov.br"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(0).setChecked(true);
+        setupProgressBar();
 
-                            return true;
-                        }
-                        case R.id.wikipedia: {
-                            if (url.equals("https://pt.wikipedia.org/")) {
-                                return true;
-                            }
-                            startActivity(new Intent(getApplicationContext(), WebviewActivity.class)
-                                    .putExtra("url",
-                                            "https://pt.wikipedia.org/"));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(1).setChecked(true);
+        setupFabButton();
 
-                            return true;
-                        }
-                        case R.id.questions: {
-                            startActivity(new Intent(getApplicationContext(), QuestionsActivity.class));
-                            overridePendingTransition(0, 0);
+        setupMyWebView();
 
-                            navigationView.getMenu().getItem(2).setChecked(true);
+        loadUrlOnWebView();
 
-                            return true;
-                        }
-                        case R.id.about: {
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                            overridePendingTransition(0, 0);
-                            navigationView.getMenu().getItem(3).setChecked(true);
+    }
 
-                            return true;
-                        }
-                    }
+    private void loadUrlOnWebView() {
+        Locale brLocale = new Locale("pt", "BR");
+        Locale.setDefault(brLocale);
+        url = getIntent().getStringExtra("url");
+        myWebView.loadUrl(url);
+    }
 
-                    return false;
-                }
-        );
+    private void setupFabButton() {
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> myWebView.goBack());
+    }
 
-        myWebView = findViewById(R.id.web_view);
-        spinner = (ProgressBar) findViewById(R.id.progressBar1);
-        myWebView.setWebViewClient(new MyWebViewClient());
-        myWebView.setWebChromeClient(new ChromeClient());
+    private void setupMyWebView() {
+        int myWebviewId = R.id.web_view;
+        myWebView = findViewById(myWebviewId);
+
+        MyWebViewClient webViewClient = new MyWebViewClient();
+        myWebView.setWebViewClient(webViewClient);
+
+        ChromeClient chromeClient = new ChromeClient();
+        myWebView.setWebChromeClient(chromeClient);
 
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -156,110 +117,176 @@ public class WebviewActivity extends AppCompatActivity {
         webSettings.setAllowFileAccess(true);
         webSettings.setAllowContentAccess(true);
         webSettings.supportZoom();
+    }
 
-        Locale.setDefault(new Locale("pt", "BR"));
+    private void setupProgressBar() {
+        int progressBar1Id = R.id.progressBar1;
+        spinner = findViewById(progressBar1Id);
+    }
 
-        url = getIntent().getStringExtra("url");
-        myWebView.loadUrl(url);
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myWebView.goBack();
-            }
-        });
+    private void setupNavigationView() {
+        int navigationId = R.id.navigation;
+        BottomNavigationView navigationView = findViewById(navigationId);
+
+        final int classroomId = R.id.classroom;
+        navigationView.setSelectedItemId(classroomId);
+
+        navigationView.setOnNavigationItemSelectedListener(
+                item -> {
+                    final int wikipediaId = R.id.wikipedia;
+                    int selectedItemId = item.getItemId();
+
+                    Context applicationContext = getApplicationContext();
+
+                    Intent webviewActivityIntent = new Intent(applicationContext, WebviewActivity.class);
+
+                    overridePendingTransition(0, 0);
+                    final int questionsId = R.id.questions;
+                    final int aboutId = R.id.about;
+                    switch (selectedItemId) {
+                        case classroomId: {
+                            String classroomUrl = "https://classroom.google.com/a/estudante.se.df.gov.br";
+                            boolean isUrlEqualsClassroomUrl = url.equals(classroomUrl);
+                            if (isUrlEqualsClassroomUrl) {
+                                return true;
+                            }
+                            Intent activityWithUrlIntent = webviewActivityIntent.putExtra("url", classroomUrl);
+                            startActivity(activityWithUrlIntent);
+                            return true;
+                        }
+                        case wikipediaId: {
+                            String wikipediaUrl = "https://pt.wikipedia.org/";
+                            boolean isUrlEqualsWikipediaUrl = url.equals(wikipediaUrl);
+                            if (isUrlEqualsWikipediaUrl) {
+                                return true;
+                            }
+                            Intent activityWithUrlIntent = webviewActivityIntent.putExtra("url", wikipediaUrl);
+                            startActivity(activityWithUrlIntent);
+                            return true;
+                        }
+                        case questionsId: {
+                            Intent questionsActivityIntent = new Intent(applicationContext, QuestionsActivity.class);
+                            startActivity(questionsActivityIntent);
+                            return true;
+                        }
+                        case aboutId: {
+                            Intent aboutActivityIntent = new Intent(applicationContext, AboutActivity.class);
+                            startActivity(aboutActivityIntent);
+                            return true;
+                        }
+                    }
+                    navigationView.getMenu().getItem(selectedItemId).setChecked(true);
+                    return false;
+                }
+        );
+    }
+
+    private void checkCameraPermissions() {
+        WebviewActivity webViewActivityContext = WebviewActivity.this;
+
+        int sumGrantedPermissions = ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.CAMERA) +
+                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.READ_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(webViewActivityContext, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        boolean allPermissionsWereGranted = sumGrantedPermissions == PackageManager.PERMISSION_GRANTED;
+        if (allPermissionsWereGranted) {
+            String onSuccessText = "Permissões já concedidas";
+            Toast.makeText(webViewActivityContext, onSuccessText, Toast.LENGTH_SHORT);
+        } else {
+            requestCameraPermission();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null && data.getDataString() == null)
+        boolean dataStringIsEmptyButHasData = data != null && data.getDataString() == null;
+        if(dataStringIsEmptyButHasData) {
             data = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
+        }
+        boolean isSdkVersionEqualsOrNewerThanLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+        boolean isDataEmpty = data == null;
+        if (isSdkVersionEqualsOrNewerThanLollipop) {
+            boolean isRequestCodeDifferentThanInputFileRequestOrEmptyFilePathCallback = requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null;
+            if (isRequestCodeDifferentThanInputFileRequestOrEmptyFilePathCallback) {
                 super.onActivityResult(requestCode, resultCode, data);
                 return;
             }
-
             Uri[] results = null;
-
-            // Check that the response is a good one
-            if (resultCode == Activity.RESULT_OK) {
-                if (data == null) {
-                    // If there is not data, then we may have taken a photo
-                    if (mCameraPhotoPath != null) {
-                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
+            boolean isResultCodeOK = resultCode == Activity.RESULT_OK;
+            if (isResultCodeOK) {
+                if (isDataEmpty) {
+                    boolean isCameraPhotoPathEmpty = mCameraPhotoPath != null;
+                    if (isCameraPhotoPathEmpty) {
+                        Uri parsedCameraPhotoPath = Uri.parse(mCameraPhotoPath);
+                        results = new Uri[]{parsedCameraPhotoPath};
                     }
                 } else {
                     String dataString = data.getDataString();
-                    Log.d("sdadsa", "onActivityResult: "+ dataString);
-                    if (dataString != null) {
-                        results = new Uri[]{Uri.parse(dataString)};
+                    boolean isDataStringFilled = dataString != null;
+                    if (isDataStringFilled) {
+                        Uri parsedDataString = Uri.parse(dataString);
+                        results = new Uri[]{parsedDataString};
                     }
                 }
             }
-
             mFilePathCallback.onReceiveValue(results);
             mFilePathCallback = null;
-
         }
-        else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            if (requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null) {
-                super.onActivityResult(requestCode, resultCode, data);
-                return;
-            }
-
-            if (requestCode == FILECHOOSER_RESULTCODE) {
-
-                if (null == this.mUploadMessage) {
+        else {
+            boolean isSdkVersionEqualsOrNewerThanKitkat = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT;
+            if (isSdkVersionEqualsOrNewerThanKitkat) {
+                boolean isRequestCodeDifferentThanFileChooserOrEmptyUploadMessage = requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null;
+                if (isRequestCodeDifferentThanFileChooserOrEmptyUploadMessage) {
+                    super.onActivityResult(requestCode, resultCode, data);
                     return;
-
                 }
 
-                Uri result = null;
-
-                try {
-                    if (resultCode != RESULT_OK) {
-
-                        result = null;
-
-                    } else {
-
-                        // retrieve from the private variable if the intent is null
-                        result = data == null ? mCapturedImageURI : data.getData();
+                boolean isRequestCodeEqualsFileChooserResultCode = requestCode == FILECHOOSER_RESULTCODE;
+                if (isRequestCodeEqualsFileChooserResultCode) {
+                    boolean isUploadMessageEmpty = this.mUploadMessage == null;
+                    if (isUploadMessageEmpty) {
+                        return;
                     }
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "activity :" + e,
-                            Toast.LENGTH_LONG).show();
+
+                    Uri result = null;
+                    try {
+                        boolean isResultCodeABadResult = resultCode != RESULT_OK;
+                        if (isResultCodeABadResult) {
+                            result = null;
+                        } else {
+                            if(isDataEmpty){
+                                result = mCapturedImageURI;
+                            }else{
+                                result = data.getData();
+                            }
+                        }
+                    } catch (Exception e) {
+                        String onFailureText = "activity :" + e;
+                        Toast.makeText(getApplicationContext(), onFailureText, Toast.LENGTH_LONG).show();
+                    }
+
+                    mUploadMessage.onReceiveValue(result);
+                    mUploadMessage = null;
+
                 }
-
-                mUploadMessage.onReceiveValue(result);
-                mUploadMessage = null;
-
             }
         }
     }
 
     private void requestCameraPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.CAMERA) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(WebviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            new AlertDialog.Builder(WebviewActivity.this).setTitle("Permissões Negadas").setMessage("Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(WebviewActivity.this, new String[]{Manifest.permission.CAMERA,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            }).create().show();
+        final WebviewActivity webviewActivity = WebviewActivity.this;
+        boolean hasAnyDeniedPermission = ActivityCompat.shouldShowRequestPermissionRationale(webviewActivity, Manifest.permission.CAMERA) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(webviewActivity, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(webviewActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        String[] permissionsString = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (hasAnyDeniedPermission) {
+            String permissionsDeniedText = "Permissões Negadas";
+            String explanationText = "Para o funcionamento correto do Google Sala de Aula, por favor aceite as permissões necessárias.";
+            String positiveButtonText = "Ok";
+            String cancellButtonText = "Cancelar";
+            new AlertDialog.Builder(webviewActivity).setTitle(permissionsDeniedText).setMessage(explanationText)
+                    .setPositiveButton(positiveButtonText, (dialogInterface, i) -> ActivityCompat.requestPermissions(webviewActivity, permissionsString, PERMISSION_CODE)).setNegativeButton(cancellButtonText, (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, permissionsString, PERMISSION_CODE);
         }
     }
 
@@ -267,7 +294,8 @@ public class WebviewActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.length > 0 && (grantResults[0] + grantResults[1] + grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(this, "Permissão concedida", Toast.LENGTH_SHORT).show();
+                String grantedPermissionText = "Permissão concedida";
+                Toast.makeText(this, grantedPermissionText, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -278,21 +306,23 @@ public class WebviewActivity extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
 
-        Log.d("URL", "onResume: " + url);
+        final String classroomUrl = "https://classroom.google.com/a/estudante.se.df.gov.br";
+        final String wikipediaUrl = "https://pt.wikipedia.org/";
 
         switch (url) {
-            case "https://classroom.google.com/a/estudante.se.df.gov.br": {
-                navigationView.getMenu().getItem(0).setChecked(true);
+            case classroomUrl: {
+                int classroomId = 0;
+                navigationView.getMenu().getItem(classroomId).setChecked(true);
                 break;
             }
-            case "https://pt.wikipedia.org/": {
-                navigationView.getMenu().getItem(1).setChecked(true);
-
+            case wikipediaUrl: {
+                int wikipediaId = 1;
+                navigationView.getMenu().getItem(wikipediaId).setChecked(true);
                 break;
             }
             default: {
-                navigationView.getMenu().getItem(2).setChecked(true);
-
+                int defaultId = 2;
+                navigationView.getMenu().getItem(defaultId).setChecked(true);
                 break;
             }
         }
@@ -301,86 +331,96 @@ public class WebviewActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
+        boolean isKeyPressedEqualsBack = keyCode == KeyEvent.KEYCODE_BACK;
+        boolean isKeyBackPressedAndCanThisGoBack = isKeyPressedEqualsBack && myWebView.canGoBack();
+        if (isKeyBackPressedAndCanThisGoBack) {
             myWebView.goBack();
-
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
     private class MyWebViewClient extends WebViewClient {
-
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
-            // only make it invisible the FIRST time the app is run
-            if (ShowOrHideWebViewInitialUse.equals("show") && !url.equals("http://www.se.df.gov.br/")) {
+            boolean isThisFirstUse = isFirstUse();
+            boolean isSeDfGovUrl = url.equals("http://www.se.df.gov.br/");
+            boolean isUrlDifferentThanGovUrl = !isSeDfGovUrl;
+            boolean isFirstUseAndDifferentUrlThanGovUrl = isThisFirstUse && isUrlDifferentThanGovUrl;
+            if (isFirstUseAndDifferentUrlThanGovUrl) {
                 webview.setVisibility(webview.INVISIBLE);
             }
-            if (url.equals("http://www.se.df.gov.br/")) {
+            if (isSeDfGovUrl) {
                 spinner.setVisibility(View.GONE);
             }
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            ShowOrHideWebViewInitialUse = "hide";
+            setNotFirstUse();
             spinner.setVisibility(View.GONE);
 
             view.setVisibility(myWebView.VISIBLE);
             super.onPageFinished(view, url);
 
-            view.loadUrl(
-                "javascript:(function f(e) {" +
+            String firstJSUrl = "javascript:(function f(e) {" +
                     "var email = document.getElementsByName('identifier');" +
 
                     "email[0].oninput = function(value) {" +
-                        "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
-                            "email[0].value = email[0].value.split('@')[0];" +
-                            "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
-                            "return false;" +
-                        "}" +
+                    "if(!/^\\w?([\\.-]?\\w+)*(@)?((e(d(u)?)?)?|(e(s(t(u(d(a(n(t(e)?)?)?)?)?)?)?)?)?)?(\\.)?(s(e(\\.(d(f(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
+                    "email[0].value = email[0].value.split('@')[0];" +
+                    "alert('São permitidos apenas emails com domínio: @edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br');" +
+                    "return false;" +
                     "}" +
-                "})()");
+                    "}" +
+                    "})()";
+            view.loadUrl(firstJSUrl);
 
-            view.loadUrl(
-                "javascript:(function f() {" +
+            String secondJSUrl = "javascript:(function f() {" +
                     "document.getElementsByClassName('OIPlvf')[0].style.display='none'; " +
 
                     "document.getElementsByClassName('Y4dIwd')[0].innerHTML = 'Use sua conta Google Sala De Aula (@edu.se.df.gov.br ou @estudante.se.df.gov.br ou @se.df.gov.br)'" +
-                "})()");
-            view.loadUrl(
-                "javascript:(function f() {" +
+                    "})()";
+
+            view.loadUrl(secondJSUrl);
+
+            String thirdJSUrl = "javascript:(function f() {" +
                     "document.getElementsByClassName('docs-ml-header-item docs-ml-header-drive-link')[0].style.display='none'; " +
-                "})()");
-            view.loadUrl(
-                "javascript:(function f() {" +
-                        "document.getElementById('p-donation').style.display='none'; " +
-                        "})()");
+                    "})()";
+            view.loadUrl(thirdJSUrl);
+            
+            String fourthJSUrl = "javascript:(function f() {" +
+                    "document.getElementById('p-donation').style.display='none'; " +
+                    "})()";
+            view.loadUrl(fourthJSUrl);
         }
 
-        private String youtubeProtect(WebView view, String urlParameter) {
+        private String processYoutubeLink(WebView view, String urlParameter) {
             final String regexYouTube = "^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#&?]*).*";
-            String url = "";
+            String url;
             WebBackForwardList mWebBackForwardList = view.copyBackForwardList();
             String historyUrl = "";
 
-            if (mWebBackForwardList.getCurrentIndex() > 0) {
-                historyUrl = mWebBackForwardList.getItemAtIndex(mWebBackForwardList
-                        .getCurrentIndex())
-                        .getUrl();
+            int currentIndex = mWebBackForwardList.getCurrentIndex();
+            boolean isCurrentIndexGreaterThanZero = currentIndex > 0;
+            if (isCurrentIndexGreaterThanZero) {
+                historyUrl = mWebBackForwardList.getItemAtIndex(currentIndex).getUrl();
             }
 
-            if (historyUrl.matches(regexYouTube))
+            boolean historyUrlMatchsWithtYoutubeRegex = historyUrl.matches(regexYouTube);
+            if (historyUrlMatchsWithtYoutubeRegex)
                 return "";
 
-            if (urlParameter.matches(regexYouTube) && !urlParameter.matches("embed")
-                    && urlParameter.contains(".youtube")) {
+            boolean urlParamaterMatchsWithYoutubeRegex = urlParameter.matches(regexYouTube);
+            boolean urlParamaterHasNoEmbedString = !urlParameter.matches("embed");
+            boolean urlParamaterContainsDotYoutube = urlParameter.contains(".youtube");
+            boolean urlParamaterIsFormatedAsExpected = urlParamaterMatchsWithYoutubeRegex && urlParamaterHasNoEmbedString && urlParamaterContainsDotYoutube;
+            if (urlParamaterIsFormatedAsExpected) {
                 Pattern compiledPattern = Pattern.compile(regexYouTube);
                 Matcher matcher = compiledPattern.matcher(urlParameter);
 
-                if (matcher.find()) {
+                boolean urlParamaterWasFoundInRegex = matcher.find();
+                if (urlParamaterWasFoundInRegex) {
                     url = "https://www.youtube-nocookie.com/embed/" + matcher.group(7) + "?rel=0";
                     view.loadUrl(url);
 
@@ -394,18 +434,24 @@ public class WebviewActivity extends AppCompatActivity {
 
             return url;
         }
-        public String formShortLinkFixer(WebView webView, String url){
-            Pattern pattern = Pattern.compile("forms.gle/[\\w]{10}\\w*.*browser_fallback_url=(.*/viewform)",Pattern.CASE_INSENSITIVE);
+        public String fixFormShortLink(WebView webView, String url){
+            String formShortLinkRegex = "forms.gle/[\\w]{10}\\w*.*browser_fallback_url=(.*/viewform)";
+            Pattern pattern = Pattern.compile(formShortLinkRegex, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(url);
             String fixed_url;
-            if(matcher.find()) {
-                fixed_url = matcher.group(1);
+            boolean urlMatchsWithRegex = matcher.find();
+            if(urlMatchsWithRegex) {
+                fixed_url = getFirstGroupOnRegex(matcher);
                 webView.loadUrl(fixed_url);
             }else{
                 fixed_url = url;
             }
             return fixed_url;
-        };
+        }
+
+        private String getFirstGroupOnRegex(Matcher matcher) {
+            return matcher.group(1);
+        }
 
         public void setBackFloatButtonVisibilty(WebView view){
             if(view.canGoBack()){
@@ -423,21 +469,25 @@ public class WebviewActivity extends AppCompatActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String urlParameter) {
-            Log.d("URL: ", urlParameter);
-            String url = this.youtubeProtect(webView, urlParameter);
-            url = this.formShortLinkFixer(webView, url);
+            String url = this.processYoutubeLink(webView, urlParameter);
+            url = this.fixFormShortLink(webView, url);
+            boolean urlStartsWithJavascript = url.startsWith("javascript");
+            boolean urlStartsWithMailto = url.startsWith("mailto:");
             try {
-                Log.d("URL: ", url);
-                if (url.startsWith("javascript"))
+                if (urlStartsWithJavascript)
                     return false;
-                if (url.startsWith("mailto:")) {
-                    webView.getContext().startActivity(
-                            new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                if (urlStartsWithMailto) {
+                    Intent actionViewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    webView.getContext().startActivity(actionViewIntent);
                     return true;
                 }
 
-                if (url.startsWith("http") || url.startsWith("https")) {
-                    if (MyApplication.sdState == SdState.SD_AVAILABLE) {
+                boolean urlStartsWithHttp = url.startsWith("http");
+                boolean urlStartsWithHttps = url.startsWith("https");
+                boolean urlStartsWithHttpOrHttps = urlStartsWithHttp || urlStartsWithHttps;
+                if (urlStartsWithHttpOrHttps) {
+                    boolean isSdAvailable = MyApplication.sdState == SdState.SD_AVAILABLE;
+                    if (isSdAvailable) {
                         URL urlEntrada = null;
                         List<String> urlsPermitidas = new ArrayList<String>(25);
 
@@ -475,7 +525,8 @@ public class WebviewActivity extends AppCompatActivity {
 
                         //TODO: fazer um filtro inteligente de URLs
                         for (int i = 0; i <= urlsPermitidas.size() - 1; i++) {
-                            if (urlEntrada.getAuthority().contains(urlsPermitidas.get(i))) {
+                            boolean isUrlAllowed = urlEntrada.getAuthority().contains(urlsPermitidas.get(i));
+                            if (isUrlAllowed) {
                                 return false;
                             }
                         }
@@ -483,10 +534,8 @@ public class WebviewActivity extends AppCompatActivity {
                         Log.d("ControleAcesso", "Acesso negado a " + url);
 
                         int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Acesso negado: " + url,
-                                duration);
-
+                        String deniedAcessText = "Acesso negado: " + url;
+                        Toast toast = Toast.makeText(getApplicationContext(), deniedAcessText, duration);
                         toast.show();
 
                         return true;
@@ -495,7 +544,8 @@ public class WebviewActivity extends AppCompatActivity {
                     }
                 }
 
-                if (url.startsWith("intent://")) {
+                boolean urlStartsWithIntent = url.startsWith("intent://");
+                if (urlStartsWithIntent) {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         PackageManager packageManager = webView.getContext().getPackageManager();
@@ -508,8 +558,9 @@ public class WebviewActivity extends AppCompatActivity {
                             if (info != null) {
                                 webView.getContext().startActivity(intent);
                             } else {
+                                String concatMarketWithPackage = "market://details?id=" + intent.getPackage();
                                 Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse("market://details?id=" + intent.getPackage()));
+                                        Uri.parse(concatMarketWithPackage));
 
                                 if (marketIntent.resolveActivity(packageManager) != null) {
                                     getApplicationContext().startActivity(marketIntent);
@@ -529,41 +580,40 @@ public class WebviewActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
 
+    private boolean isFirstUse() {
+        return ShowOrHideWebViewInitialUse.equals("show");
+    }
+
+    private void setNotFirstUse() {
+        ShowOrHideWebViewInitialUse = "hide";
     }
 
 
     private class ChromeClient extends WebChromeClient {
-        protected FrameLayout mFullscreenContainer;
         private View mCustomView;
         private WebChromeClient.CustomViewCallback mCustomViewCallback;
         private int mOriginalOrientation;
         private int mOriginalSystemUiVisibility;
-
-        ChromeClient() {
-        }
-
-        // For Android 5.0
+        
         public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath, WebChromeClient.FileChooserParams fileChooserParams) {
-            // Double check that we don't have any existing callbacks
-            if (mFilePathCallback != null) {
+            boolean isThereAnyCallback = mFilePathCallback != null;
+            if (isThereAnyCallback) {
                 mFilePathCallback.onReceiveValue(null);
             }
             mFilePathCallback = filePath;
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the File where the photo should go
+            boolean isTakePictureIntentFilled = takePictureIntent.resolveActivity(getPackageManager()) != null;
+            if (isTakePictureIntentFilled) {
                 File photoFile = null;
                 try {
                     photoFile = createImageFile();
                     takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
                 } catch (IOException ex) {
-                    // Error occurred while creating the File
                     Log.e("ErrorCreatingFile", "Unable to create Image File", ex);
                 }
-
-                // Continue only if the File was successfully created
                 if (photoFile != null) {
                     mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -578,7 +628,8 @@ public class WebviewActivity extends AppCompatActivity {
             contentSelectionIntent.setType("*/*");
 
             Intent[] intentArray;
-            if (takePictureIntent != null) {
+            boolean isTakePictureFilled = takePictureIntent != null;
+            if (isTakePictureFilled) {
                 intentArray = new Intent[]{takePictureIntent};
             } else {
                 intentArray = new Intent[0];
@@ -595,64 +646,41 @@ public class WebviewActivity extends AppCompatActivity {
 
         }
 
-        // openFileChooser for Android 3.0+
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-
             mUploadMessage = uploadMsg;
-            // Create AndroidExampleFolder at sdcard
-            // Create AndroidExampleFolder at sdcard
+            File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "AndroidExampleFolder");
 
-            File imageStorageDir = new File(
-                    Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_PICTURES)
-                    , "AndroidExampleFolder");
-
-            if (!imageStorageDir.exists()) {
-                // Create AndroidExampleFolder at sdcard
+            boolean imageDirectoryDoesNotExists = !imageStorageDir.exists();
+            if (imageDirectoryDoesNotExists) {
                 imageStorageDir.mkdirs();
             }
 
-            // Create camera captured image file path and name
-            File file = new File(
-                    imageStorageDir + File.separator + "IMG_"
-                            + String.valueOf(System.currentTimeMillis())
-                            + ".jpg");
-
+            String currentTimeString = String.valueOf(System.currentTimeMillis());
+            String concatPathnameWithFileNameAndExtension = imageStorageDir + File.separator + "IMG_" + currentTimeString + ".jpg";
+            File file = new File(concatPathnameWithFileNameAndExtension);
             mCapturedImageURI = Uri.fromFile(file);
-
-            // Camera capture image intent
-            final Intent captureIntent = new Intent(
-                    android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            
+            final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
 
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-
-            // Create file chooser intent
+            
             Intent chooserIntent = Intent.createChooser(i, "Upload De Imagem");
-
-            // Set camera intent to file chooser
+            
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS
                     , new Parcelable[] { captureIntent });
-
-            // On select image call onActivityResult method of activity
+            
             startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
-
-
         }
 
-        // openFileChooser for Android < 3.0
         public void openFileChooser(ValueCallback<Uri> uploadMsg) {
             openFileChooser(uploadMsg, "");
         }
 
-        //openFileChooser for other Android versions
-        public void openFileChooser(ValueCallback<Uri> uploadMsg,
-                                    String acceptType,
-                                    String capture) {
-
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
             openFileChooser(uploadMsg, acceptType);
         }
 
@@ -660,11 +688,7 @@ public class WebviewActivity extends AppCompatActivity {
         public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
             AlertDialog dialog = new AlertDialog.Builder(view.getContext()).
                     setMessage(message).
-                    setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //do nothing
-                        }
+                    setPositiveButton("OK", (dialog1, which) -> {
                     }).create();
             dialog.show();
             result.confirm();
@@ -674,8 +698,8 @@ public class WebviewActivity extends AppCompatActivity {
         public Bitmap getDefaultVideoPoster() {
             if (mCustomView == null)
                 return null;
-
-            return BitmapFactory.decodeResource(getApplicationContext().getResources(), 2130837573);
+            int defaultId = 2130837573;
+            return BitmapFactory.decodeResource(getApplicationContext().getResources(), defaultId);
         }
 
         public void onHideCustomView() {
@@ -712,4 +736,22 @@ public class WebviewActivity extends AppCompatActivity {
         }
     }
 
+    private File createImageFile() throws IOException {
+        String dateFormat = "yyyyMMdd_HHmmss";
+        Locale locale = Locale.US;
+        Date currentDate = new Date();
+        String timeStamp = new SimpleDateFormat(dateFormat, locale).format(currentDate);
+        String imageFormatPrefix = "JPEG_";
+        String concatImageFormatTimeStamp = imageFormatPrefix + timeStamp + "_";
+        String picturesDirectory = Environment.DIRECTORY_PICTURES;
+        File storageDir = getExternalFilesDir(picturesDirectory);
+
+        String imageFormatSuffix = ".jpg";
+        File imageFile = File.createTempFile(
+                concatImageFormatTimeStamp,
+                imageFormatSuffix,
+                storageDir
+        );
+        return imageFile;
+    }
 }
