@@ -15,7 +15,6 @@ public class NavigationBarActivity extends AppCompatActivity {
                     if(notSelectedYet(selected_item, item)) {
                         switch (item.getItemId()) {
                             case R.id.classroom:
-                                System.out.println("Classroom "+R.id.classroom);
                                 startActivity(new Intent(getApplicationContext(), ClassroomActivity.class)
                                         .putExtra("url", "https://classroom.google.com/a/estudante.se.df.gov.br"));
                                 navigationView.getMenu().getItem(0).setChecked(true);
