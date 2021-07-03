@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="sponsored_data_question">Os dados móveis de internet do aplicativo já estão 
         sendo pagos pelo governo?</string>
@@ -11,4 +12,40 @@
         móveis de internet serão pagos pelo governo?</string>
     <string name="route_answer">Não serão patrocinados (pagos) os dados móveis de internet quando 
         roteados, ou compartilhados, com outros dispositivos e/ou computadores.</string>
+
+    <style name="CustomQuestion">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:onClick">toggle_contents</item>
+    </style>
+
+    <style name="CustomAnswer">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="CustomDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/dividerVertical</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
+    <style name="ExpandIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
 </resources>
